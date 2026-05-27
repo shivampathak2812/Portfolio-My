@@ -22,6 +22,12 @@
 
 ## 🔮 Interactive Features
 
+*   **🤖 Premium AI Chatbot & Voice Assistant:** A floating glassmorphic concierge widget that acts as an interactive resume and recruiter guide:
+    - *Sleek Floating Card UI:* Capped at `340px` wide and `500px` high with `24px` rounded corners and double-layered ambient shadows (deep black shadow + soft atmospheric purple halo glow).
+    - *Voice Assistant Mode:* Integrates native **Web Speech STT/TTS** and an animated 7-bar Siri sound wave visualizer to converse with recruiters in real time.
+    - *Conversational Memory & Stream:* Streams replies character-by-character using a blinking cursor caret, paired with a smart, jitter-free scroll-lock manager.
+    - *Viewport Spotlight Focus:* Auto-scrolls the browser and highlights/glows the referenced portfolio section (Projects, Skills, Experience) while dimming the background.
+    - *Hybrid RAG Failover:* First contacts a local FastAPI ChromaDB uvicorn server, falling back instantly to a browser-based NLP query router for zero-dependency uptime.
 *   **🎬 Cinematic Entry Splash (`LET'S GO →`):** A high-fidelity theatrical splash screen that prompts user interaction (passing browser autoplay audio restrictions) before triggering a slow-motion video card scale-up and synchronized layout fade-in.
 *   **🔊 Resilient Video Canvas fallback:** foreground talking-head video autoplays with mute dashboard toggles (Play/Pause, Soundwaves) and duplicates itself as a blurred dynamic back-layer at `blur-[120px]` to project matching ambient real-time light leaks.
 *   **✨ Three.js WebGL Bokeh Canvas:** Renders 350 warm white and orange glowing bokeh particle spheres using additive shader blending, supporting smooth inertia mouse-tracking depth parallax (60 FPS).
@@ -57,9 +63,16 @@
 Shivam-Portfolio/
 ├── app/
 │   ├── globals.css          # Cinematic film grain, atmosphere blobs, core colors
-│   ├── layout.tsx           #Outfit/Inter Fonts integration and metadata SEO setup
+│   ├── layout.tsx           # Outfit/Inter Fonts integration and metadata SEO setup
 │   └── page.tsx             # Application anchor coordinating Navbar & sections
+├── backend/                 # Python RAG Pipeline (FastAPI, ChromaDB, HuggingFace, LLaMA-3)
+│   ├── main.py              # FastAPI service exposing /chat CORS endpoints
+│   ├── ingest.py            # Local document ingestion, vectorization, and indexing
+│   ├── rag_engine.py        # Vector search retriever and LLaMA-3 context pipeline
+│   └── requirements.txt     # Python dependency list
 ├── components/
+│   ├── Chatbot.tsx          # Sleek glassmorphic floating chat and voice assistant UI
+│   ├── chatbotData.ts       # Shared knowledge ledger, client NLP engine & action maps
 │   ├── Navbar.tsx           # Sticky transparent-to-blur opaque glass header
 │   ├── CinematicIntro.tsx   # Entry splash card & ScrollTrigger video transition
 │   ├── Hero.tsx             # Talking-head card and HUD media console
@@ -84,37 +97,57 @@ Shivam-Portfolio/
 
 ## 🚀 Setting Up Locally
 
-To replicate Shivam's cinematic portfolio experience on your host machine:
+To replicate Shivam's cinematic portfolio and AI assistant experience:
 
-### 1. Prerequisite Installations
-Ensure you have **Node.js (v18.x or above)** and **npm** installed on your system.
+### 1. Run the Next.js Frontend
 
-### 2. Clone the Repository
-```bash
-git clone https://github.com/shivampathak2812/Portfolio-My.git
-cd Portfolio-My
-```
+1.  **Prerequisites:** Install Node.js (v18+) and npm.
+2.  **Clone & Install:**
+    ```bash
+    git clone https://github.com/shivampathak2812/Portfolio-My.git
+    cd Portfolio-My
+    npm install
+    ```
+3.  **Boot Frontend:** Launch Next.js on port `3000`:
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) in your browser!
 
-### 3. Install Dependencies
-Initialize package registries and install Next.js dependencies:
-```bash
-npm install
-```
+### 2. Run the Python RAG Backend (Optional)
 
-### 4. Running in Development Mode
-Launch the local Turbopack dev server on port `3000`:
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser to experience the theatrical intro!
+The chatbot automatically links to this vector retrieval engine when active. If offline, the frontend falls back silently to browser-based NLP matching.
 
-### 5. Compiling a Production Bundle
-Test type checking, static route pre-rendering, and page optimization:
+1.  **Navigate to Backend & Setup Environment:**
+    ```bash
+    cd backend
+    python -m venv .venv
+    # Windows:
+    .venv\Scripts\activate
+    # macOS/Linux:
+    source .venv/bin/activate
+    ```
+2.  **Install Python Packages:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Ingest Vector Documents:** Vectorize resume facts and portfolio details into local ChromaDB:
+    ```bash
+    python ingest.py
+    ```
+4.  **Configure Environment Variables:**
+    *   Create a `.env` file from the template: `cp .env.example .env`
+    *   Add your Groq API Key: `GROQ_API_KEY=gsk_...`
+5.  **Boot FastAPI Server:**
+    ```bash
+    python main.py
+    ```
+    *(The uvicorn server will boot on [http://localhost:8000](http://localhost:8000))*
+
+### 3. Compiling a Production Bundle
+Test type checking and build optimizations:
 ```bash
 npm run build
-```
-Launch the compiled static bundle:
-```bash
 npm run start
 ```
 
