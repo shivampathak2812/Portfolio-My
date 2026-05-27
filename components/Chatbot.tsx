@@ -45,9 +45,37 @@ export default function Chatbot() {
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  // Auto-scroll to bottom of chat history when new messages are added
+  const messagesCount = messages.length;
+
+  // Auto-scroll logic optimized for smooth first-render and jitter-free streaming
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatEndRef.current) {
+      const container = chatEndRef.current.parentElement;
+      if (container) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: "smooth"
+        });
+      }
+    }
+  }, [messagesCount]);
+
+  // Jitter-free stream-scroll during active typewriter updates
+  useEffect(() => {
+    if (isAiTyping || messages.some(m => m.isStreaming)) {
+      if (chatEndRef.current) {
+        const container = chatEndRef.current.parentElement;
+        if (container) {
+          const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 120;
+          if (isNearBottom) {
+            container.scrollTo({
+              top: container.scrollHeight,
+              behavior: "auto"
+            });
+          }
+        }
+      }
+    }
   }, [messages, isAiTyping]);
 
   // Initial Speech Synthesis binder
@@ -429,7 +457,7 @@ export default function Chatbot() {
               data-lenis-prevent
               onWheel={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
-              className="fixed inset-0 md:inset-auto md:bottom-8 md:right-8 z-[99999] w-full h-[100dvh] md:w-[340px] md:h-[min(540px,calc(100dvh-6rem))] md:max-h-[540px] md:rounded-[24px] rounded-none chatbot-panel flex flex-col overflow-hidden shadow-2xl overscroll-contain"
+              className="fixed inset-0 md:inset-auto md:bottom-8 md:right-8 z-[99999] w-full h-[100dvh] md:w-[340px] md:h-[500px] md:max-h-[calc(100vh-6rem)] md:rounded-[24px] rounded-none chatbot-panel flex flex-col overflow-hidden shadow-2xl overscroll-contain"
             >
               {/* Ambient Background Light Leaks Inside Chat */}
               <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-accent-cinematic/10 blur-[60px] pointer-events-none" />
@@ -500,7 +528,7 @@ export default function Chatbot() {
               data-lenis-prevent
               onWheel={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
-              className="relative z-10 flex-1 overflow-y-auto overscroll-contain px-4 py-3.5 space-y-3.5 scroll-smooth flex flex-col chatbot-messages-container"
+              className="relative z-10 flex-grow min-h-0 overflow-y-auto overscroll-contain px-4 py-3.5 space-y-3.5 scroll-smooth flex flex-col chatbot-messages-container"
             >
               {messages.map((msg) => (
                 <div
