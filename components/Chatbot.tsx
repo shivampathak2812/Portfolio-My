@@ -429,7 +429,7 @@ export default function Chatbot() {
               data-lenis-prevent
               onWheel={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
-              className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-[99999] w-full h-full md:w-[420px] md:h-[620px] md:rounded-[24px] rounded-none glass-panel border border-white/15 md:border flex flex-col overflow-hidden shadow-2xl shadow-black/80 overscroll-contain"
+              className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-[99999] w-full h-[100dvh] md:w-[420px] md:h-[min(620px,calc(100dvh-5rem))] md:max-h-[620px] md:rounded-[24px] rounded-none glass-panel border border-white/15 md:border flex flex-col overflow-hidden shadow-2xl shadow-black/80 overscroll-contain"
             >
               {/* Ambient Background Light Leaks Inside Chat */}
               <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-accent-cinematic/10 blur-[60px] pointer-events-none" />
@@ -437,7 +437,7 @@ export default function Chatbot() {
 
 
             {/* A. Dynamic Chat Header */}
-            <div className="relative z-10 px-5 py-4 border-b border-white/10 flex items-center justify-between bg-black/35 backdrop-blur-md">
+            <div className="relative z-10 px-5 pt-[calc(1rem+env(safe-area-inset-top,0px))] md:pt-4 pb-4 border-b border-white/10 flex items-center justify-between bg-black/35 backdrop-blur-md shrink-0">
               <div className="flex items-center space-x-3">
                 <div className="relative p-2 rounded-xl bg-accent-cinematic/10 border border-accent-cinematic/20">
                   <Bot className="w-5 h-5 text-accent-cinematic animate-pulse" />
@@ -639,7 +639,7 @@ export default function Chatbot() {
             )}
 
             {/* D. Input Action Form Panel */}
-            <div className="relative z-10 px-5 py-4 border-t border-white/10 bg-black/40 backdrop-blur-md">
+            <div className="relative z-10 px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] md:pb-4 border-t border-white/10 bg-black/40 backdrop-blur-md shrink-0">
               <div className="flex items-center space-x-2">
                 {/* Standard keyboard input box */}
                 <input
