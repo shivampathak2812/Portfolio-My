@@ -255,3 +255,29 @@ html.lenis, html.lenis body {
   }
 }
 
+/* Thin elegant scrollbar for independent Chat messages container */
+.chatbot-messages-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chatbot-messages-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chatbot-messages-container::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.25); /* matching brand purple */
+  border-radius: 9999px;
+  transition: background 0.3s ease;
+}
+
+.chatbot-messages-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.55);
+}
+
+.chatbot-messages-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124, 58, 237, 0.25) transparent;
+  overscroll-behavior: contain;
+}
+
+

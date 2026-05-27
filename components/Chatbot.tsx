@@ -426,7 +426,10 @@ export default function Chatbot() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 80, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 280, damping: 28 }}
-              className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-[99999] w-full h-full md:w-[420px] md:h-[620px] md:rounded-[24px] rounded-none glass-panel border border-white/15 md:border flex flex-col overflow-hidden shadow-2xl shadow-black/80"
+              data-lenis-prevent
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-[99999] w-full h-full md:w-[420px] md:h-[620px] md:rounded-[24px] rounded-none glass-panel border border-white/15 md:border flex flex-col overflow-hidden shadow-2xl shadow-black/80 overscroll-contain"
             >
               {/* Ambient Background Light Leaks Inside Chat */}
               <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-accent-cinematic/10 blur-[60px] pointer-events-none" />
@@ -493,7 +496,12 @@ export default function Chatbot() {
             </div>
 
             {/* B. Message History Area */}
-            <div className="relative z-10 flex-1 overflow-y-auto px-5 py-4 space-y-4 scroll-smooth flex flex-col">
+            <div 
+              data-lenis-prevent
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              className="relative z-10 flex-1 overflow-y-auto overscroll-contain px-5 py-4 space-y-4 scroll-smooth flex flex-col chatbot-messages-container"
+            >
               {messages.map((msg) => (
                 <div
                   key={msg.id}
