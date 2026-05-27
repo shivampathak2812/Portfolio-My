@@ -529,11 +529,7 @@ export default function Chatbot() {
                           : "bg-white/[0.03] border-white/5 text-white/90 rounded-tl-none"
                       }`}
                     >
-                      {/* Formatted Message Parser (preserving line breaks) */}
-                      <p className="whitespace-pre-line font-medium leading-relaxed font-sans">
-                        {msg.content}
-                        {msg.isStreaming && <span className="chatbot-caret" />}
-                      </p>
+                      {renderMarkdown(msg.content, msg.isStreaming)}
                     </div>
 
                     {/* Integrated Action Triggers inside Message */}
@@ -680,3 +676,173 @@ export default function Chatbot() {
     </>
   );
 }
+
+// Custom Markdown-to-JSX Converter Utility
+const renderMarkdown = (content: string, isStreaming?: boolean) => {
+  if (!content) return null;
+
+  // Split by line breaks to identify block-level structures
+  const blocks = content.split("\n");
+
+  return (
+    <div className="space-y-2">
+      {blocks.map((block, blockIndex) => {
+        const text = block.trim();
+        if (!text) return <div key={blockIndex} className="h-2" />;
+
+        const isLastBlock = blockIndex === blocks.length - 1;
+
+        // 1. Heading 3: ### Title
+        if (text.startsWith("### ")) {
+          const title = text.replace("### ", "");
+          return (
+            <h5 key={blockIndex} className="font-display font-black text-xs tracking-wider text-accent-cinematic mt-3 mb-1 uppercase text-glow-accent">
+              {parseInlineMarkdown(title, isStreaming && isLastBlock)}
+            </h5>
+          );
+        }
+
+        // 2. Heading 2: ## Title
+        if (text.startsWith("## ")) {
+          const title = text.replace("## ", "");
+          return (
+            <h4 key={blockIndex} className="font-display font-black text-sm tracking-wider text-white mt-4 mb-2 uppercase">
+              {parseInlineMarkdown(title, isStreaming && isLastBlock)}
+            </h4>
+          );
+        }
+
+        // 3. Custom Bullet lists: * Text or - Text
+        if (text.startsWith("* ") || text.startsWith("- ")) {
+          const body = text.slice(2);
+          return (
+            <div key={blockIndex} className="flex items-start space-x-2 pl-1 my-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-orange shrink-0 mt-1.5 animate-pulse" />
+              <span className="text-xs text-white/90 leading-relaxed font-sans font-medium">
+                {parseInlineMarkdown(body, isStreaming && isLastBlock)}
+              </span>
+            </div>
+          );
+        }
+
+        // 4. Custom Numbered lists: 1. Text
+        if (/^\d+\.\s/.test(text)) {
+          const match = text.match(/^(\d+)\.\s(.*)/);
+          if (match) {
+            const num = match[1];
+            const body = match[2];
+            return (
+              <div key={blockIndex} className="flex items-start space-x-2 pl-1 my-1">
+                <span className="text-[10px] font-mono font-bold text-accent-cinematic shrink-0 mt-0.5">{num}.</span>
+                <span className="text-xs text-white/90 leading-relaxed font-sans font-medium">
+                  {parseInlineMarkdown(body, isStreaming && isLastBlock)}
+                </span>
+              </div>
+            );
+          }
+        }
+
+        // 5. Default Paragraph block
+        return (
+          <p key={blockIndex} className="text-xs leading-relaxed text-white/90 font-medium font-sans">
+            {parseInlineMarkdown(block, isStreaming && isLastBlock)}
+          </p>
+        );
+      })}
+    </div>
+  );
+};
+
+// Inline-level elements parser (Bold, Links, Inline Code, Caret cursor)
+const parseInlineMarkdown = (inlineText: string, showCaret?: boolean): React.ReactNode[] => {
+  const parts: React.ReactNode[] = [];
+  let remainingText = inlineText;
+
+  while (remainingText.length > 0) {
+    const boldIndex = remainingText.indexOf("**");
+    const codeIndex = remainingText.indexOf("`");
+    const linkIndex = remainingText.indexOf("[");
+
+    const indices = [
+      { type: "bold", index: boldIndex },
+      { type: "code", index: codeIndex },
+      { type: "link", index: linkIndex }
+    ].filter(item => item.index !== -1)
+     .sort((a, b) => a.index - b.index);
+
+    if (indices.length === 0) {
+      parts.push(remainingText);
+      break;
+    }
+
+    const nearest = indices[0];
+
+    // Push standard text before match
+    if (nearest.index > 0) {
+      parts.push(remainingText.slice(0, nearest.index));
+    }
+
+    remainingText = remainingText.slice(nearest.index);
+
+    if (nearest.type === "bold") {
+      const closingIndex = remainingText.indexOf("**", 2);
+      if (closingIndex !== -1) {
+        const boldVal = remainingText.slice(2, closingIndex);
+        parts.push(
+          <strong key={parts.length} className="font-extrabold text-white text-glow-white">
+            {boldVal}
+          </strong>
+        );
+        remainingText = remainingText.slice(closingIndex + 2);
+      } else {
+        parts.push("**");
+        remainingText = remainingText.slice(2);
+      }
+    } else if (nearest.type === "code") {
+      const closingIndex = remainingText.indexOf("`", 1);
+      if (closingIndex !== -1) {
+        const codeVal = remainingText.slice(1, closingIndex);
+        parts.push(
+          <code key={parts.length} className="bg-white/[0.06] border border-white/10 px-1 py-0.5 rounded font-mono text-[10px] text-accent-orange font-semibold mx-0.5">
+            {codeVal}
+          </code>
+        );
+        remainingText = remainingText.slice(closingIndex + 1);
+      } else {
+        parts.push("`");
+        remainingText = remainingText.slice(1);
+      }
+    } else if (nearest.type === "link") {
+      const closingBrace = remainingText.indexOf("]");
+      const openingParen = remainingText.indexOf("(", closingBrace);
+      const closingParen = remainingText.indexOf(")", openingParen);
+
+      if (closingBrace !== -1 && openingParen === closingBrace + 1 && closingParen !== -1) {
+        const label = remainingText.slice(1, closingBrace);
+        const url = remainingText.slice(openingParen + 1, closingParen);
+        parts.push(
+          <a
+            key={parts.length}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent-cinematic hover:text-accent-orange font-bold underline transition-colors"
+          >
+            {label}
+          </a>
+        );
+        remainingText = remainingText.slice(closingParen + 1);
+      } else {
+        parts.push("[");
+        remainingText = remainingText.slice(1);
+      }
+    }
+  }
+
+  // Inject dynamic typewriter console caret right at the tail
+  if (showCaret) {
+    parts.push(<span key="caret" className="chatbot-caret" />);
+  }
+
+  return parts;
+};
