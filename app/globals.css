@@ -280,4 +280,22 @@ html.lenis, html.lenis body {
   overscroll-behavior: contain;
 }
 
+/* Premium specialized chatbot container glassmorphism */
+.chatbot-panel {
+  background: rgba(10, 14, 23, 0.68);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 15px 45px rgba(0, 0, 0, 0.65), 
+    0 0 40px rgba(124, 58, 237, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.chatbot-panel:hover {
+  box-shadow: 
+    0 18px 50px rgba(0, 0, 0, 0.75), 
+    0 0 50px rgba(124, 58, 237, 0.08);
+}
+
 

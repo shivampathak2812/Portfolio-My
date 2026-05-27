@@ -376,7 +376,7 @@ export default function Chatbot() {
   return (
     <>
       {/* 1. Cinematic Floating Pulse Button (Bottom-Right) */}
-      <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end space-y-3">
+      <div className="fixed bottom-8 right-8 z-[9999] flex flex-col items-end space-y-3">
         <AnimatePresence>
           {!isOpen && (
             <motion.button
@@ -429,7 +429,7 @@ export default function Chatbot() {
               data-lenis-prevent
               onWheel={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
-              className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-[99999] w-full h-[100dvh] md:w-[420px] md:h-[min(620px,calc(100dvh-5rem))] md:max-h-[620px] md:rounded-[24px] rounded-none glass-panel border border-white/15 md:border flex flex-col overflow-hidden shadow-2xl shadow-black/80 overscroll-contain"
+              className="fixed inset-0 md:inset-auto md:bottom-8 md:right-8 z-[99999] w-full h-[100dvh] md:w-[340px] md:h-[min(540px,calc(100dvh-6rem))] md:max-h-[540px] md:rounded-[24px] rounded-none chatbot-panel flex flex-col overflow-hidden shadow-2xl overscroll-contain"
             >
               {/* Ambient Background Light Leaks Inside Chat */}
               <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-accent-cinematic/10 blur-[60px] pointer-events-none" />
@@ -437,7 +437,7 @@ export default function Chatbot() {
 
 
             {/* A. Dynamic Chat Header */}
-            <div className="relative z-10 px-5 pt-[calc(1rem+env(safe-area-inset-top,0px))] md:pt-4 pb-4 border-b border-white/10 flex items-center justify-between bg-black/35 backdrop-blur-md shrink-0">
+            <div className="relative z-10 px-4 pt-[calc(0.85rem+env(safe-area-inset-top,0px))] md:pt-3.5 pb-3.5 border-b border-white/10 flex items-center justify-between bg-black/40 backdrop-blur-md shrink-0">
               <div className="flex items-center space-x-3">
                 <div className="relative p-2 rounded-xl bg-accent-cinematic/10 border border-accent-cinematic/20">
                   <Bot className="w-5 h-5 text-accent-cinematic animate-pulse" />
@@ -500,30 +500,30 @@ export default function Chatbot() {
               data-lenis-prevent
               onWheel={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
-              className="relative z-10 flex-1 overflow-y-auto overscroll-contain px-5 py-4 space-y-4 scroll-smooth flex flex-col chatbot-messages-container"
+              className="relative z-10 flex-1 overflow-y-auto overscroll-contain px-4 py-3.5 space-y-3.5 scroll-smooth flex flex-col chatbot-messages-container"
             >
               {messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`flex items-start space-x-2.5 max-w-[85%] ${
+                  className={`flex items-start space-x-2 max-w-[88%] ${
                     msg.role === "user" ? "self-end flex-row-reverse space-x-reverse" : "self-start"
                   }`}
                 >
                   {/* Icon Avatars */}
                   <div
-                    className={`p-1.5 rounded-lg border shrink-0 ${
+                    className={`p-1 rounded-xl border shrink-0 ${
                       msg.role === "user" 
                         ? "bg-accent-orange/10 border-accent-orange/20 text-accent-orange" 
                         : "bg-accent-cinematic/10 border-accent-cinematic/20 text-accent-cinematic"
                     }`}
                   >
-                    {msg.role === "user" ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
+                    {msg.role === "user" ? <User className="w-3 h-3" /> : <Bot className="w-3 h-3" />}
                   </div>
 
                   {/* Speech Message Body */}
-                  <div className="flex flex-col space-y-2">
+                  <div className="flex flex-col space-y-1.5">
                     <div
-                      className={`px-4 py-3 rounded-[18px] text-xs leading-relaxed font-sans shadow-md border ${
+                      className={`px-3 py-2.5 rounded-[16px] text-xs leading-relaxed font-sans shadow-md border ${
                         msg.role === "user"
                           ? "bg-accent-orange/10 border-accent-orange/15 text-white rounded-tr-none"
                           : "bg-white/[0.03] border-white/5 text-white/90 rounded-tl-none"
@@ -534,17 +534,17 @@ export default function Chatbot() {
 
                     {/* Integrated Action Triggers inside Message */}
                     {msg.actions && msg.actions.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 pt-1">
+                      <div className="flex flex-wrap gap-1 pt-0.5">
                         {msg.actions.map((act, i) => (
                           <button
                             key={i}
                             onClick={() => executeAction(act)}
-                            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wider text-white border border-white/10 glass-panel hover:border-accent-cinematic/40 transition-all duration-300"
+                            className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[9.5px] font-bold tracking-wider text-white border border-white/10 glass-panel hover:border-accent-cinematic/40 transition-all duration-300"
                           >
                             <span>{act.label}</span>
-                            {act.type === "download" && <Download className="w-2.5 h-2.5 text-accent-cinematic" />}
-                            {act.type === "link" && <ExternalLink className="w-2.5 h-2.5 text-accent-orange" />}
-                            {act.type === "scroll" && <ChevronRight className="w-2.5 h-2.5 text-accent-cinematic" />}
+                            {act.type === "download" && <Download className="w-2 h-2 text-accent-cinematic" />}
+                            {act.type === "link" && <ExternalLink className="w-2 h-2 text-accent-orange" />}
+                            {act.type === "scroll" && <ChevronRight className="w-2 h-2 text-accent-cinematic" />}
                           </button>
                         ))}
                       </div>
@@ -555,14 +555,14 @@ export default function Chatbot() {
 
               {/* Dynamic typing indicators */}
               {isAiTyping && (
-                <div className="flex items-start space-x-2.5 self-start max-w-[85%]">
-                  <div className="p-1.5 rounded-lg border bg-accent-cinematic/10 border-accent-cinematic/20 text-accent-cinematic shrink-0">
-                    <Bot className="w-3.5 h-3.5" />
+                <div className="flex items-start space-x-2 self-start max-w-[88%]">
+                  <div className="p-1 rounded-xl border bg-accent-cinematic/10 border-accent-cinematic/20 text-accent-cinematic shrink-0">
+                    <Bot className="w-3 h-3" />
                   </div>
-                  <div className="px-4 py-3 rounded-[18px] rounded-tl-none bg-white/[0.03] border border-white/5 flex items-center space-x-1.5 h-8">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "300ms" }} />
+                  <div className="px-3.5 py-2.5 rounded-[16px] rounded-tl-none bg-white/[0.03] border border-white/5 flex items-center space-x-1 h-7">
+                    <div className="w-1 h-1 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <div className="w-1 h-1 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <div className="w-1 h-1 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "300ms" }} />
                   </div>
                 </div>
               )}
@@ -635,7 +635,7 @@ export default function Chatbot() {
             )}
 
             {/* D. Input Action Form Panel */}
-            <div className="relative z-10 px-5 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] md:pb-4 border-t border-white/10 bg-black/40 backdrop-blur-md shrink-0">
+            <div className="relative z-10 px-4 pt-3 pb-[calc(0.85rem+env(safe-area-inset-bottom,0px))] md:pb-3.5 border-t border-white/10 bg-black/45 backdrop-blur-md shrink-0">
               <div className="flex items-center space-x-2">
                 {/* Standard keyboard input box */}
                 <input
@@ -643,16 +643,16 @@ export default function Chatbot() {
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder={isVoiceMode ? "Voice mode enabled..." : "Ask Shivam's AI Assistant..."}
+                  placeholder={isVoiceMode ? "Voice mode enabled..." : "Ask Shivam..."}
                   disabled={isVoiceMode}
-                  className="flex-grow bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-white/20 focus:outline-none focus:border-accent-cinematic/40 transition-colors disabled:opacity-50"
+                  className="flex-grow bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/20 focus:outline-none focus:border-accent-cinematic/30 transition-colors disabled:opacity-50"
                 />
 
                 {/* Voice activate mic trigger */}
                 {!isVoiceMode && (
                   <button
                     onClick={startVoiceAssistantMode}
-                    className="p-2.5 rounded-xl border border-white/10 bg-white/[0.03] text-white/60 hover:text-white hover:border-accent-orange/30 transition-all active:scale-95 cursor-pointer"
+                    className="p-2 rounded-xl border border-white/10 bg-white/[0.03] text-white/60 hover:text-white hover:border-accent-orange/30 transition-all active:scale-95 cursor-pointer"
                     title="Activate Voice AI Assistant"
                   >
                     <Mic className="w-4 h-4 text-accent-orange" />
@@ -663,7 +663,7 @@ export default function Chatbot() {
                 <button
                   onClick={() => handleSendMessage()}
                   disabled={!inputMessage.trim() || isVoiceMode}
-                  className="p-2.5 rounded-xl bg-gradient-to-r from-accent-cinematic to-accent-orange text-white disabled:opacity-30 disabled:pointer-events-none hover:shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all active:scale-95 cursor-pointer shrink-0"
+                  className="p-2 rounded-xl bg-gradient-to-r from-accent-cinematic to-accent-orange text-white disabled:opacity-30 disabled:pointer-events-none hover:shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all active:scale-95 cursor-pointer shrink-0"
                 >
                   <Send className="w-4 h-4" />
                 </button>
