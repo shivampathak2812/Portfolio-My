@@ -212,9 +212,9 @@ html.lenis, html.lenis body {
 
 /* Dimming helper when spotlight is active */
 .dimmed-background {
-  opacity: 0.25;
-  filter: blur(4px) grayscale(40%);
-  transform: scale(0.985);
+  opacity: 0.6;
+  filter: blur(1.5px) grayscale(15%) brightness(85%);
+  transform: scale(0.995);
 }
 
 /* Blinking typewriter caret effect */

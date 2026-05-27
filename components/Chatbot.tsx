@@ -417,7 +417,7 @@ export default function Chatbot() {
                 setIsOpen(false);
                 stopVoiceAssistantMode();
               }}
-              className="fixed inset-0 z-[99998] bg-black/35 backdrop-blur-[2px] cursor-pointer"
+              className="fixed inset-0 z-[99998] bg-black/20 backdrop-blur-[1px] cursor-pointer"
             />
 
             {/* Chatbot Window Container */}
