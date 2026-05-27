@@ -10,6 +10,7 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import CinematicIntro from "@/components/CinematicIntro";
 import Experience from "@/components/Experience";
+import Chatbot from "@/components/Chatbot";
 
 export default function Home() {
   const portfolioRef = useRef<HTMLDivElement>(null);
@@ -52,7 +53,11 @@ export default function Home() {
           {/* Direct connection console terminal */}
           <Contact />
         </main>
+
+        {/* Premium Cinematic AI Chatbot & Voice Assistant */}
+        <Chatbot />
       </div>
     </>
   );
 }
+

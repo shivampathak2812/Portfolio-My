@@ -1,0 +1,133 @@
+import os
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+
+# Load environmental variables from .env file
+load_dotenv()
+
+# Global pointers to vector storage
+DB_DIR = os.path.join(os.path.dirname(__file__), "chroma_db")
+EMBEDDINGS = None
+DB = None
+
+def get_vector_db():
+    global EMBEDDINGS, DB
+    if DB is None:
+        if not os.path.exists(DB_DIR):
+            raise FileNotFoundError(f"Vector Database directory not found at: {DB_DIR}. Please run ingest.py first!")
+        EMBEDDINGS = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        DB = Chroma(persist_directory=DB_DIR, embedding_function=EMBEDDINGS)
+    return DB
+
+class PortfolioAssistant:
+    def __init__(self):
+        # Fetch Groq API Key from environment
+        self.api_key = os.getenv("GROQ_API_KEY")
+        self.db = None
+        
+        try:
+            self.db = get_vector_db()
+        except Exception as e:
+            print(f"Warning during DB initialization: {e}")
+            
+        if self.api_key:
+            # Initialize LLaMA 3 via Groq API
+            self.llm = ChatGroq(
+                temperature=0.3,
+                model_name="llama3-8b-8192",
+                groq_api_key=self.api_key
+            )
+        else:
+            print("Warning: GROQ_API_KEY not found! The backend will operate in fallback mode using smart local replies.")
+            self.llm = None
+
+    def query(self, user_message: str, history: list) -> dict:
+        """
+        Retrieves context from Chroma DB and queries LLaMA 3 via Groq.
+        Returns a dictionary containing the synthesized 'answer' and a list of contextual 'actions'.
+        """
+        q = user_message.lower()
+        actions = []
+        
+        # 1. Inspect user intent and automatically register action buttons (matching frontend)
+        if "resume" in q or "cv" in q or "download" in q:
+            actions.append({"label": "Download Resume 📄", "type": "download", "target": "/resume/Shivam-Resume.pdf"})
+            
+        if "travelart" in q or "travel art" in q:
+            actions.append({"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"})
+            actions.append({"label": "View TravelArt Code 🐙", "type": "link", "target": "https://github.com/shivampathak2812/TravelART.git"})
+            
+        if "ats" in q or "ats-pro" in q or "analyzer" in q:
+            actions.append({"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"})
+            actions.append({"label": "View ATS-Pro Code 🐙", "type": "link", "target": "https://github.com/shivampathak2812/ATS-Pro-Analyzer.git"})
+
+        if "experience" in q or "northcorp" in q or "intern" in q or "work" in q:
+            actions.append({"label": "Go to Experience Timeline 💼", "type": "scroll", "target": "#experience"})
+
+        if "skills" in q or "fastapi" in q or "python" in q or "docker" in q or "technologies" in q:
+            actions.append({"label": "Go to Skills Spotlight ⚡", "type": "scroll", "target": "#skills"})
+
+        if "education" in q or "university" in q or "btech" in q or "cgpa" in q:
+            actions.append({"label": "Go to Education 🎓", "type": "scroll", "target": "#education"})
+            
+        if "contact" in q or "gmail" in q or "email" in q or "hire" in q:
+            actions.append({"label": "Go to Contact Console ✉️", "type": "scroll", "target": "#contact"})
+
+        # If LLM key is missing, instantly execute client failover content directly in backend as well
+        if not self.llm or not self.db:
+            from fastapi.encoders import jsonable_encoder
+            # Re-use our robust local search engine data
+            from .main import get_local_reply
+            reply = get_local_reply(user_message, history)
+            return reply
+
+        # 2. Perform semantic context search inside local Chroma DB
+        docs = self.db.similarity_search(user_message, k=3)
+        context = "\n---\n".join([doc.page_content for doc in docs])
+        
+        # 3. Structure conversational memory logs
+        memory_str = ""
+        if history:
+            memory_str = "\n".join([f"{msg['role'].capitalize()}: {msg['content']}" for msg in history[-4:]])
+
+        # 4. Construct professional, recruiter-optimized prompt
+        system_prompt = f"""
+You are "Shivam Pathak's AI Portfolio Assistant", an elite, professional chatbot concierge. 
+Your goal is to answer recruiters, hiring managers, and portfolio visitors intelligently, concisely, and politely using Shivam Pathak's context.
+
+Guidelines:
+- Act as a high-end AI guide. Be friendly, clean, and highly encouraging of his skills and projects.
+- KEEP RESPONSES CONCISE AND SCRAP-FREE. Recruiters scan details; avoid bulky paragraphs or excessive small-talk. Use neat bullet points.
+- ALWAYS base your replies on the retrieved Context. If you cannot find the answer in the Context, direct the user to connect with Shivam at shivampathak.ai@gmail.com.
+- Do not make up facts or project details not mentioned in the context.
+
+Here is the retrieved context regarding Shivam Pathak:
+{context}
+
+Recent Chat History:
+{memory_str}
+
+User's Query: {user_message}
+Assistant Response:"""
+
+        try:
+            # 5. Invoke LLaMA 3 model
+            response = self.llm.invoke(system_prompt)
+            answer_text = response.content.strip()
+            
+            # Format generic default actions if nothing specific was registered
+            if not actions:
+                actions.append({"label": "Summarize Shivam ⏱️", "type": "scroll", "target": "trigger:summary"})
+                actions.append({"label": "Show AI Projects 🧭", "type": "scroll", "target": "#projects"})
+                
+            return {
+                "answer": answer_text,
+                "actions": actions
+            }
+        except Exception as e:
+            print(f"Error querying Groq LLM: {e}")
+            # Fallback to local reply if Groq API rate-limits or times out
+            from .main import get_local_reply
+            return get_local_reply(user_message, history)
