@@ -404,19 +404,34 @@ export default function Chatbot() {
         </AnimatePresence>
       </div>
 
-      {/* 2. Glassmorphic Cinematic Chat Container Overlay */}
+      {/* 2. Glassmorphic Cinematic Chat Container Backdrop & Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 100, scale: 0.92 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 100, scale: 0.92 }}
-            transition={{ type: "spring", stiffness: 260, damping: 26 }}
-            className="fixed bottom-6 right-6 z-[99999] w-[90vw] md:w-[420px] h-[550px] md:h-[620px] rounded-[24px] glass-panel border border-white/15 flex flex-col overflow-hidden shadow-2xl shadow-black/80"
-          >
-            {/* Ambient Background Light Leaks Inside Chat */}
-            <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-accent-cinematic/10 blur-[60px] pointer-events-none" />
-            <div className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-accent-orange/5 blur-[60px] pointer-events-none" />
+          <>
+            {/* Click-outside backdrop catch-layer */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => {
+                setIsOpen(false);
+                stopVoiceAssistantMode();
+              }}
+              className="fixed inset-0 z-[99998] bg-black/35 backdrop-blur-[2px] cursor-pointer"
+            />
+
+            {/* Chatbot Window Container */}
+            <motion.div
+              initial={{ opacity: 0, y: 80, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 80, scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 280, damping: 28 }}
+              className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-[99999] w-full h-full md:w-[420px] md:h-[620px] md:rounded-[24px] rounded-none glass-panel border border-white/15 md:border flex flex-col overflow-hidden shadow-2xl shadow-black/80"
+            >
+              {/* Ambient Background Light Leaks Inside Chat */}
+              <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-accent-cinematic/10 blur-[60px] pointer-events-none" />
+              <div className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-accent-orange/5 blur-[60px] pointer-events-none" />
+
 
             {/* A. Dynamic Chat Header */}
             <div className="relative z-10 px-5 py-4 border-b border-white/10 flex items-center justify-between bg-black/35 backdrop-blur-md">
@@ -651,6 +666,7 @@ export default function Chatbot() {
               </div>
             </div>
           </motion.div>
+        </>
         )}
       </AnimatePresence>
     </>
