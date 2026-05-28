@@ -37,6 +37,9 @@
 - **✨ Yellow Tagline Refinements:** Colored the main tagline label `"AI ENGINEER"` in a rich, highly professional yellow (`text-yellow-500`) on both the splash screen and main Hero layouts.
 *   **✨ Three.js WebGL Bokeh Canvas:** Renders desaturated, slow-moving radial white and silver bokeh spheres, depth parallax tracking mouse inputs seamlessly at a solid 60 FPS.
 *   **💻 7-Featured Projects Ledger:** Minimal desaturated project grid showing custom, static vector SVGs representing databases, API connectors, and logistics charts.
+*   **⚙️ Automated CI/CD Pipeline:** Integrated a production-ready GitHub Actions workflow (`.github/workflows/ci.yml`) that validates changes on every push and PR:
+    - *Frontend CI:* Installs dependencies, runs ESLint code checks, checks TypeScript type safety (`tsc`), and compiles a clean Next.js production build.
+    - *Backend CI:* Sets up Python, installs dependency requirements, and validates syntax/compilation on all core python modules.
 
 ---
 
