@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   MessageSquare, Send, Mic, MicOff, X, 
   Sparkles, Download, ExternalLink, Bot, User, 
-  Volume2, VolumeX, Keyboard, RefreshCw, ChevronRight
+  Volume2, VolumeX, Keyboard, RefreshCw, ChevronRight,
+  Maximize2, Minimize2
 } from "lucide-react";
 import { queryLocalRAG, ChatAction, KNOWLEDGE_BASE } from "./chatbotData";
 
@@ -17,19 +18,22 @@ interface Message {
   actions?: ChatAction[];
 }
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://your-backend-name.onrender.com";
+
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false);
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       role: "assistant",
-      content: "Hi, I’m Shivam AI Assistant.\nAsk me about projects, technologies, AI engineering, or experience.",
+      content: "Hi, I’m Avix — Shivam's AI Assistant.\nAsk me about projects, technologies, AI engineering, or experience.",
       actions: [
         { label: "Summarize Shivam in 30s ⏱️", type: "scroll", target: "trigger:summary" },
         { label: "Show AI Projects 🧭", type: "scroll", target: "#projects" },
         { label: "Explain Technical Skills ⚡", type: "scroll", target: "#skills" },
-        { label: "Download Resume 📄", type: "download", target: "/resume/Shivam-Resume.pdf" }
+        { label: "Download Resume 📄", type: "download", target: "/resume/Resume_Shivam.pdf" }
       ]
     }
   ]);
@@ -38,6 +42,7 @@ export default function Chatbot() {
   const [isListening, setIsListening] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [speechActive, setSpeechActive] = useState(false);
+  const [backendStatus, setBackendStatus] = useState<"online" | "connecting" | "offline">("connecting");
 
   // Chat window element references
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -45,18 +50,21 @@ export default function Chatbot() {
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
+  // Abort controller and typewriter references for stopping generation
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const typewriterTimerRef = useRef<any>(null);
+
+  const isGenerating = isAiTyping || messages.some((m) => m.isStreaming);
+
   const messagesCount = messages.length;
 
   // Auto-scroll logic optimized for smooth first-render and jitter-free streaming
   useEffect(() => {
     if (chatEndRef.current) {
-      const container = chatEndRef.current.parentElement;
-      if (container) {
-        container.scrollTo({
-          top: container.scrollHeight,
-          behavior: "smooth"
-        });
-      }
+      chatEndRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
     }
   }, [messagesCount]);
 
@@ -87,6 +95,45 @@ export default function Chatbot() {
       stopVoiceSpeech();
     };
   }, []);
+
+  // Ping backend /health — runs on load, when chatbot opens, and retries every 15s if offline
+  const checkHealth = async () => {
+    try {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), 3000);
+      const response = await fetch(`${BACKEND_URL}/health`, { signal: controller.signal });
+      clearTimeout(id);
+      if (response.ok) {
+        setBackendStatus("online");
+      } else {
+        setBackendStatus("offline");
+      }
+    } catch (err) {
+      setBackendStatus("offline");
+    }
+  };
+
+  // Check on first load
+  useEffect(() => {
+    checkHealth();
+  }, []);
+
+  // Re-check every time chatbot is opened
+  useEffect(() => {
+    if (isOpen) {
+      checkHealth();
+    }
+  }, [isOpen]);
+
+  // Retry every 15s while offline
+  useEffect(() => {
+    if (backendStatus !== "online") {
+      const retryInterval = setInterval(() => {
+        checkHealth();
+      }, 15000);
+      return () => clearInterval(retryInterval);
+    }
+  }, [backendStatus]);
 
   // Web Speech STT Recognition Setup
   useEffect(() => {
@@ -238,6 +285,42 @@ export default function Chatbot() {
     }, 3500);
   };
 
+  // Cleanup timers and abort controllers on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      if (typewriterTimerRef.current) {
+        clearInterval(typewriterTimerRef.current);
+      }
+    };
+  }, []);
+
+  const handleStopGeneration = () => {
+    // 1. Abort the fetch controller
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+
+    // 2. Clear typewriter interval
+    if (typewriterTimerRef.current) {
+      clearInterval(typewriterTimerRef.current);
+      typewriterTimerRef.current = null;
+    }
+
+    // 3. Reset typing / generating states
+    setIsAiTyping(false);
+
+    // 4. Finalize streaming status in messages
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.isStreaming ? { ...msg, isStreaming: false } : msg
+      )
+    );
+  };
+
   // Character Typewriter Stream Simulator
   const streamResponse = (messageId: string, fullAnswer: string, actions?: ChatAction[]) => {
     let index = 0;
@@ -260,6 +343,9 @@ export default function Chatbot() {
             
             if (isDone) {
               clearInterval(timer);
+              if (typewriterTimerRef.current === timer) {
+                typewriterTimerRef.current = null;
+              }
               // Activate TTS voice narration on streaming completion
               if (isVoiceMode && !isMuted) {
                 speakVoiceSpeech(fullAnswer);
@@ -278,6 +364,8 @@ export default function Chatbot() {
       );
       index++;
     }, interval);
+
+    typewriterTimerRef.current = timer;
   };
 
   // Main Messaging Core Trigger
@@ -312,33 +400,105 @@ export default function Chatbot() {
     try {
       let finalResponse: { answer: string; actions?: ChatAction[] };
 
-      // 1. First, attempt to contact local Python FastAPI server
-      try {
-        const response = await fetch("http://localhost:8000/chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            message: queryText,
-            history: recentHistory
-          }),
-          // Snappy timeout to immediately trigger failover client-side RAG in production/Vercel
-          signal: AbortSignal.timeout(1800)
-        });
+      // Initialize master abort controller for cancellation
+      const masterController = new AbortController();
+      abortControllerRef.current = masterController;
 
-        if (response.ok) {
+      // 1. First, attempt to contact Python FastAPI server with exponential backoff retries
+      try {
+        let response: Response | null = null;
+        let lastError: any = null;
+        const maxRetries = 3;
+        const initialDelay = 1000;
+
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+          try {
+            if (masterController.signal.aborted) {
+              throw new DOMException("Aborted", "AbortError");
+            }
+
+            if (attempt > 0) {
+              setBackendStatus("connecting");
+              // Wait for exponential backoff delay (e.g. 1s, 2s, 4s) with abort capability
+              const delay = initialDelay * Math.pow(2, attempt - 1);
+              await new Promise<void>((resolve, reject) => {
+                const timer = setTimeout(() => {
+                  masterController.signal.removeEventListener("abort", onAbort);
+                  resolve();
+                }, delay);
+                const onAbort = () => {
+                  clearTimeout(timer);
+                  reject(new DOMException("Aborted", "AbortError"));
+                };
+                masterController.signal.addEventListener("abort", onAbort);
+              });
+            }
+
+            // Increase timeout on retries to give Render cold starts and LLM response time to finish
+            const timeoutDuration = 15000 + attempt * 5000;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+
+            const onMasterAbort = () => {
+              controller.abort();
+            };
+            masterController.signal.addEventListener("abort", onMasterAbort);
+
+            try {
+              response = await fetch(`${BACKEND_URL}/chat`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  message: queryText,
+                  history: recentHistory
+                }),
+                signal: controller.signal
+              });
+            } finally {
+              clearTimeout(timeoutId);
+              masterController.signal.removeEventListener("abort", onMasterAbort);
+            }
+
+            if (response.ok) {
+              setBackendStatus("online");
+              break;
+            } else {
+              throw new Error(`Server returned ${response.status}`);
+            }
+          } catch (err: any) {
+            lastError = err;
+            if (err.name === "AbortError" && masterController.signal.aborted) {
+              throw err;
+            }
+            // If it's the last attempt, don't retry further
+            if (attempt === maxRetries - 1) {
+              throw err;
+            }
+          }
+        }
+
+        if (response && response.ok) {
           const data = await response.json();
           finalResponse = {
             answer: data.answer,
             actions: data.actions || []
           };
         } else {
-          throw new Error("FastAPI server error");
+          throw lastError || new Error("Failed to fetch");
         }
-      } catch (err) {
+      } catch (err: any) {
+        if (err.name === "AbortError" && masterController.signal.aborted) {
+          throw err;
+        }
         // 2. FAILOVER ENGINE: Contact local client RAG system
+        setBackendStatus("offline");
         finalResponse = queryLocalRAG(queryText, recentHistory);
+      }
+
+      if (masterController.signal.aborted) {
+        throw new DOMException("Aborted", "AbortError");
       }
 
       // Add assistant placeholder to state
@@ -357,13 +517,18 @@ export default function Chatbot() {
         if (scrollAction) {
           // Micro delay to let typewriter load and scroll nicely
           setTimeout(() => {
-            executeAction(scrollAction);
+            if (!masterController.signal.aborted) {
+              executeAction(scrollAction);
+            }
           }, 800);
         }
       }
 
-    } catch (e) {
+    } catch (e: any) {
       setIsAiTyping(false);
+      if (e.name === "AbortError") {
+        return;
+      }
       setMessages((prev) => [
         ...prev,
         {
@@ -372,11 +537,13 @@ export default function Chatbot() {
           content: "I ran into a small connectivity hurdle. Feel free to ask again, or try scrolling through my credentials manually!"
         }
       ]);
+    } finally {
+      abortControllerRef.current = null;
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !isGenerating) {
       handleSendMessage();
     }
   };
@@ -411,21 +578,25 @@ export default function Chatbot() {
               initial={{ scale: 0, opacity: 0, y: 50 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0, opacity: 0, y: 50 }}
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setIsOpen(true)}
-              className="relative group p-4 rounded-full bg-gradient-to-r from-accent-cinematic to-accent-orange text-white cursor-pointer shadow-xl hover:shadow-[0_0_30px_rgba(124,58,237,0.45)] border border-white/10"
+              className="relative group w-14 h-14 rounded-full bg-[#030712] text-white cursor-pointer shadow-lg border border-white/10 flex items-center justify-center"
               aria-label="Open AI Assistant"
             >
-              {/* Outer Breathing Glowing Aura */}
-              <div className="absolute inset-0 rounded-full bg-accent-cinematic/30 blur-md group-hover:blur-lg transition-all duration-300 opacity-60 group-hover:opacity-100 animate-pulse" />
+              {/* Outer Subtle Aura */}
+              <div className="absolute inset-0 rounded-full bg-white/5 blur-sm opacity-60 group-hover:opacity-100 transition-all duration-300" />
               
-              <MessageSquare className="w-6 h-6 relative z-10 animate-pulse" />
+              <img 
+                src="/images/avix-logo.png" 
+                alt="Avix Logo" 
+                className="w-12 h-12 object-contain relative z-10"
+              />
               
-              {/* Floating Badge Helper */}
-              <span className="absolute -top-1 -left-1 flex h-3 w-3">
+              {/* Floating Badge Helper (Positioned perfectly on the outer boundary edge) */}
+              <span className="absolute top-0.5 right-0.5 flex h-3 w-3 z-20">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 border-2 border-[#030712]"></span>
               </span>
             </motion.button>
           )}
@@ -443,6 +614,7 @@ export default function Chatbot() {
               exit={{ opacity: 0 }}
               onClick={() => {
                 setIsOpen(false);
+                setIsMaximized(false);
                 stopVoiceAssistantMode();
               }}
               className="fixed inset-0 z-[99998] bg-black/20 backdrop-blur-[1px] cursor-pointer"
@@ -457,26 +629,48 @@ export default function Chatbot() {
               data-lenis-prevent
               onWheel={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
-              className="fixed inset-0 md:inset-auto md:bottom-8 md:right-8 z-[99999] w-full h-[100dvh] md:w-[340px] md:h-[500px] md:max-h-[calc(100vh-6rem)] md:rounded-[24px] rounded-none chatbot-panel flex flex-col overflow-hidden shadow-2xl overscroll-contain"
+              className={`fixed z-[99999] flex flex-col overflow-hidden shadow-2xl overscroll-contain chatbot-panel transition-all duration-300 ease-in-out ${
+                isMaximized
+                  ? "inset-0 w-full h-full md:rounded-none rounded-none"
+                  : "inset-0 md:inset-auto md:bottom-8 md:right-8 w-full h-[100dvh] md:w-[370px] md:h-[540px] md:max-h-[calc(100vh-6rem)] md:rounded-[24px] rounded-none"
+              }`}
             >
               {/* Ambient Background Light Leaks Inside Chat */}
-              <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-accent-cinematic/10 blur-[60px] pointer-events-none" />
-              <div className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-accent-orange/5 blur-[60px] pointer-events-none" />
+              <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-white/[0.02] blur-[40px] pointer-events-none" />
+              <div className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-white/[0.01] blur-[40px] pointer-events-none" />
 
 
             {/* A. Dynamic Chat Header */}
             <div className="relative z-10 px-4 pt-[calc(0.85rem+env(safe-area-inset-top,0px))] md:pt-3.5 pb-3.5 border-b border-white/10 flex items-center justify-between bg-black/40 backdrop-blur-md shrink-0">
               <div className="flex items-center space-x-3">
-                <div className="relative p-2 rounded-xl bg-accent-cinematic/10 border border-accent-cinematic/20">
-                  <Bot className="w-5 h-5 text-accent-cinematic animate-pulse" />
-                  <span className="absolute bottom-0.5 right-0.5 w-2 h-2 rounded-full bg-green-500 border border-[#0B0F19]" />
+                <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.02] border border-white/5 overflow-hidden">
+                  <img 
+                    src="/images/avix-logo.png" 
+                    alt="Avix Logo" 
+                    className="w-7 h-7 object-contain"
+                  />
+                  <span className={`absolute bottom-0.5 right-0.5 w-2 h-2 rounded-full border border-[#030712] transition-colors duration-300 ${
+                    backendStatus === "online" 
+                      ? "bg-green-500" 
+                      : backendStatus === "connecting"
+                      ? "bg-orange-500 animate-pulse"
+                      : "bg-red-500"
+                  }`} />
                 </div>
                 <div>
                   <h4 className="font-display font-black text-sm tracking-[0.08em] text-white flex items-center">
-                    SHIVAM AI
-                    <Sparkles className="w-3.5 h-3.5 text-accent-orange ml-1.5 animate-pulse" />
+                    AVIX
+                    <Sparkles className="w-3.5 h-3.5 text-white/40 ml-1.5" />
                   </h4>
-                  <p className="text-[10px] text-white/40 tracking-wider font-semibold uppercase">Portfolio Concierge</p>
+                  <p className={`text-[10px] tracking-widest font-bold uppercase transition-colors duration-300 ${
+                    backendStatus === "online" 
+                      ? "text-green-400 font-extrabold" 
+                      : backendStatus === "connecting"
+                      ? "text-orange-400 font-extrabold animate-pulse"
+                      : "text-white/30 font-bold"
+                  }`}>
+                    {backendStatus === "online" ? "ONLINE" : backendStatus === "connecting" ? "WAKING..." : "LOCAL"}
+                  </p>
                 </div>
               </div>
 
@@ -510,10 +704,20 @@ export default function Chatbot() {
                   {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
 
+                {/* Maximize / Restore toggle */}
+                <button
+                  onClick={() => setIsMaximized(!isMaximized)}
+                  className="p-2 rounded-lg border text-white/40 hover:text-white border-white/5 hover:border-white/10 transition-all duration-300"
+                  title={isMaximized ? "Restore Chatbot" : "Maximize Chatbot"}
+                >
+                  {isMaximized ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                </button>
+
                 {/* Close panel */}
                 <button
                   onClick={() => {
                     setIsOpen(false);
+                    setIsMaximized(false);
                     stopVoiceAssistantMode();
                   }}
                   className="p-2 rounded-lg text-white/40 hover:text-white border border-white/5 hover:border-white/10 transition-colors"
@@ -539,22 +743,26 @@ export default function Chatbot() {
                 >
                   {/* Icon Avatars */}
                   <div
-                    className={`p-1 rounded-xl border shrink-0 ${
-                      msg.role === "user" 
-                        ? "bg-accent-orange/10 border-accent-orange/20 text-accent-orange" 
-                        : "bg-accent-cinematic/10 border-accent-cinematic/20 text-accent-cinematic"
-                    }`}
+                    className="w-6 h-6 flex items-center justify-center rounded-xl border shrink-0 bg-white/[0.02] border-white/10 overflow-hidden text-white/70"
                   >
-                    {msg.role === "user" ? <User className="w-3 h-3" /> : <Bot className="w-3 h-3" />}
+                    {msg.role === "user" ? (
+                      <User className="w-3 h-3" />
+                    ) : (
+                      <img 
+                        src="/images/avix-logo.png" 
+                        alt="Avix" 
+                        className="w-4 h-4 object-contain"
+                      />
+                    )}
                   </div>
 
                   {/* Speech Message Body */}
                   <div className="flex flex-col space-y-1.5">
                     <div
-                      className={`px-3 py-2.5 rounded-[16px] text-xs leading-relaxed font-sans shadow-md border ${
+                      className={`px-4 py-3 rounded-[20px] text-[13px] leading-relaxed font-sans shadow-lg border ${
                         msg.role === "user"
-                          ? "bg-accent-orange/10 border-accent-orange/15 text-white rounded-tr-none"
-                          : "bg-white/[0.03] border-white/5 text-white/90 rounded-tl-none"
+                          ? "bg-white/[0.06] border-white/10 text-white rounded-tr-none"
+                          : "bg-white/[0.02] border-white/5 text-white/90 rounded-tl-none"
                       }`}
                     >
                       {renderMarkdown(msg.content, msg.isStreaming)}
@@ -567,12 +775,12 @@ export default function Chatbot() {
                           <button
                             key={i}
                             onClick={() => executeAction(act)}
-                            className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[9.5px] font-bold tracking-wider text-white border border-white/10 glass-panel hover:border-accent-cinematic/40 transition-all duration-300"
+                            className="inline-flex items-center space-x-1 px-3 py-1 rounded-md text-[9.5px] font-medium tracking-wider text-white border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                           >
                             <span>{act.label}</span>
-                            {act.type === "download" && <Download className="w-2 h-2 text-accent-cinematic" />}
-                            {act.type === "link" && <ExternalLink className="w-2 h-2 text-accent-orange" />}
-                            {act.type === "scroll" && <ChevronRight className="w-2 h-2 text-accent-cinematic" />}
+                            {act.type === "download" && <Download className="w-2 h-2 text-white/50" />}
+                            {act.type === "link" && <ExternalLink className="w-2 h-2 text-white/50" />}
+                            {act.type === "scroll" && <ChevronRight className="w-2 h-2 text-white/50" />}
                           </button>
                         ))}
                       </div>
@@ -584,13 +792,26 @@ export default function Chatbot() {
               {/* Dynamic typing indicators */}
               {isAiTyping && (
                 <div className="flex items-start space-x-2 self-start max-w-[88%]">
-                  <div className="p-1 rounded-xl border bg-accent-cinematic/10 border-accent-cinematic/20 text-accent-cinematic shrink-0">
-                    <Bot className="w-3 h-3" />
+                  <div className="w-6 h-6 flex items-center justify-center rounded-xl border bg-accent-cinematic/10 border-accent-cinematic/20 shrink-0 overflow-hidden">
+                    <img 
+                      src="/images/avix-logo.png" 
+                      alt="Avix" 
+                      className={`w-4 h-4 object-contain ${backendStatus === "connecting" ? "animate-pulse" : ""}`}
+                    />
                   </div>
-                  <div className="px-3.5 py-2.5 rounded-[16px] rounded-tl-none bg-white/[0.03] border border-white/5 flex items-center space-x-1 h-7">
-                    <div className="w-1 h-1 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <div className="w-1 h-1 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <div className="w-1 h-1 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "300ms" }} />
+                  <div className="px-3.5 py-2.5 rounded-[16px] rounded-tl-none bg-white/[0.03] border border-white/5 flex flex-col space-y-1.5 min-w-[120px]">
+                    <span className="text-[9px] tracking-wider font-bold uppercase transition-colors duration-300 select-none opacity-60">
+                      {backendStatus === "online" 
+                        ? "Analyzing Context..." 
+                        : backendStatus === "connecting"
+                        ? "Waking Cloud Brain..."
+                        : "Querying Local Core..."}
+                    </span>
+                    <div className="flex items-center space-x-1 h-2">
+                      <div className="w-1 h-1 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <div className="w-1 h-1 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <div className="w-1 h-1 rounded-full bg-accent-cinematic animate-bounce" style={{ animationDelay: "300ms" }} />
+                    </div>
                   </div>
                 </div>
               )}
@@ -644,9 +865,7 @@ export default function Chatbot() {
                         duration: 0.6 + i * 0.1,
                         ease: "easeInOut"
                       }}
-                      className={`w-1 rounded-full ${
-                        i % 2 === 0 ? "bg-accent-cinematic" : "bg-accent-orange"
-                      }`}
+                      className="w-1 rounded-full bg-white/40"
                     />
                   ))}
                 </div>
@@ -671,7 +890,13 @@ export default function Chatbot() {
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder={isVoiceMode ? "Voice mode enabled..." : "Ask Shivam..."}
+                  placeholder={
+                    isVoiceMode 
+                      ? "Voice mode enabled..." 
+                      : isGenerating 
+                      ? "Avix is writing..." 
+                      : "Ask Shivam..."
+                  }
                   disabled={isVoiceMode}
                   className="flex-grow bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-white/20 focus:outline-none focus:border-accent-cinematic/30 transition-colors disabled:opacity-50"
                 />
@@ -687,14 +912,25 @@ export default function Chatbot() {
                   </button>
                 )}
 
-                {/* Send action */}
-                <button
-                  onClick={() => handleSendMessage()}
-                  disabled={!inputMessage.trim() || isVoiceMode}
-                  className="p-2 rounded-xl bg-gradient-to-r from-accent-cinematic to-accent-orange text-white disabled:opacity-30 disabled:pointer-events-none hover:shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all active:scale-95 cursor-pointer shrink-0"
-                >
-                  <Send className="w-4 h-4" />
-                </button>
+                {/* Send or Stop action */}
+                {isGenerating ? (
+                  <button
+                    onClick={handleStopGeneration}
+                    className="p-2 w-8 h-8 rounded-full bg-white text-black hover:bg-white/90 transition-all active:scale-98 cursor-pointer shrink-0 flex items-center justify-center"
+                    title="Stop generating"
+                  >
+                    <div className="w-2.5 h-2.5 bg-black rounded-[2px]" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleSendMessage()}
+                    disabled={!inputMessage.trim() || isVoiceMode}
+                    className="p-2 rounded-xl bg-white text-black disabled:opacity-30 disabled:pointer-events-none hover:bg-white/90 transition-all active:scale-98 cursor-pointer shrink-0"
+                    title="Send message"
+                  >
+                    <Send className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>
@@ -713,7 +949,7 @@ const renderMarkdown = (content: string, isStreaming?: boolean) => {
   const blocks = content.split("\n");
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3.5">
       {blocks.map((block, blockIndex) => {
         const text = block.trim();
         if (!text) return <div key={blockIndex} className="h-2" />;
@@ -724,7 +960,7 @@ const renderMarkdown = (content: string, isStreaming?: boolean) => {
         if (text.startsWith("### ")) {
           const title = text.replace("### ", "");
           return (
-            <h5 key={blockIndex} className="font-display font-black text-xs tracking-wider text-accent-cinematic mt-3 mb-1 uppercase text-glow-accent">
+            <h5 key={blockIndex} className="font-display font-semibold text-[13px] tracking-wider text-white/70 mt-4 mb-2 uppercase">
               {parseInlineMarkdown(title, isStreaming && isLastBlock)}
             </h5>
           );
@@ -734,7 +970,7 @@ const renderMarkdown = (content: string, isStreaming?: boolean) => {
         if (text.startsWith("## ")) {
           const title = text.replace("## ", "");
           return (
-            <h4 key={blockIndex} className="font-display font-black text-sm tracking-wider text-white mt-4 mb-2 uppercase">
+            <h4 key={blockIndex} className="font-display font-black text-sm tracking-wider text-white mt-5 mb-3 uppercase">
               {parseInlineMarkdown(title, isStreaming && isLastBlock)}
             </h4>
           );
@@ -744,9 +980,9 @@ const renderMarkdown = (content: string, isStreaming?: boolean) => {
         if (text.startsWith("* ") || text.startsWith("- ")) {
           const body = text.slice(2);
           return (
-            <div key={blockIndex} className="flex items-start space-x-2 pl-1 my-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent-orange shrink-0 mt-1.5 animate-pulse" />
-              <span className="text-xs text-white/90 leading-relaxed font-sans font-medium">
+            <div key={blockIndex} className="flex items-start space-x-2 pl-1 my-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-white/30 shrink-0 mt-2" />
+              <span className="text-[13px] text-white/85 leading-relaxed font-sans font-medium">
                 {parseInlineMarkdown(body, isStreaming && isLastBlock)}
               </span>
             </div>
@@ -760,9 +996,9 @@ const renderMarkdown = (content: string, isStreaming?: boolean) => {
             const num = match[1];
             const body = match[2];
             return (
-              <div key={blockIndex} className="flex items-start space-x-2 pl-1 my-1">
-                <span className="text-[10px] font-mono font-bold text-accent-cinematic shrink-0 mt-0.5">{num}.</span>
-                <span className="text-xs text-white/90 leading-relaxed font-sans font-medium">
+              <div key={blockIndex} className="flex items-start space-x-2 pl-1 my-1.5">
+                <span className="text-[11px] font-mono font-bold text-white/50 shrink-0 mt-0.5">{num}.</span>
+                <span className="text-[13px] text-white/85 leading-relaxed font-sans font-medium">
                   {parseInlineMarkdown(body, isStreaming && isLastBlock)}
                 </span>
               </div>
@@ -772,7 +1008,7 @@ const renderMarkdown = (content: string, isStreaming?: boolean) => {
 
         // 5. Default Paragraph block
         return (
-          <p key={blockIndex} className="text-xs leading-relaxed text-white/90 font-medium font-sans">
+          <p key={blockIndex} className="text-[13px] leading-relaxed text-white/85 font-medium font-sans">
             {parseInlineMarkdown(block, isStreaming && isLastBlock)}
           </p>
         );
@@ -817,7 +1053,7 @@ const parseInlineMarkdown = (inlineText: string, showCaret?: boolean): React.Rea
       if (closingIndex !== -1) {
         const boldVal = remainingText.slice(2, closingIndex);
         parts.push(
-          <strong key={parts.length} className="font-extrabold text-white text-glow-white">
+          <strong key={parts.length} className="font-bold text-white">
             {boldVal}
           </strong>
         );
@@ -831,7 +1067,7 @@ const parseInlineMarkdown = (inlineText: string, showCaret?: boolean): React.Rea
       if (closingIndex !== -1) {
         const codeVal = remainingText.slice(1, closingIndex);
         parts.push(
-          <code key={parts.length} className="bg-white/[0.06] border border-white/10 px-1 py-0.5 rounded font-mono text-[10px] text-accent-orange font-semibold mx-0.5">
+          <code key={parts.length} className="bg-white/[0.06] border border-white/10 px-1 py-0.5 rounded font-mono text-[10px] text-white/70 font-semibold mx-0.5">
             {codeVal}
           </code>
         );
@@ -854,7 +1090,7 @@ const parseInlineMarkdown = (inlineText: string, showCaret?: boolean): React.Rea
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-accent-cinematic hover:text-accent-orange font-bold underline transition-colors"
+            className="text-white/60 hover:text-white font-bold underline transition-colors"
           >
             {label}
           </a>

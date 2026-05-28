@@ -60,24 +60,22 @@ export default function Hero() {
         {/* Tagline */}
         <div
           ref={taglineRef}
-          className="text-[10px] md:text-xs tracking-[0.25em] font-semibold text-accent-orange mb-4 uppercase inline-flex items-center space-x-2 text-glow-orange"
+          className="text-[10px] md:text-xs tracking-[0.25em] font-semibold text-yellow-500 mb-4 uppercase inline-flex items-center space-x-2"
         >
           <span>AI ENGINEER</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-white/40" />
-          <span>DATA SCIENCE</span>
         </div>
 
         {/* Stacked Giant Easing Name */}
         <h1 className="font-display font-black text-6xl md:text-8xl xl:text-9xl leading-[0.9] tracking-tight uppercase mb-6 flex flex-col">
           <span className="block overflow-hidden pb-1">
-            <span ref={title1Ref} className="block text-white text-glow-white">
+            <span ref={title1Ref} className="block text-white">
               SHIVAM
             </span>
           </span>
           <span className="block overflow-hidden py-1">
             <span
               ref={title2Ref}
-              className="block bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-accent-cinematic"
+              className="block bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/50"
             >
               PATHAK
             </span>
@@ -103,20 +101,19 @@ export default function Hero() {
               e.preventDefault();
               document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
             }}
-            whileHover={{ scale: 1.03 }}
+            whileHover={{ scale: 1.015 }}
             whileTap={{ scale: 0.98 }}
-            className="px-8 py-4 rounded-full text-xs font-bold tracking-[0.15em] text-white bg-accent-cinematic text-center shadow-lg shadow-accent-cinematic/20 hover:shadow-accent-cinematic/35 transition-all duration-300 relative overflow-hidden group"
+            className="px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-[#030712] bg-white border border-white text-center shadow-md hover:bg-white/90 transition-all duration-300 relative overflow-hidden"
           >
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-accent-cinematic via-purple-600 to-accent-orange opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <span className="relative z-10">VIEW PROJECTS</span>
           </motion.a>
 
           <motion.a
-            href="/resume/Shivam-Resume.pdf"
+            href="/resume/Resume_Shivam.pdf"
             download="Shivam_Pathak_Resume.pdf"
-            whileHover={{ scale: 1.03 }}
+            whileHover={{ scale: 1.015 }}
             whileTap={{ scale: 0.98 }}
-            className="px-8 py-4 rounded-full text-xs font-bold tracking-[0.15em] text-white border border-white/10 glass-panel hover:border-white/30 text-center transition-all duration-300 relative overflow-hidden"
+            className="px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-white border border-white/10 bg-transparent hover:bg-white/5 hover:border-white/20 text-center transition-all duration-300"
           >
             <span className="relative z-10">DOWNLOAD RESUME</span>
           </motion.a>
@@ -132,17 +129,17 @@ export default function Hero() {
         <span className="text-[9px] tracking-[0.25em] font-medium text-white/40 group-hover:text-white transition-colors duration-300 mb-2.5">
           SCROLL
         </span>
-        <div className="relative w-[1.5px] h-10 bg-white/10 rounded-full overflow-hidden">
+        <div className="relative w-[1.5px] h-10 bg-white/5 rounded-full overflow-hidden">
           <motion.div
             animate={{
-              y: [-40, 40],
+              y: [-30, 30, -30],
             }}
             transition={{
-              duration: 1.8,
+              duration: 4.0,
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-accent-cinematic to-accent-orange"
+            className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/30 to-white/10"
           />
         </div>
       </div>

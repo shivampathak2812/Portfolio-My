@@ -44,7 +44,7 @@ function SkillCard({ category, idx }: { category: SkillCategory; idx: number }) 
       ref={cardRef}
       variants={itemVariants}
       onMouseMove={handleMouseMove}
-      whileHover={{ y: -6, scale: 1.01 }}
+      whileHover={{ y: -2, scale: 1.002 }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
       className="relative rounded-2xl glass-panel border border-white/5 p-6 md:p-8 cursor-pointer select-none overflow-hidden group"
       style={{
@@ -57,8 +57,8 @@ function SkillCard({ category, idx }: { category: SkillCategory; idx: number }) 
         style={{
           background: `radial-gradient(
             220px circle at var(--card-mouse-x, 0px) var(--card-mouse-y, 0px),
-            ${category.accentColor === "orange" ? "rgba(249, 115, 22, 0.12)" : "rgba(124, 58, 237, 0.12)"},
-            rgba(59, 130, 246, 0.02) 50%,
+            ${category.accentColor === "orange" ? "rgba(217, 119, 6, 0.04)" : "rgba(109, 40, 217, 0.04)"},
+            rgba(59, 130, 246, 0.01) 50%,
             transparent 100%
           )`,
         }}
@@ -76,11 +76,7 @@ function SkillCard({ category, idx }: { category: SkillCategory; idx: number }) 
         {/* Header Icon + Name */}
         <div className="flex items-center space-x-4 mb-6">
           <div
-            className={`p-3 rounded-xl border transition-all duration-300 ${
-              category.accentColor === "orange"
-                ? "bg-accent-orange/10 border-accent-orange/20 text-accent-orange group-hover:bg-accent-orange/20 group-hover:border-accent-orange/40"
-                : "bg-accent-cinematic/10 border-accent-cinematic/20 text-accent-cinematic group-hover:bg-accent-cinematic/20 group-hover:border-accent-cinematic/40"
-            }`}
+            className="p-3 rounded-xl border transition-all duration-300 bg-white/[0.02] border-white/5 text-white/80 group-hover:bg-white/5 group-hover:border-white/10"
           >
             {category.icon}
           </div>
@@ -97,11 +93,7 @@ function SkillCard({ category, idx }: { category: SkillCategory; idx: number }) 
               className="px-3.5 py-2 rounded-lg text-xs font-light text-white/70 bg-white/[0.02] border border-white/[0.04] group-hover:bg-white/[0.04] group-hover:border-white/[0.08] group-hover:text-white transition-all duration-300 flex items-center space-x-1.5"
             >
               <span
-                className={`w-1 h-1 rounded-full ${
-                  category.accentColor === "orange"
-                    ? "bg-accent-orange/60 group-hover:bg-accent-orange"
-                    : "bg-accent-cinematic/60 group-hover:bg-accent-cinematic"
-                }`}
+                className="w-1 h-1 rounded-full bg-white/30 group-hover:bg-white/60"
               />
               <span>{skill.name}</span>
             </div>
@@ -192,12 +184,12 @@ export default function Skills() {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-left mb-16 md:mb-20 max-w-2xl">
-          <div className="text-[10px] tracking-[0.3em] font-bold text-accent-orange mb-3 flex items-center space-x-2 text-glow-orange">
+          <div className="text-[10px] tracking-[0.3em] font-semibold text-white/40 mb-3 flex items-center space-x-2">
             <Terminal className="w-3.5 h-3.5" />
             <span>02 / SKILL MATRIX</span>
           </div>
           <h2 className="font-display font-bold text-3xl md:text-5xl leading-tight text-white uppercase tracking-wide">
-            Expertise & <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-cinematic to-accent-orange">Technologies</span>.
+            Expertise & <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Technologies</span>.
           </h2>
         </div>
 

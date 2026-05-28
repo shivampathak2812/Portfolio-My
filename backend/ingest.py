@@ -2,7 +2,7 @@ import os
 import shutil
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain.docstore.document import Document
+from langchain_core.documents import Document
 
 # 1. Compile structured portfolio details based directly on the resume and projects list
 PORTFOLIO_DOCUMENTS = [
@@ -14,7 +14,7 @@ PORTFOLIO_DOCUMENTS = [
         He pursues a B.Tech in Computer Science and Engineering from Graphic Era Hill University, Dehradun (expected graduation 2026) where he maintains a 6.88 CGPA.
         Shivam has certifications and accomplishments like being a TCS NQT 2025 Top 10% candidate, obtaining a Google Cloud GenAI Certification, and representing Graphic Era in the National Basketball Championship.
         Shivam is currently employed as an AI Engineer Intern at Northcorp Software (Remote) since January 2026.
-        Shivam's email address is shivampathak.ai@gmail.com and his GitHub profile is github.com/shivampathak2812.
+        Shivam's email address is pathakshivam3738@gmail.com, his GitHub profile is https://github.com/shivampathak2812, and his LinkedIn profile is https://www.linkedin.com/in/shivam-pathak-9a76ba246.
         """,
         metadata={"source": "bio", "category": "general"}
     ),
@@ -165,16 +165,15 @@ def main():
     print("Loading HuggingFace Embeddings Model (all-MiniLM-L6-v2)...")
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     
-    # Create persistent Chroma Vector Store
+    # Create persistent Chroma Vector Store using native client
     print(f"Creating local vector database in: {db_dir}...")
+    import chromadb
+    chroma_client = chromadb.PersistentClient(path=db_dir)
     db = Chroma.from_documents(
         PORTFOLIO_DOCUMENTS,
         embeddings,
-        persist_directory=db_dir
+        client=chroma_client
     )
-    
-    # Persist the vector store to disk
-    db.persist()
     
     print("\nIngestion completed successfully!")
     print(f"Total documents vectorized: {len(PORTFOLIO_DOCUMENTS)}")

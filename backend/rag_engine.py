@@ -3,6 +3,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
+from prompts import SYSTEM_PROMPT
 
 # Load environmental variables from .env file
 load_dotenv()
@@ -18,7 +19,9 @@ def get_vector_db():
         if not os.path.exists(DB_DIR):
             raise FileNotFoundError(f"Vector Database directory not found at: {DB_DIR}. Please run ingest.py first!")
         EMBEDDINGS = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        DB = Chroma(persist_directory=DB_DIR, embedding_function=EMBEDDINGS)
+        import chromadb
+        chroma_client = chromadb.PersistentClient(path=DB_DIR)
+        DB = Chroma(client=chroma_client, embedding_function=EMBEDDINGS)
     return DB
 
 class PortfolioAssistant:
@@ -30,13 +33,15 @@ class PortfolioAssistant:
         try:
             self.db = get_vector_db()
         except Exception as e:
+            import traceback
             print(f"Warning during DB initialization: {e}")
+            traceback.print_exc()
             
         if self.api_key:
-            # Initialize LLaMA 3 via Groq API
+            # Initialize LLaMA 3 via Groq API (using supported llama-3.3-70b-versatile)
             self.llm = ChatGroq(
                 temperature=0.3,
-                model_name="llama3-8b-8192",
+                model_name="llama-3.3-70b-versatile",
                 groq_api_key=self.api_key
             )
         else:
@@ -53,7 +58,7 @@ class PortfolioAssistant:
         
         # 1. Inspect user intent and automatically register action buttons (matching frontend)
         if "resume" in q or "cv" in q or "download" in q:
-            actions.append({"label": "Download Resume 📄", "type": "download", "target": "/resume/Shivam-Resume.pdf"})
+            actions.append({"label": "Download Resume 📄", "type": "download", "target": "/resume/Resume_Shivam.pdf"})
             
         if "travelart" in q or "travel art" in q:
             actions.append({"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"})
@@ -75,16 +80,20 @@ class PortfolioAssistant:
         if "contact" in q or "gmail" in q or "email" in q or "hire" in q:
             actions.append({"label": "Go to Contact Console ✉️", "type": "scroll", "target": "#contact"})
 
-        # If LLM key is missing, instantly execute client failover content directly in backend as well
-        if not self.llm or not self.db:
-            from fastapi.encoders import jsonable_encoder
-            # Re-use our robust local search engine data
-            from .main import get_local_reply
+        # Intercept simple greetings & chitchat to respond instantly and warmly, or execute client failover
+        from main import score_intent, get_local_reply  # noqa: E402
+        intent_type = score_intent(q)
+        chitchat_intents = [
+            "greeting", "chitchat_thanks", "chitchat_compliment", "chitchat_confirm", "chitchat_bye",
+            "chitchat_feeling", "chitchat_name", "chitchat_joke", "chitchat_capabilities",
+            "chitchat_weather", "chitchat_age", "chitchat_creator", "chitchat_favorite"
+        ]
+        if intent_type in chitchat_intents or not self.llm or not self.db:
             reply = get_local_reply(user_message, history)
             return reply
 
-        # 2. Perform semantic context search inside local Chroma DB
-        docs = self.db.similarity_search(user_message, k=3)
+        # 2. Perform semantic context search inside local Chroma DB (k=2 to reduce context overload)
+        docs = self.db.similarity_search(user_message, k=2)
         context = "\n---\n".join([doc.page_content for doc in docs])
         
         # 3. Structure conversational memory logs
@@ -92,30 +101,19 @@ class PortfolioAssistant:
         if history:
             memory_str = "\n".join([f"{msg['role'].capitalize()}: {msg['content']}" for msg in history[-4:]])
 
-        # 4. Construct professional, recruiter-optimized prompt
-        system_prompt = f"""
-You are "Shivam Pathak's AI Portfolio Assistant", an elite, professional chatbot concierge. 
-Your goal is to answer recruiters, hiring managers, and portfolio visitors intelligently, concisely, and politely using Shivam Pathak's context.
-
-Guidelines:
-- Act as a high-end AI guide. Be friendly, clean, and highly encouraging of his skills and projects.
-- KEEP RESPONSES CONCISE AND SCRAP-FREE. Recruiters scan details; avoid bulky paragraphs or excessive small-talk. Use neat bullet points.
-- ALWAYS base your replies on the retrieved Context. If you cannot find the answer in the Context, direct the user to connect with Shivam at shivampathak.ai@gmail.com.
-- Do not make up facts or project details not mentioned in the context.
-
-Here is the retrieved context regarding Shivam Pathak:
-{context}
-
-Recent Chat History:
-{memory_str}
-
-User's Query: {user_message}
-Assistant Response:"""
+        # 4. Construct professional, recruiter-optimized prompt from prompts.py
+        system_prompt = SYSTEM_PROMPT.format(
+            context=context,
+            memory_str=memory_str,
+            user_message=user_message
+        )
 
         try:
             # 5. Invoke LLaMA 3 model
             response = self.llm.invoke(system_prompt)
             answer_text = response.content.strip()
+            # Normalize bullets and trim spacing
+            answer_text = answer_text.replace("•", "-")
             
             # Format generic default actions if nothing specific was registered
             if not actions:
@@ -129,5 +127,5 @@ Assistant Response:"""
         except Exception as e:
             print(f"Error querying Groq LLM: {e}")
             # Fallback to local reply if Groq API rate-limits or times out
-            from .main import get_local_reply
+            from main import get_local_reply  # noqa: E402
             return get_local_reply(user_message, history)

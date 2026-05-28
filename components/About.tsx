@@ -31,8 +31,8 @@ export default function About() {
       className="relative w-full py-28 md:py-36 bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Background Decorative Ambient Blobs */}
-      <div className="absolute top-1/4 right-0 w-80 h-80 rounded-full bg-accent-cinematic/5 blur-[100px] pointer-events-none z-0" />
-      <div className="absolute bottom-1/4 left-0 w-80 h-80 rounded-full bg-accent-orange/5 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute top-1/4 right-0 w-80 h-80 rounded-full bg-accent-cinematic/[0.015] blur-[100px] pointer-events-none z-0" />
+      <div className="absolute bottom-1/4 left-0 w-80 h-80 rounded-full bg-accent-orange/[0.005] blur-[100px] pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div
@@ -48,13 +48,13 @@ export default function About() {
             className="col-span-1 lg:col-span-5 flex justify-center lg:justify-start"
           >
             <motion.div
-              whileHover={{ rotateY: -8, rotateX: 5, scale: 1.02 }}
+              whileHover={{ rotateY: -2, rotateX: 1, scale: 1.005 }}
               transition={{ type: "spring", stiffness: 150, damping: 15 }}
-              className="relative w-full max-w-[360px] aspect-[4/5] rounded-[30px] p-2 glass-panel border border-white/10 shadow-2xl shadow-accent-cinematic/10 group cursor-pointer"
+              className="relative w-full max-w-[360px] aspect-[4/5] rounded-3xl p-2 glass-panel border border-white/5 shadow-xl shadow-black/40 group cursor-pointer"
               style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
             >
-              {/* Outer Glowing Orange Offset Border Accent */}
-              <div className="absolute -inset-1 rounded-[32px] bg-gradient-to-r from-accent-cinematic/20 to-accent-orange/20 opacity-30 group-hover:opacity-60 blur-sm transition-opacity duration-500 pointer-events-none" />
+              {/* Outer Subtle Offset Border Accent */}
+              <div className="absolute -inset-1 rounded-[30px] border border-white/5 opacity-40 group-hover:opacity-70 group-hover:border-white/10 transition-all duration-500 pointer-events-none" />
 
               {/* Photo Frame Container */}
               <div className="relative w-full h-full rounded-[22px] overflow-hidden bg-background-cinematic border border-white/5">
@@ -78,7 +78,7 @@ export default function About() {
             {/* Section Tagline */}
             <motion.div
               variants={itemVariants}
-              className="text-[10px] tracking-[0.3em] font-bold text-accent-cinematic mb-3 flex items-center space-x-2 text-glow-accent"
+              className="text-[10px] tracking-[0.3em] font-semibold text-white/40 mb-3 flex items-center space-x-2"
             >
               <User className="w-3.5 h-3.5" />
               <span>01 / IDENTITY</span>
@@ -89,7 +89,7 @@ export default function About() {
               variants={itemVariants}
               className="font-display font-bold text-3xl md:text-5xl leading-tight text-white mb-6 uppercase tracking-wide"
             >
-              Engineering <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-cinematic to-accent-orange">Intelligence</span>.
+              Engineering <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/60">Intelligence</span>.
             </motion.h2>
 
             {/* Core Narrative Paragraphs */}
@@ -112,7 +112,7 @@ export default function About() {
             >
               {/* Pillar 1 */}
               <div className="p-5 rounded-2xl glass-panel border border-white/5 flex items-start space-x-4">
-                <div className="p-2.5 rounded-xl bg-accent-cinematic/15 text-accent-cinematic border border-accent-cinematic/20">
+                <div className="p-2.5 rounded-xl bg-white/[0.03] text-white/70 border border-white/10">
                   <BrainCircuit className="w-5 h-5" />
                 </div>
                 <div>
@@ -125,7 +125,7 @@ export default function About() {
 
               {/* Pillar 2 */}
               <div className="p-5 rounded-2xl glass-panel border border-white/5 flex items-start space-x-4">
-                <div className="p-2.5 rounded-xl bg-accent-orange/15 text-accent-orange border border-accent-orange/20">
+                <div className="p-2.5 rounded-xl bg-white/[0.03] text-white/70 border border-white/10">
                   <Cpu className="w-5 h-5" />
                 </div>
                 <div>

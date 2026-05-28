@@ -147,30 +147,29 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[#0B0F19] px-6 text-center select-none"
+            className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[#030712] px-6 text-center select-none"
           >
-            <div className="absolute w-[350px] h-[350px] bg-accent-cinematic/5 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute w-[350px] h-[350px] bg-accent-cinematic/2 rounded-full blur-[100px] pointer-events-none" />
 
             <motion.div
-              initial={{ scale: 0.96, opacity: 0 }}
+              initial={{ scale: 0.98, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
               className="max-w-md flex flex-col items-center relative z-10"
             >
-              <div className="text-[10px] tracking-[0.3em] font-bold text-accent-orange mb-4 text-glow-orange uppercase">
-                AI ENGINEER • DATA SCIENCE
+              <div className="text-[10px] tracking-[0.4em] font-semibold text-yellow-500 mb-4 uppercase">
+                AI ENGINEER
               </div>
 
-              <h1 className="font-display font-black text-4xl md:text-5xl tracking-[0.15em] text-white uppercase mb-10 text-glow-white">
+              <h1 className="font-display font-black text-4xl md:text-5xl tracking-[0.2em] text-white uppercase mb-8">
                 SHIVAM PATHAK
               </h1>
 
               <button
                 onClick={handleEnterExperience}
-                className="group relative overflow-hidden px-8 py-4.5 rounded-full text-[10px] font-bold tracking-[0.25em] text-white border border-white/10 glass-panel hover:border-accent-cinematic/40 transition-all duration-500 active:scale-95 shadow-xl shadow-accent-cinematic/5 flex items-center space-x-2.5 cursor-pointer focus:outline-none"
+                className="group relative overflow-hidden px-7 py-3 rounded-lg text-[10px] font-bold tracking-[0.2em] text-white border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300 active:scale-98 flex items-center space-x-2 cursor-pointer focus:outline-none"
               >
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-accent-cinematic/20 to-accent-orange/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <Sparkles className="w-3.5 h-3.5 text-accent-orange animate-pulse" />
+                <Sparkles className="w-3.5 h-3.5 text-white/60" />
                 <span className="relative z-10">{"LET'S GO →"}</span>
               </button>
             </motion.div>
@@ -187,7 +186,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
         <div 
           className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-20"
           style={{
-            background: "radial-gradient(circle at center, rgba(124, 58, 237, 0.25) 0%, rgba(249, 115, 22, 0.12) 50%, transparent 100%)",
+            background: "radial-gradient(circle at center, rgba(109, 40, 217, 0.08) 0%, rgba(217, 119, 6, 0.03) 50%, transparent 100%)",
           }}
         />
 
@@ -197,7 +196,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
           loop
           playsInline
           onError={handleVideoError}
-          className="w-full h-full object-cover brightness-[0.5] scale-100 block"
+          className="w-full h-full object-cover brightness-[0.35] scale-100 block"
           style={{ 
             willChange: "transform, opacity",
             transform: "translate3d(0, 0, 0)",
@@ -226,7 +225,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
               className={`w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center text-white transition-all duration-300 focus:outline-none active:scale-90 cursor-pointer ${
                 isMuted
                   ? "bg-black/60 border-white/10 hover:bg-white/15"
-                  : "bg-accent-orange/90 border-accent-orange/40 hover:bg-accent-orange"
+                  : "bg-white text-black border-white hover:bg-white/90"
               }`}
               aria-label={isMuted ? "Unmute sound" : "Mute sound"}
             >

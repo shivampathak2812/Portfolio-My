@@ -79,7 +79,7 @@ export default function Navbar() {
           {/* CTA: Download Resume */}
           <div className="hidden md:block">
             <a
-              href="/resume/Shivam-Resume.pdf"
+              href="/resume/Resume_Shivam.pdf"
               download="Shivam_Pathak_Resume.pdf"
               className="relative overflow-hidden group inline-flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider text-white border border-white/10 glass-panel hover:border-accent-cinematic/50 transition-all duration-300 active:scale-95"
             >
@@ -134,7 +134,7 @@ export default function Navbar() {
                 className="pt-8 flex justify-center"
               >
                 <a
-                  href="/resume/Shivam-Resume.pdf"
+                  href="/resume/Resume_Shivam.pdf"
                   download="Shivam_Pathak_Resume.pdf"
                   onClick={() => setMobileMenuOpen(false)}
                   className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-sm font-semibold tracking-wider text-white border border-white/10 glass-panel"

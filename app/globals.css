@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0B0F19;
+  --background: #030712;
   --foreground: #FFFFFF;
-  --accent: #7C3AED;
-  --accent-orange: #F97316;
-  --accent-blue: #3B82F6;
+  --accent: #6D28D9;
+  --accent-orange: #D97706;
+  --accent-blue: #2563EB;
 }
 
 @theme {
@@ -14,14 +14,14 @@
   --color-accent-orange: var(--accent-orange);
   --color-accent-blue: var(--accent-blue);
   
-  --font-sans: "Outfit", "Inter", sans-serif;
-  --font-display: "Outfit", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Outfit", "Inter", sans-serif;
 }
 
 html, body {
-  background-color: #0B0F19;
+  background-color: #030712;
   color: #FFFFFF;
-  font-family: "Outfit", "Inter", sans-serif;
+  font-family: "Inter", sans-serif;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
@@ -36,13 +36,13 @@ html, body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0F19;
+  background: #030712;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
-  border: 2px solid #0B0F19;
+  border: 2px solid #030712;
   transition: all 0.3s ease;
 }
 
@@ -60,7 +60,7 @@ html, body {
   width: 200%;
   height: 200%;
   background: transparent url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E') repeat;
-  opacity: 0.022;
+  opacity: 0.008;
   pointer-events: none;
   z-index: 9999;
   animation: noiseAnimation 0.15s infinite;
@@ -89,8 +89,8 @@ html, body {
   pointer-events: none;
   background: radial-gradient(
     600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(124, 58, 237, 0.08),
-    rgba(59, 130, 246, 0.03) 40%,
+    rgba(109, 40, 217, 0.025),
+    rgba(37, 99, 235, 0.008) 40%,
     transparent 80%
   );
   z-index: 1;
@@ -120,37 +120,33 @@ html.lenis, html.lenis body {
 
 /* Premium Typography Soft Glows */
 .text-glow-accent {
-  text-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
+  text-shadow: 0 0 10px rgba(109, 40, 217, 0.1);
 }
 
 .text-glow-orange {
-  text-shadow: 0 0 20px rgba(249, 115, 22, 0.35);
+  text-shadow: 0 0 10px rgba(217, 119, 6, 0.1);
 }
 
 .text-glow-white {
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  text-shadow: none;
 }
 
 /* Glassmorphism Classes */
 .glass-panel {
-  background: rgba(13, 17, 28, 0.45);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(3, 7, 18, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .glass-panel-hover:hover {
-  background: rgba(13, 17, 28, 0.6);
-  border-color: rgba(124, 58, 237, 0.35);
-  box-shadow: 0 0 25px rgba(124, 58, 237, 0.15);
+  background: rgba(3, 7, 18, 0.5);
+  border-color: rgba(109, 40, 217, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   transform: translateY(-2px);
 }
 
 /* Animated Gradient Borders */
-.gradient-border-box {
-  position: relative;
-}
-
 .gradient-border-box::before {
   content: "";
   position: absolute;
@@ -160,7 +156,7 @@ html.lenis, html.lenis body {
   bottom: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(to right, rgba(124, 58, 237, 0.15), rgba(249, 115, 22, 0.15));
+  background: linear-gradient(to right, rgba(109, 40, 217, 0.08), rgba(217, 119, 6, 0.08));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -169,7 +165,7 @@ html.lenis, html.lenis body {
 }
 
 .gradient-border-box:hover::before {
-  background: linear-gradient(to right, rgba(124, 58, 237, 0.8), rgba(249, 115, 22, 0.8));
+  background: linear-gradient(to right, rgba(109, 40, 217, 0.3), rgba(217, 119, 6, 0.3));
 }
 
 /* ==========================================================================
@@ -204,9 +200,8 @@ html.lenis, html.lenis body {
 }
 
 .section-spotlight.highlight-active::before {
-  border-color: rgba(124, 58, 237, 0.45);
-  box-shadow: 0 0 40px rgba(124, 58, 237, 0.2), 
-              inset 0 0 30px rgba(124, 58, 237, 0.05);
+  border-color: rgba(109, 40, 217, 0.2);
+  box-shadow: 0 0 20px rgba(109, 40, 217, 0.05);
   opacity: 1;
 }
 
@@ -284,20 +279,18 @@ html.lenis, html.lenis body {
 
 /* Premium specialized chatbot container glassmorphism */
 .chatbot-panel {
-  background: rgba(10, 14, 23, 0.72);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(3, 7, 18, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 
-    0 15px 45px rgba(0, 0, 0, 0.65), 
-    0 0 40px rgba(124, 58, 237, 0.05);
+    0 12px 40px rgba(0, 0, 0, 0.7);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .chatbot-panel:hover {
   box-shadow: 
-    0 18px 50px rgba(0, 0, 0, 0.75), 
-    0 0 50px rgba(124, 58, 237, 0.08);
+    0 16px 48px rgba(0, 0, 0, 0.8);
 }
 
 

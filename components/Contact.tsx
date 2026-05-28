@@ -17,20 +17,20 @@ export default function Contact() {
   const socialLinks = [
     {
       name: "LINKEDIN",
-      icon: <Linkedin className="w-5 h-5 text-accent-cinematic" />,
+      icon: <Linkedin className="w-5 h-5 text-white/70" />,
       url: "https://linkedin.com/in/shivam-pathak-9a76ba246",
       label: "Connect professionally",
     },
     {
       name: "GITHUB",
-      icon: <Github className="w-5 h-5 text-white" />,
+      icon: <Github className="w-5 h-5 text-white/70" />,
       url: "https://github.com/shivampathak2812",
       label: "View open-source files",
     },
     {
       name: "RESUME",
-      icon: <FileText className="w-5 h-5 text-accent-orange" />,
-      url: "/resume/Shivam-Resume.pdf",
+      icon: <FileText className="w-5 h-5 text-white/70" />,
+      url: "/resume/Resume_Shivam.pdf",
       download: "Shivam_Pathak_Resume.pdf",
       label: "Download offline PDF",
     },
@@ -62,8 +62,8 @@ export default function Contact() {
       className="relative w-full py-28 md:py-36 bg-background-cinematic overflow-hidden px-6 md:px-12"
     >
       {/* Dynamic Background Light Rings */}
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent-cinematic/[0.015] blur-[150px] pointer-events-none" />
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-accent-orange/[0.015] blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent-cinematic/[0.005] blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-accent-orange/[0.001] blur-[150px] pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto">
         <motion.div
@@ -76,7 +76,7 @@ export default function Contact() {
           {/* Section Indicator */}
           <motion.div
             variants={itemVariants}
-            className="text-[10px] tracking-[0.3em] font-bold text-accent-orange mb-3 flex items-center space-x-2 text-glow-orange"
+            className="text-[10px] tracking-[0.3em] font-semibold text-white/40 mb-3 flex items-center space-x-2"
           >
             <Terminal className="w-3.5 h-3.5" />
             <span>04 / CONNECT</span>
@@ -87,7 +87,7 @@ export default function Contact() {
             variants={itemVariants}
             className="font-display font-bold text-4xl md:text-6xl leading-tight text-white uppercase tracking-wide mb-6"
           >
-            Initiate <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-cinematic to-accent-orange">Sequence</span>.
+            Initiate <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Sequence</span>.
           </motion.h2>
 
           <motion.p
@@ -100,11 +100,11 @@ export default function Contact() {
           {/* Core Copy-to-Clipboard Email Dashboard */}
           <motion.div
             variants={itemVariants}
-            className="relative w-full max-w-md p-2.5 rounded-[22px] glass-panel border border-white/10 mb-16 shadow-xl shadow-accent-cinematic/5"
+            className="relative w-full max-w-md p-2.5 rounded-3xl glass-panel border border-white/5 mb-16 shadow-xl shadow-black/40"
           >
-            <div className="relative w-full h-full rounded-[14px] bg-[#070910] p-4 flex items-center justify-between border border-white/5">
+            <div className="relative w-full h-full rounded-2xl bg-[#030712] p-4 flex items-center justify-between border border-white/5">
               <div className="flex items-center space-x-3 text-left">
-                <div className="w-8 h-8 rounded-full bg-accent-cinematic/10 border border-accent-cinematic/20 flex items-center justify-center text-accent-cinematic">
+                <div className="w-8 h-8 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-white/70">
                   <Send className="w-3.5 h-3.5" />
                 </div>
                 <div>
@@ -116,7 +116,7 @@ export default function Contact() {
               {/* Action: Copy glass button */}
               <button
                 onClick={handleCopyEmail}
-                className="px-4 py-2.5 rounded-lg text-[10px] font-bold tracking-wider text-white border border-white/10 glass-panel hover:border-accent-cinematic/50 hover:bg-accent-cinematic/15 transition-all duration-300 flex items-center space-x-2 active:scale-95 cursor-pointer focus:outline-none"
+                className="px-4 py-2.5 rounded-lg text-[10px] font-bold tracking-wider text-white border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center space-x-2 active:scale-98 cursor-pointer focus:outline-none"
               >
                 {copied ? (
                   <>
@@ -145,11 +145,11 @@ export default function Contact() {
                 download={link.download}
                 target={link.download ? undefined : "_blank"}
                 rel={link.download ? undefined : "noopener noreferrer"}
-                whileHover={{ y: -5 }}
-                className="relative rounded-2xl glass-panel border border-white/5 p-6 flex flex-col items-center justify-center hover:border-accent-cinematic/30 transition-all duration-500 group select-none cursor-pointer"
+                whileHover={{ y: -2 }}
+                className="relative rounded-2xl glass-panel border border-white/5 p-6 flex flex-col items-center justify-center hover:border-white/15 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-500 group select-none cursor-pointer"
               >
                 {/* Tile Icon with pulse anim on hover */}
-                <div className="w-11 h-11 rounded-xl bg-white/[0.02] border border-white/[0.05] group-hover:bg-white/[0.04] group-hover:border-accent-cinematic/30 flex items-center justify-center mb-4 transition-all duration-300">
+                <div className="w-11 h-11 rounded-xl bg-white/[0.02] border border-white/[0.05] group-hover:bg-white/[0.04] group-hover:border-white/15 flex items-center justify-center mb-4 transition-all duration-300">
                   {link.icon}
                 </div>
 

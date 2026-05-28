@@ -15,7 +15,7 @@ export default function Particles() {
 
     // 1. Adaptive Particle Density (Mobile vs Desktop)
     const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 120 : 350;
+    const particleCount = isMobile ? 40 : 110;
 
     // 2. Setup Three.js Scene, Camera, Renderer
     const scene = new THREE.Scene();
@@ -46,10 +46,9 @@ export default function Particles() {
 
       // Draw radial white & warm orange glow
       const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-      gradient.addColorStop(0, "rgba(255, 255, 255, 1)");          // Intense white core
-      gradient.addColorStop(0.2, "rgba(255, 240, 220, 0.8)");       // Soft warm white ring
-      gradient.addColorStop(0.5, "rgba(249, 115, 22, 0.25)");       // Orange flare halo
-      gradient.addColorStop(0.8, "rgba(124, 58, 237, 0.05)");       // Violet fringe
+      gradient.addColorStop(0, "rgba(255, 255, 255, 0.8)");          // Soft white core
+      gradient.addColorStop(0.3, "rgba(240, 244, 255, 0.5)");       // Silver ring
+      gradient.addColorStop(0.7, "rgba(217, 119, 6, 0.06)");        // Quiet gold halo
       gradient.addColorStop(1, "rgba(0, 0, 0, 0)");                 // Fade-out
 
       ctx.fillStyle = gradient;
@@ -82,9 +81,9 @@ export default function Particles() {
       scales[i] = Math.random() * 1.5 + 0.3;
 
       // Floating drift speed
-      speeds[i * 3] = (Math.random() - 0.5) * 0.015;        // X drift
-      speeds[i * 3 + 1] = (Math.random() * 0.02) + 0.005;   // Y upward drift
-      speeds[i * 3 + 2] = (Math.random() - 0.5) * 0.01;     // Z drift
+      speeds[i * 3] = (Math.random() - 0.5) * 0.005;        // Slower X drift
+      speeds[i * 3 + 1] = (Math.random() * 0.006) + 0.002;   // Slower Y upward drift
+      speeds[i * 3 + 2] = (Math.random() - 0.5) * 0.003;     // Slower Z drift
 
       randomOffsets[i] = Math.random() * Math.PI * 2;
     }
