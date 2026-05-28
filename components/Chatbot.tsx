@@ -571,7 +571,7 @@ export default function Chatbot() {
   return (
     <>
       {/* 1. Cinematic Floating Pulse Button (Bottom-Right) */}
-      <div className="fixed bottom-8 right-8 z-[9999] flex flex-col items-end space-y-3">
+      <div className="fixed bottom-[clamp(1rem,3vh,2rem)] right-[clamp(1rem,3vw,2rem)] z-[9999] flex flex-col items-end space-y-3">
         <AnimatePresence>
           {!isOpen && (
             <motion.button
@@ -632,7 +632,7 @@ export default function Chatbot() {
               className={`fixed z-[99999] flex flex-col overflow-hidden shadow-2xl overscroll-contain chatbot-panel transition-all duration-300 ease-in-out ${
                 isMaximized
                   ? "inset-0 w-full h-full md:rounded-none rounded-none"
-                  : "inset-0 md:inset-auto md:bottom-8 md:right-8 w-full h-[100dvh] md:w-[370px] md:h-[540px] md:max-h-[calc(100vh-6rem)] md:rounded-[24px] rounded-none"
+                  : "inset-0 md:inset-auto md:bottom-[clamp(1rem,3vh,2rem)] md:right-[clamp(1rem,3vw,2rem)] w-full h-[100dvh] md:w-[370px] md:h-[540px] md:max-h-[calc(100dvh-6rem)] md:rounded-[24px] rounded-none"
               }`}
             >
               {/* Ambient Background Light Leaks Inside Chat */}

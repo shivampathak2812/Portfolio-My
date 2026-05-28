@@ -176,7 +176,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="relative w-full py-28 md:py-36 bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
+      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Atmospheric glow blobs */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-accent-cinematic/[0.02] blur-[150px] pointer-events-none z-0" />
@@ -188,7 +188,7 @@ export default function Skills() {
             <Terminal className="w-3.5 h-3.5" />
             <span>02 / SKILL MATRIX</span>
           </div>
-          <h2 className="font-display font-bold text-3xl md:text-5xl leading-tight text-white uppercase tracking-wide">
+          <h2 className="font-display font-bold fluid-section-title leading-tight text-white uppercase tracking-wide">
             Expertise & <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Technologies</span>.
           </h2>
         </div>

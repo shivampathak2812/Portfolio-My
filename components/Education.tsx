@@ -51,7 +51,7 @@ export default function Education() {
   return (
     <section
       id="education"
-      className="relative w-full py-28 md:py-36 bg-[#030712] overflow-hidden px-6 md:px-12 border-b border-white/5"
+      className="relative w-full fluid-py-section bg-[#030712] overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Background Decorative Ambient Blobs - Quiet Luxury Desaturated Blur */}
       <div className="absolute top-1/4 left-0 w-80 h-80 rounded-full bg-white/[0.005] blur-[120px] pointer-events-none z-0" />
@@ -79,7 +79,7 @@ export default function Education() {
             {/* Editorial Title - Sharp Silver/White */}
             <motion.h2
               variants={itemVariants}
-              className="font-display font-bold text-3xl md:text-5xl leading-tight text-white uppercase tracking-wide mb-8"
+              className="font-display font-bold fluid-section-title leading-tight text-white uppercase tracking-wide mb-8"
             >
               Education & <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/60">Credentials</span>.

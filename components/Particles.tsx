@@ -114,15 +114,21 @@ export default function Particles() {
       mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
     };
 
-    const handleResize = () => {
-      if (!container || !camera || !renderer) return;
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
-    };
+    // Use ResizeObserver instead of window resize listener to support zoom & high-DPI scaling
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (!entries || entries.length === 0 || !camera || !renderer || !container) return;
+      const entry = entries[0];
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) {
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      }
+    });
 
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("resize", handleResize);
+    resizeObserver.observe(container);
 
     // 7. Render Loop with Sine-Wave Oscillations
     const clock = new THREE.Clock();
@@ -174,7 +180,7 @@ export default function Particles() {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
 
       // Clean buffer objects
       geometry.dispose();

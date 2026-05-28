@@ -28,7 +28,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative w-full py-28 md:py-36 bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
+      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Background Decorative Ambient Blobs */}
       <div className="absolute top-1/4 right-0 w-80 h-80 rounded-full bg-accent-cinematic/[0.015] blur-[100px] pointer-events-none z-0" />
@@ -87,7 +87,7 @@ export default function About() {
             {/* Editorial Title */}
             <motion.h2
               variants={itemVariants}
-              className="font-display font-bold text-3xl md:text-5xl leading-tight text-white mb-6 uppercase tracking-wide"
+              className="font-display font-bold fluid-section-title leading-tight text-white mb-6 uppercase tracking-wide"
             >
               Engineering <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/60">Intelligence</span>.
             </motion.h2>

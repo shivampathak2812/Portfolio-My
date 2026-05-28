@@ -293,4 +293,68 @@ html.lenis, html.lenis body {
     0 16px 48px rgba(0, 0, 0, 0.8);
 }
 
+/* ==========================================================================
+   Responsive Scaling, Zoom Stabilization & Clamp Utility Systems
+   ========================================================================== */
+
+/* Universal horizontal scroll preventer */
+.safe-overflow-container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Fluid responsive headers */
+.fluid-hero-title {
+  font-size: clamp(2.5rem, 8vw, 7.5rem) !important;
+}
+
+.fluid-section-title {
+  font-size: clamp(1.75rem, 5vw, 3.25rem) !important;
+}
+
+.fluid-card-title {
+  font-size: clamp(0.9rem, 2vw, 1.25rem) !important;
+}
+
+.fluid-body-text {
+  font-size: clamp(0.75rem, 1.2vw, 1rem) !important;
+}
+
+.fluid-meta-text {
+  font-size: clamp(0.6rem, 1vw, 0.8rem) !important;
+}
+
+/* Dynamic height safe boundaries */
+.min-h-dynamic-screen {
+  min-height: 100dvh;
+  min-height: 100svh;
+}
+
+/* Fluid padding & margins */
+.fluid-py-section {
+  padding-top: clamp(4rem, 10vh, 9rem) !important;
+  padding-bottom: clamp(4rem, 10vh, 9rem) !important;
+}
+
+.fluid-px-container {
+  padding-left: clamp(1rem, 5vw, 4rem) !important;
+  padding-right: clamp(1rem, 5vw, 4rem) !important;
+}
+
+.fluid-gap-grid {
+  gap: clamp(1rem, 3vw, 2.5rem) !important;
+}
+
+/* Zoom stabilization overrides for high-DPI scaling */
+@media screen and (max-height: 700px) {
+  .fluid-py-section {
+    padding-top: clamp(2.5rem, 6vh, 4rem) !important;
+    padding-bottom: clamp(2.5rem, 6vh, 4rem) !important;
+  }
+  .hero-scroll-indicator {
+    display: none !important;
+  }
+}
+
+
 

@@ -64,7 +64,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative w-full py-28 md:py-36 bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
+      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Background Ambient Glows - Quiet Desaturated Blur */}
       <div className="absolute top-1/3 left-0 w-80 h-80 rounded-full bg-white/[0.005] blur-[120px] pointer-events-none" />
@@ -77,7 +77,7 @@ export default function Experience() {
             <Terminal className="w-3.5 h-3.5" />
             <span>03 / CHRONOLOGY</span>
           </div>
-          <h2 className="font-display font-bold text-3xl md:text-5xl leading-tight text-white uppercase tracking-wide">
+          <h2 className="font-display font-bold fluid-section-title leading-tight text-white uppercase tracking-wide">
             Professional <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Experience</span>.
           </h2>
         </div>

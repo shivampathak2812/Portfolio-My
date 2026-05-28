@@ -74,64 +74,87 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
     }
   };
 
-  // 2. High-Performance Scroll-Driven GSAP Scrub Transition
+  // 2. High-Performance Scroll-Driven GSAP Scrub Transition with responsive matchMedia & ResizeObserver
   useEffect(() => {
     if (!hasEntered || !spacerRef.current || !videoContainerRef.current || !videoRef.current) return;
 
     const video = videoRef.current;
     const portfolio = portfolioRef.current;
+    const spacer = spacerRef.current;
 
-    // Pin spacing must be false to let next section slide up naturally
-    const scrollTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: spacerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-        pin: videoContainerRef.current,
-        pinSpacing: false,
-        onUpdate: (self) => {
-          // Dynamic volume linear decay based on scroll progress
-          if (video && !isMuted) {
-            const currentVolume = Math.max(0, Math.min(1, 1 - self.progress));
-            video.volume = currentVolume;
-            
-            // Sync muted state visually if volume hits 0
-            if (currentVolume === 0 && !video.muted) {
-              video.muted = true;
-            } else if (currentVolume > 0 && video.muted) {
-              video.muted = false;
+    // Use GSAP's matchMedia for responsive animations and scaling limits
+    const mm = gsap.matchMedia();
+
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      const { isDesktop } = context.conditions as any;
+
+      // Pin spacing must be false to let next section slide up naturally
+      const scrollTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: spacer,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+          pin: videoContainerRef.current,
+          pinSpacing: false,
+          onUpdate: (self) => {
+            // Dynamic volume linear decay based on scroll progress
+            if (video && !isMuted) {
+              const currentVolume = Math.max(0, Math.min(1, 1 - self.progress));
+              video.volume = currentVolume;
+              
+              // Sync muted state visually if volume hits 0
+              if (currentVolume === 0 && !video.muted) {
+                video.muted = true;
+              } else if (currentVolume > 0 && video.muted) {
+                video.muted = false;
+              }
             }
-          }
+          },
         },
-      },
-    });
+      });
 
-    // Scrub visual transitions: Video fades and zooms out instantly in the first 40% of scroll
-    scrollTimeline.to(video, {
-      scale: 1.05,
-      opacity: 0,
-      duration: 0.4,
-      ease: "power1.out",
-    }, 0);
-
-    // Portfolio fades in completely from 5% to 45% of scroll (almost instantly!)
-    if (portfolio) {
-      // Set initial state: locked from clicks
-      gsap.set(portfolio, { opacity: 0, pointerEvents: "none" });
-
-      scrollTimeline.to(portfolio, {
-        opacity: 1,
-        pointerEvents: "auto",
+      // Scrub visual transitions: scale is clamped and moderated based on viewport aspect ratio
+      scrollTimeline.to(video, {
+        scale: isDesktop ? 1.05 : 1.015,
+        opacity: 0,
         duration: 0.4,
         ease: "power1.out",
-      }, 0.05);
+      }, 0);
+
+      // Portfolio fades in completely from 5% to 45% of scroll (almost instantly!)
+      if (portfolio) {
+        // Set initial state: locked from clicks
+        gsap.set(portfolio, { opacity: 0, pointerEvents: "none" });
+
+        scrollTimeline.to(portfolio, {
+          opacity: 1,
+          pointerEvents: "auto",
+          duration: 0.4,
+          ease: "power1.out",
+        }, 0.05);
+      }
+    });
+
+    // Highly performant ResizeObserver to recalculate ScrollTrigger markers on browser zoom shifts
+    const resizeObserver = new ResizeObserver(() => {
+      ScrollTrigger.refresh();
+    });
+    
+    resizeObserver.observe(spacer);
+    if (videoContainerRef.current) {
+      resizeObserver.observe(videoContainerRef.current);
     }
 
-    // Clean up ScrollTrigger on unmount
+    // Clean up ScrollTrigger, matchMedia context and ResizeObserver on unmount
     return () => {
+      resizeObserver.disconnect();
+      mm.revert();
       ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.trigger === spacerRef.current) {
+        if (trigger.trigger === spacer) {
           trigger.kill();
         }
       });

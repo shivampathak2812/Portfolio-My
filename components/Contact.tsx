@@ -59,7 +59,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative w-full py-28 md:py-36 bg-background-cinematic overflow-hidden px-6 md:px-12"
+      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12"
     >
       {/* Dynamic Background Light Rings */}
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent-cinematic/[0.005] blur-[150px] pointer-events-none" />
@@ -85,7 +85,7 @@ export default function Contact() {
           {/* Outro Typography */}
           <motion.h2
             variants={itemVariants}
-            className="font-display font-bold text-4xl md:text-6xl leading-tight text-white uppercase tracking-wide mb-6"
+            className="font-display font-bold fluid-section-title leading-tight text-white uppercase tracking-wide mb-6"
           >
             Initiate <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Sequence</span>.
           </motion.h2>

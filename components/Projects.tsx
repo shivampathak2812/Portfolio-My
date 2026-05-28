@@ -219,7 +219,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative w-full py-20 md:py-32 bg-background-cinematic border-b border-white/5 overflow-hidden"
+      className="relative w-full fluid-py-section bg-background-cinematic border-b border-white/5 overflow-hidden"
     >
       {/* Decorative Atmosphere Glow Blobs */}
       <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-accent-cinematic/[0.012] blur-[150px] pointer-events-none" />
@@ -233,7 +233,7 @@ export default function Projects() {
             <FolderGit2 className="w-3.5 h-3.5" />
             <span>05 / PORTFOLIO</span>
           </div>
-          <h2 className="font-display font-bold text-2xl md:text-4xl leading-tight text-white uppercase tracking-wide">
+          <h2 className="font-display font-bold fluid-section-title leading-tight text-white uppercase tracking-wide">
             Featured <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Projects</span>.
           </h2>
         </div>

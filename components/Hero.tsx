@@ -48,7 +48,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-start bg-transparent overflow-hidden px-6 md:px-12 lg:px-24"
+      className="relative w-full min-h-[100svh] min-h-[600px] py-24 md:py-32 flex items-center justify-start bg-transparent overflow-hidden px-6 md:px-12 lg:px-24"
     >
       {/* LAYER 1: WebGL Floating Cinematic Particles Canvas Overlay */}
       <div className="absolute inset-0 w-full h-full z-15 pointer-events-none">
@@ -66,7 +66,7 @@ export default function Hero() {
         </div>
 
         {/* Stacked Giant Easing Name */}
-        <h1 className="font-display font-black text-6xl md:text-8xl xl:text-9xl leading-[0.9] tracking-tight uppercase mb-6 flex flex-col">
+        <h1 className="font-display font-black fluid-hero-title leading-[0.9] tracking-tight uppercase mb-6 flex flex-col">
           <span className="block overflow-hidden pb-1">
             <span ref={title1Ref} className="block text-white">
               SHIVAM
@@ -85,7 +85,7 @@ export default function Hero() {
         {/* Subtitle */}
         <p
           ref={subtitleRef}
-          className="text-sm md:text-base lg:text-lg text-white/70 max-w-xl mb-10 leading-relaxed font-light"
+          className="fluid-body-text text-white/70 max-w-xl mb-10 leading-relaxed font-light"
         >
           Building intelligent systems, modern web experiences, and scalable AI-powered products.
         </p>
@@ -124,7 +124,7 @@ export default function Hero() {
       <div
         ref={scrollIndicatorRef}
         onClick={scrollToAbout}
-        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 cursor-pointer flex flex-col items-center group select-none"
+        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 cursor-pointer flex flex-col items-center group select-none hero-scroll-indicator"
       >
         <span className="text-[9px] tracking-[0.25em] font-medium text-white/40 group-hover:text-white transition-colors duration-300 mb-2.5">
           SCROLL
