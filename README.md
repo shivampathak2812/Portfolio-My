@@ -24,22 +24,27 @@
 
 *   **🖤 Minimal Premium Obsidian Redesign:** Stripped noisy neons, text glows, and aggressive animations in favor of a luxury visual language inspired by Stripe, Apple, Linear, and Vercel:
     - *Obsidian Theme:* Implemented a deep, desaturated dark background (#030712) with elegant obsidian/silver visual hierarchies.
-    - *Strategic Stillness:* Toned down fast bounce indicators, rotation vectors, and grid loops (compress, laser scans, analytics trucks) to achieve quiet spatial balance, prioritizing focus and readability.
+    - *Strategic Stillness:* Toned down fast bounce indicators, rotation vectors, and grid loops to achieve quiet spatial balance, prioritizing focus and readability.
 *   **🤖 AVIX — Intelligent Chatbot & Branding Concierge:** Features complete custom branding and advanced generation controls:
     - *Transparent Custom Wing Logo:* Styled with a premium dark obsidian toggle button (`bg-[#030712] border-white/10`) to provide high-fidelity contrast for the custom transparent AVIX logo.
-    - *Fullscreen Maximization:* Toggles seamlessly between floating bubble bounds and fullscreen dimensions with smooth CSS layout transitions (`transition-all duration-300`).
-    - *Instant Fetch & Stream Stop:* Pauses active network fetch retry loops (via a master `AbortController` ref) and freezes typewriter stream intervals instantly, preserving text exactingly.
+    - *Fullscreen Maximization:* Toggles seamlessly between floating bubble bounds and fullscreen dimensions with smooth CSS layout transitions.
+    - *Instant Fetch & Stream Stop:* Pauses active network fetch retry loops (via a master `AbortController` ref) and freezes typewriter stream intervals instantly.
+    - *Ask AVIX Branding:* Custom prompt and placeholder alignment (`"Ask AVIX..."`) to unify the assistant's persona.
+*   **⚡ Silky-Smooth Mobile Performance Overhaul:** Adaptive rendering logic that scales features dynamically to maximize frame rates on smaller screens:
+    - *WebGL Dynamic Scaling:* Throttles Three.js particle counts (110 → 20) and caps `devicePixelRatio` to 1 on mobile to protect touch devices from GPU overhead.
+    - *Page Visibility API:* Pauses the WebGL render loop completely when the browser tab is inactive, preserving CPU cycles and battery.
+    - *Optimized Blurs & Preloads:* Capped heavy CSS backdrop blurs (8px → 3px) and deferred background video loading to prevent layout reflows on mobile.
+*   **🎓 Graduated B.Tech Credentials (2022 - 2025):** Fully synchronized the RAG corpus database, Chroma vector stores, local fallback query maps, and frontend panel grids to present up-to-date academic timelines:
+    - *Status:* Bachelor of Technology (B.Tech) in Computer Science and Engineering completed in **June 2025** from **Graphic Era Hill University, Haldwani** with a **6.88 CGPA**.
 *   **🧠 Robust Fuzzy NLP Local RAG Engine:** Built a resilient offline client matching engine:
     - *Spellcheck Correction:* Automatically normalizes user typos (e.g. `proejct` -> `project`, `skillz` -> `skill`, `educaton` -> `education`).
     - *Singular/Plural Stemming:* Maps singular and plural nouns to single common roots so both `"projects"` and `"project"` match flawlessly.
-    - *Token boundary matching:* Analyzes phrases on word boundaries, preventing false-positive greeting matches (e.g., matching the greeting `"hi"` inside the word `"his"`).
-*   **🎬 Cinematic Entry Splash (`LET'S GO →`):** Clean entrance splash screen featuring a crisp tagline, a sleek rectangular entrance CTA, and desaturated, elegant layouts.
-- **✨ Yellow Tagline Refinements:** Colored the main tagline label `"AI ENGINEER"` in a rich, highly professional yellow (`text-yellow-500`) on both the splash screen and main Hero layouts.
+    - *Token boundary matching:* Analyzes phrases on word boundaries, preventing false-positive greeting matches.
+*   **🎬 Cinematic Entry Splash (`LET'S GO →`):** Clean entrance splash screen featuring a tagline, a sleek rectangular entrance CTA, and desaturated, elegant layouts.
+*   **✨ Yellow Tagline Refinements:** Colored the main tagline label `"AI ENGINEER"` in a rich, highly professional yellow (`text-yellow-500`) on both the splash screen and main Hero layouts.
 *   **✨ Three.js WebGL Bokeh Canvas:** Renders desaturated, slow-moving radial white and silver bokeh spheres, depth parallax tracking mouse inputs seamlessly at a solid 60 FPS.
 *   **💻 7-Featured Projects Ledger:** Minimal desaturated project grid showing custom, static vector SVGs representing databases, API connectors, and logistics charts.
-*   **⚙️ Automated CI/CD Pipeline:** Integrated a production-ready GitHub Actions workflow (`.github/workflows/ci.yml`) that validates changes on every push and PR:
-    - *Frontend CI:* Installs dependencies, runs ESLint code checks, checks TypeScript type safety (`tsc`), and compiles a clean Next.js production build.
-    - *Backend CI:* Sets up Python, installs dependency requirements, and validates syntax/compilation on all core python modules.
+*   **⚙️ Zero-Error CI/CD Pipeline Purity:** Fully cleaned all core React/Next.js/TypeScript modules to satisfy strict code rules (no-explicit-any, hoisting, state hooks in effects, unescaped HTML entities), guaranteeing **100% build-and-lint purity** on GitHub Actions workflows.
 
 ---
 
