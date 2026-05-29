@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
-import Particles from "./Particles";
+import dynamic from "next/dynamic";
+const Particles = dynamic(() => import("./Particles"), { ssr: false });
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);

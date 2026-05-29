@@ -23,6 +23,9 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
   const [isMuted, setIsMuted] = useState(false);
   const [videoSrc, setVideoSrc] = useState("/videos/hero-video.mp4");
 
+  // Detect mobile/touch for adaptive optimizations
+  const isMobileOrTouch = typeof window !== "undefined" && (window.innerWidth < 768 || navigator.maxTouchPoints > 0);
+
   const FALLBACK_VIDEO_URL = "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c05427d2c35788129dec292869e5d262&profile_id=139&oauth2_token_id=57447761";
 
   const handleVideoError = () => {
@@ -139,9 +142,11 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
       }
     });
 
-    // Highly performant ResizeObserver to recalculate ScrollTrigger markers on browser zoom shifts
+    // Debounced ResizeObserver to recalculate ScrollTrigger markers without excessive reflows
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const resizeObserver = new ResizeObserver(() => {
-      ScrollTrigger.refresh();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
     });
     
     resizeObserver.observe(spacer);
@@ -151,6 +156,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
 
     // Clean up ScrollTrigger, matchMedia context and ResizeObserver on unmount
     return () => {
+      clearTimeout(resizeTimer);
       resizeObserver.disconnect();
       mm.revert();
       ScrollTrigger.getAll().forEach((trigger) => {
@@ -218,6 +224,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
           src={videoSrc}
           loop
           playsInline
+          preload={isMobileOrTouch ? "metadata" : "auto"}
           onError={handleVideoError}
           className="w-full h-full object-cover brightness-[0.35] scale-100 block"
           style={{ 
@@ -236,7 +243,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
             {/* Play/Pause Button */}
             <button
               onClick={togglePlay}
-              className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/10 hover:bg-accent-cinematic/70 hover:border-accent-cinematic/40 flex items-center justify-center text-white transition-all duration-300 focus:outline-none active:scale-90 cursor-pointer"
+              className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm md:backdrop-blur-md border border-white/10 hover:bg-accent-cinematic/70 hover:border-accent-cinematic/40 flex items-center justify-center text-white transition-all duration-300 focus:outline-none active:scale-90 cursor-pointer"
               aria-label={isPlaying ? "Pause video" : "Play video"}
             >
               {isPlaying ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current ml-0.5" />}

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { GraduationCap, Award, BookOpen, Trophy, Terminal, Calendar, CheckCircle2 } from "lucide-react";
 
@@ -25,7 +25,7 @@ export default function Education() {
     },
   };
 
-  const achievements = [
+  const achievements = useMemo(() => [
     {
       title: "TCS National Qualifier Test (NQT) 2025",
       desc: "Shortlisted for the Ninja role interview, qualifying in the Top 10% of candidates nationwide.",
@@ -46,7 +46,7 @@ export default function Education() {
       desc: "Represented Uttarakhand state at the National Basketball Championship, demonstrating excellent teamwork, leadership, and athletic execution under pressure.",
       icon: <Trophy className="w-4 h-4 text-white/60" />,
     },
-  ];
+  ], []);
 
   return (
     <section

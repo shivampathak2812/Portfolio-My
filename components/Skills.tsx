@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Brain, Database, Server, Settings, Terminal } from "lucide-react";
+
+// Detect touch device once at module level
+const IS_TOUCH = typeof navigator !== "undefined" && navigator.maxTouchPoints > 0;
 
 interface SkillItem {
   name: string;
@@ -20,7 +23,8 @@ function SkillCard({ category, idx }: { category: SkillCategory; idx: number }) 
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    // Skip expensive coordinate math on touch screens — no visible spotlight anyway
+    if (IS_TOUCH || !cardRef.current) return;
     const card = cardRef.current;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -104,8 +108,12 @@ function SkillCard({ category, idx }: { category: SkillCategory; idx: number }) 
   );
 }
 
+// Memoize SkillCard to prevent unnecessary re-renders
+const MemoizedSkillCard = React.memo(SkillCard);
+
 export default function Skills() {
-  const categories: SkillCategory[] = [
+  // Memoize static categories data to prevent re-creation on each render
+  const categories: SkillCategory[] = useMemo(() => [
     {
       title: "AI, ML & GenAI",
       icon: <Brain className="w-5 h-5" />,
@@ -160,7 +168,7 @@ export default function Skills() {
         { name: "Power BI & Excel" },
       ],
     },
-  ];
+  ], []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -202,7 +210,7 @@ export default function Skills() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {categories.map((category, idx) => (
-            <SkillCard key={category.title} category={category} idx={idx} />
+            <MemoizedSkillCard key={category.title} category={category} idx={idx} />
           ))}
         </motion.div>
       </div>

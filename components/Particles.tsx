@@ -13,9 +13,11 @@ export default function Particles() {
     const container = containerRef.current;
     const canvas = canvasRef.current;
 
-    // 1. Adaptive Particle Density (Mobile vs Desktop)
+    // 1. Adaptive Particle Density (Touch/Mobile vs Desktop)
     const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 40 : 110;
+    const isTouch = typeof navigator !== "undefined" && navigator.maxTouchPoints > 0;
+    const isMobileOrTouch = isMobile || isTouch;
+    const particleCount = isMobileOrTouch ? 20 : 110;
 
     // 2. Setup Three.js Scene, Camera, Renderer
     const scene = new THREE.Scene();
@@ -30,11 +32,11 @@ export default function Particles() {
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       alpha: true,
-      antialias: true,
+      antialias: !isMobileOrTouch, // Disable antialiasing on mobile to save GPU cycles
       powerPreference: "high-performance",
     });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(isMobileOrTouch ? 1 : Math.min(window.devicePixelRatio, 2));
 
     // 3. Programmatic Glowing Bokeh Texture Creator
     const createGlowTexture = () => {
@@ -108,7 +110,9 @@ export default function Particles() {
     // 6. Camera Mouse-follow Inertia & Resize State
     const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
 
+    // Disable mouse parallax entirely on touch devices to save CPU
     const handleMouseMove = (e: MouseEvent) => {
+      if (isMobileOrTouch) return;
       // Normalize coordinate between -1 and 1
       mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -123,28 +127,54 @@ export default function Particles() {
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(isMobileOrTouch ? 1 : Math.min(window.devicePixelRatio, 2));
       }
     });
 
-    window.addEventListener("mousemove", handleMouseMove);
+    // Only bind mousemove on non-touch devices
+    if (!isMobileOrTouch) {
+      window.addEventListener("mousemove", handleMouseMove);
+    }
     resizeObserver.observe(container);
 
-    // 7. Render Loop with Sine-Wave Oscillations
+    // 7. Page Visibility API — pause render loop when tab is hidden (saves GPU & battery)
+    let isTabVisible = true;
+    const handleVisibilityChange = () => {
+      isTabVisible = document.visibilityState === "visible";
+      if (isTabVisible) {
+        // Reset clock to prevent large delta jumps on resume
+        clock.start();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // 8. Render Loop with Sine-Wave Oscillations + mobile throttle
     const clock = new THREE.Clock();
     let animationFrameId: number;
+    // On mobile, throttle to ~30fps (every other frame) to halve GPU draw calls
+    let frameCount = 0;
+    const frameSkip = isMobileOrTouch ? 2 : 1;
 
     const animate = () => {
+      animationFrameId = requestAnimationFrame(animate);
+
+      // Skip rendering entirely when the tab is not visible
+      if (!isTabVisible) return;
+
+      // Throttle rendering on mobile — skip every other frame
+      frameCount++;
+      if (frameCount % frameSkip !== 0) return;
+
       const elapsedTime = clock.getElapsedTime();
 
-      // Slow camera inertia tracking (lerping)
-      mouse.x += (mouse.targetX - mouse.x) * 0.04;
-      mouse.y += (mouse.targetY - mouse.y) * 0.04;
-
-      // Gentle camera parallax movement
-      camera.position.x = mouse.x * 2.5;
-      camera.position.y = mouse.y * 2.0;
-      camera.lookAt(scene.position);
+      // Slow camera inertia tracking (lerping) — desktop only
+      if (!isMobileOrTouch) {
+        mouse.x += (mouse.targetX - mouse.x) * 0.04;
+        mouse.y += (mouse.targetY - mouse.y) * 0.04;
+        camera.position.x = mouse.x * 2.5;
+        camera.position.y = mouse.y * 2.0;
+        camera.lookAt(scene.position);
+      }
 
       // Particle physics: float, sine drift, loop
       const positionsArr = geometry.attributes.position.array as Float32Array;
@@ -171,15 +201,17 @@ export default function Particles() {
       geometry.attributes.position.needsUpdate = true;
 
       renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
 
-    // 8. Proper Lifecycle Garbage Collection (WebGL cleanup)
+    // 9. Proper Lifecycle Garbage Collection (WebGL cleanup)
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (!isMobileOrTouch) {
+        window.removeEventListener("mousemove", handleMouseMove);
+      }
       resizeObserver.disconnect();
 
       // Clean buffer objects

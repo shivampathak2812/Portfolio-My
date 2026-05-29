@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   MessageSquare, Send, Mic, MicOff, X, 
@@ -9,6 +9,9 @@ import {
   Maximize2, Minimize2
 } from "lucide-react";
 import { queryLocalRAG, ChatAction, KNOWLEDGE_BASE } from "./chatbotData";
+
+// Detect mobile/touch once at module level to avoid re-evaluation
+const IS_MOBILE = typeof window !== "undefined" && (window.innerWidth < 768 || navigator.maxTouchPoints > 0);
 
 interface Message {
   id: string;
@@ -617,7 +620,7 @@ export default function Chatbot() {
                 setIsMaximized(false);
                 stopVoiceAssistantMode();
               }}
-              className="fixed inset-0 z-[99998] bg-black/20 backdrop-blur-[1px] cursor-pointer"
+              className="fixed inset-0 z-[99998] bg-black/20 cursor-pointer"
             />
 
             {/* Chatbot Window Container */}
@@ -825,7 +828,7 @@ export default function Chatbot() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="absolute inset-x-0 bottom-[68px] z-20 bg-black/85 backdrop-blur-md border-t border-white/10 px-5 py-6 flex flex-col items-center justify-center space-y-4"
+                className="absolute inset-x-0 bottom-[68px] z-20 bg-black/85 backdrop-blur-sm md:backdrop-blur-md border-t border-white/10 px-5 py-6 flex flex-col items-center justify-center space-y-4"
               >
                 {/* Visual Listening status text */}
                 <div className="text-center">
@@ -850,9 +853,9 @@ export default function Chatbot() {
                   </button>
                 </div>
 
-                {/* Apple Siri-like Sound Wave visualizer bars */}
+                {/* Apple Siri-like Sound Wave visualizer bars (reduced on mobile for perf) */}
                 <div className="flex items-center space-x-1.5 h-8">
-                  {[...Array(7)].map((_, i) => (
+                  {[...Array(IS_MOBILE ? 4 : 7)].map((_, i) => (
                     <motion.div
                       key={i}
                       animate={

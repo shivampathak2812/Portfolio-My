@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { FolderGit2, Github, Compass, Cpu, Calculator, Truck, Home, TrendingUp, Activity } from "lucide-react";
 
@@ -14,7 +14,8 @@ interface Project {
 }
 
 export default function Projects() {
-  const featuredProjects: Project[] = [
+  // Memoize project data + inline SVG graphics to prevent expensive re-creation on re-renders
+  const featuredProjects: Project[] = useMemo(() => [
     {
       title: "TravelArt",
       description: "Built an AI-powered full-stack travel itinerary platform with FastAPI, React, PostgreSQL, Redis, and Groq LLaMA 3.3 featuring secure JWT + OTP authentication and dynamic AI trip modification.",
@@ -190,7 +191,7 @@ export default function Projects() {
         </div>
       ),
     },
-  ];
+  ], []);
 
   // Container variants for elegant staggered slide-up reveals on viewport enter
   const containerVariants = {

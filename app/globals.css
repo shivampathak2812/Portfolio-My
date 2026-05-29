@@ -356,5 +356,48 @@ html.lenis, html.lenis body {
   }
 }
 
+/* ==========================================================================
+   Mobile Performance Tuning & Reflow/Repaint Optimization Layers
+   ========================================================================== */
+@media screen and (max-width: 767px) {
+  /* Heavily reduce backdrop-filter blur compute cost on mobile */
+  .glass-panel {
+    background: rgba(3, 7, 18, 0.88) !important; /* Slightly more opaque */
+    backdrop-filter: blur(3px) !important; /* 3px instead of 8px */
+    -webkit-backdrop-filter: blur(3px) !important;
+  }
+
+  .chatbot-panel {
+    background: rgba(3, 7, 18, 0.94) !important; /* Matte obsidian dark */
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8) !important; /* Smaller shadow bounds */
+  }
+
+  /* Prevent CPU-heavy animated film noise loops on mobile */
+  .noise-overlay {
+    animation: none !important;
+    background: none !important;
+    display: none !important;
+  }
+
+  /* Disable expensive box shadow glow hover filters on mobile */
+  .glass-panel-hover:hover {
+    transform: none !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+  }
+
+  .gradient-border-box::before,
+  .gradient-border-box:hover::before {
+    background: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  /* Dim down glowing text shadows to save mobile canvas repaints */
+  .text-glow-accent, .text-glow-orange {
+    text-shadow: none !important;
+  }
+}
+
 
 

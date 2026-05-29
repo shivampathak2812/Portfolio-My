@@ -1,0 +1,208 @@
+<USER_REQUEST>
+Transform the entire portfolio from an “overly cinematic experimental showcase” into a refined premium product-level experience similar to Apple, Linear, Stripe, Vercel, and modern award-winning developer portfolios.
+
+The current implementation already has:
+
+* cinematic animations
+* Three.js particles
+* GSAP interactions
+* glassmorphism
+* AI chatbot
+* project storytelling
+* ambient lighting
+* scroll-driven transitions
+
+Now refine EVERYTHING with restraint, polish, clarity, and premium motion design principles.
+
+====================================================
+PRIMARY GOAL
+============
+
+The portfolio should feel:
+
+* premium
+* elegant
+* controlled
+* intentional
+* modern
+* minimal cinematic
+* immersive but not overwhelming
+
+The experience should no longer feel:
+
+* flashy
+* over-animated
+* overly glowy
+* excessively blurred
+* gaming-inspired
+* visually noisy
+
+Think:
+“Luxury AI Product”
+NOT:
+“Experimental animation demo”
+
+====================================================
+
+1. REDUCE VISUAL NOISE
+   ====================================================
+
+Reduce:
+
+* blur intensity
+* glow intensity
+* particle density
+* excessive gradients
+* neon effects
+* repeated hover animations
+* constant pulsing animations
+
+The UI should feel cleaner, sharper, and calmer.
+
+====================================================
+2. GLASSMORPHISM REFINEMENT
+===========================
+
+Reduce all excessive backdrop blur usage.
+
+Replace:
+
+* backdrop-blur-3xl
+* backdrop-blur-2xl
+
+With:
+
+* backdrop-blur-lg
+* backdrop-blur-xl
+
+Glass panels should feel:
+
+* subtle
+* elegant
+* lightly frosted
+
+NOT:
+
+* foggy
+* muddy
+* opaque
+
+Reduce border glow intensity by approximately 50%.
+
+====================================================
+3. SHADOW & GLOW POLISH
+=======================
+
+Current glows are too dominant.
+
+Refine all box shadows and bloom lighting:
+
+* softer shadows
+* lower opacity
+* smaller spread radius
+* subtle
+<truncated 2519 bytes>
+Perplexity
+
+while preserving:
+
+* cinematic styling
+* glassmorphism
+* AI personality
+* voice assistant features
+
+====================================================
+9. PROJECT SECTION POLISH
+=========================
+
+Keep the cinematic project unfolding sequence,
+BUT:
+
+* reduce motion aggression
+* reduce blur transitions
+* improve card settling smoothness
+* make transitions more fluid and premium
+
+Final grid layout should:
+
+* align perfectly
+* feel stable
+* feel clean
+* avoid visual chaos
+
+====================================================
+10. COLOR SYSTEM REFINEMENT
+===========================
+
+Refine the overall color palette.
+
+Keep:
+
+* deep navy background
+* purple accents
+* warm orange highlights
+
+BUT:
+
+* reduce saturation slightly
+* improve harmony
+* soften gradients
+* create cleaner contrast
+
+The color system should feel:
+
+* cinematic
+* luxurious
+* professional
+
+====================================================
+11. PERFORMANCE OPTIMIZATION
+============================
+
+Optimize all effects for smooth premium rendering.
+
+Requirements:
+
+* maintain 60 FPS
+* reduce unnecessary re-renders
+* optimize Three.js rendering
+* reduce expensive filters
+* optimize shadows and blur usage
+* preserve mobile responsiveness
+
+====================================================
+12. FINAL DESIGN PHILOSOPHY
+===========================
+
+IMPORTANT:
+Remove approximately 30% of all visual effects globally.
+
+The portfolio should now feel:
+
+* more restrained
+* more mature
+* more premium
+* more believable as a real AI product
+
+The final experience should resemble:
+
+* a luxury AI engineer portfolio
+* a modern SaaS landing experience
+* a premium interactive product showcase
+
+NOT:
+
+* an over-stylized animation playground
+
+Focus on:
+clarity
+elegance
+restraint
+motion quality
+premium visual hierarchy
+and professional polish.
+
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-28T15:41:48+05:30.
+</ADDITIONAL_METADATA>

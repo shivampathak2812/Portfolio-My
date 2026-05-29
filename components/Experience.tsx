@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Briefcase, Calendar, CheckCircle2, Terminal } from "lucide-react";
 
@@ -15,7 +15,7 @@ interface TimelineItem {
 }
 
 export default function Experience() {
-  const experiences: TimelineItem[] = [
+  const experiences: TimelineItem[] = useMemo(() => [
     {
       role: "AI Engineer Intern",
       company: "Northcorp Software (Remote)",
@@ -39,7 +39,7 @@ export default function Experience() {
         "GitLab Workflow",
       ],
     },
-  ];
+  ], []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
