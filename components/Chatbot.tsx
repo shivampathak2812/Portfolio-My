@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  MessageSquare, Send, Mic, MicOff, X, 
-  Sparkles, Download, ExternalLink, Bot, User, 
-  Volume2, VolumeX, Keyboard, RefreshCw, ChevronRight,
+  Send, Mic, X, 
+  Sparkles, Download, ExternalLink, User, 
+  Volume2, VolumeX, Keyboard, ChevronRight,
   Maximize2, Minimize2
 } from "lucide-react";
-import { queryLocalRAG, ChatAction, KNOWLEDGE_BASE } from "./chatbotData";
+import { queryLocalRAG, ChatAction } from "./chatbotData";
 
 // Detect mobile/touch once at module level to avoid re-evaluation
 const IS_MOBILE = typeof window !== "undefined" && (window.innerWidth < 768 || navigator.maxTouchPoints > 0);
@@ -22,6 +22,46 @@ interface Message {
 }
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://your-backend-name.onrender.com";
+
+interface SpeechRecognitionResult {
+  transcript: string;
+}
+
+interface SpeechRecognitionResultList {
+  [index: number]: {
+    [index: number]: SpeechRecognitionResult;
+  };
+}
+
+interface SpeechRecognitionEvent {
+  results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionInstance {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onstart: (() => void) | null;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: (() => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+
+// Pure helper to generate stable message IDs
+const generateMessageId = (prefix: string) => `${prefix}-${Date.now()}`;
+
+// Constant heights for pure audio waveforms to avoid Math.random() in render
+const VOICE_BAR_HEIGHTS = [
+  [8, 22, 12, 28, 8],
+  [8, 14, 26, 10, 8],
+  [8, 28, 16, 22, 8],
+  [8, 12, 24, 14, 8],
+  [8, 26, 10, 20, 8],
+  [8, 16, 28, 12, 8],
+  [8, 20, 14, 26, 8]
+];
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,13 +89,13 @@ export default function Chatbot() {
 
   // Chat window element references
   const chatEndRef = useRef<HTMLDivElement>(null);
-  const speechRecognitionRef = useRef<any>(null);
+  const speechRecognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   // Abort controller and typewriter references for stopping generation
   const abortControllerRef = useRef<AbortController | null>(null);
-  const typewriterTimerRef = useRef<any>(null);
+  const typewriterTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const isGenerating = isAiTyping || messages.some((m) => m.isStreaming);
 
@@ -99,49 +139,49 @@ export default function Chatbot() {
     };
   }, []);
 
-  // Ping backend /health — runs on load, when chatbot opens, and retries every 15s if offline
-  const checkHealth = async () => {
-    try {
-      const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), 3000);
-      const response = await fetch(`${BACKEND_URL}/health`, { signal: controller.signal });
-      clearTimeout(id);
-      if (response.ok) {
-        setBackendStatus("online");
-      } else {
-        setBackendStatus("offline");
+  // Ping backend /health - handles first load, opening, and retries with component-safe cancellation
+  useEffect(() => {
+    let active = true;
+    let retryInterval: ReturnType<typeof setInterval> | null = null;
+
+    const checkHealth = async () => {
+      try {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), 3000);
+        const response = await fetch(`${BACKEND_URL}/health`, { signal: controller.signal });
+        clearTimeout(id);
+        if (active) {
+          setBackendStatus(response.ok ? "online" : "offline");
+        }
+      } catch {
+        if (active) {
+          setBackendStatus("offline");
+        }
       }
-    } catch (err) {
-      setBackendStatus("offline");
-    }
-  };
+    };
 
-  // Check on first load
-  useEffect(() => {
-    checkHealth();
-  }, []);
-
-  // Re-check every time chatbot is opened
-  useEffect(() => {
-    if (isOpen) {
+    // Initial check or when chatbot is opened
+    if (isOpen || backendStatus !== "online") {
       checkHealth();
     }
-  }, [isOpen]);
 
-  // Retry every 15s while offline
-  useEffect(() => {
+    // Set up retry interval if offline
     if (backendStatus !== "online") {
-      const retryInterval = setInterval(() => {
-        checkHealth();
-      }, 15000);
-      return () => clearInterval(retryInterval);
+      retryInterval = setInterval(checkHealth, 15000);
     }
-  }, [backendStatus]);
+
+    return () => {
+      active = false;
+      if (retryInterval) clearInterval(retryInterval);
+    };
+  }, [isOpen, backendStatus]);
 
   // Web Speech STT Recognition Setup
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const SpeechRecognition =
+        (window as unknown as { SpeechRecognition?: new () => SpeechRecognitionInstance }).SpeechRecognition ||
+        (window as unknown as { webkitSpeechRecognition?: new () => SpeechRecognitionInstance }).webkitSpeechRecognition;
       if (SpeechRecognition) {
         const recog = new SpeechRecognition();
         recog.continuous = false;
@@ -153,7 +193,7 @@ export default function Chatbot() {
           stopVoiceSpeech();
         };
 
-        recog.onresult = (e: any) => {
+        recog.onresult = (e) => {
           const transcript = e.results[0][0].transcript;
           if (transcript.trim()) {
             handleSendMessage(transcript);
@@ -206,12 +246,12 @@ export default function Chatbot() {
     synthRef.current.speak(utterance);
   };
 
-  const stopVoiceSpeech = () => {
+  function stopVoiceSpeech() {
     if (synthRef.current) {
       synthRef.current.cancel();
     }
     setSpeechActive(false);
-  };
+  }
 
   // Toggle standard listening mode
   const toggleListening = () => {
@@ -372,7 +412,7 @@ export default function Chatbot() {
   };
 
   // Main Messaging Core Trigger
-  const handleSendMessage = async (textToSend?: string) => {
+  async function handleSendMessage(textToSend?: string) {
     const queryText = textToSend || inputMessage;
     if (!queryText.trim()) return;
 
@@ -380,7 +420,7 @@ export default function Chatbot() {
     setInputMessage("");
 
     // Append User Message to conversation history
-    const userMsgId = `user-${Date.now()}`;
+    const userMsgId = generateMessageId("user");
     const newUserMsg: Message = {
       id: userMsgId,
       role: "user",
@@ -398,7 +438,7 @@ export default function Chatbot() {
     }));
 
     // Pre-create Assistant message shell for typewriter streaming
-    const assistantMsgId = `assistant-${Date.now()}`;
+    const assistantMsgId = generateMessageId("assistant");
 
     try {
       let finalResponse: { answer: string; actions?: ChatAction[] };
@@ -410,7 +450,7 @@ export default function Chatbot() {
       // 1. First, attempt to contact Python FastAPI server with exponential backoff retries
       try {
         let response: Response | null = null;
-        let lastError: any = null;
+        let lastError: Error | null = null;
         const maxRetries = 3;
         const initialDelay = 1000;
 
@@ -470,9 +510,10 @@ export default function Chatbot() {
             } else {
               throw new Error(`Server returned ${response.status}`);
             }
-          } catch (err: any) {
-            lastError = err;
-            if (err.name === "AbortError" && masterController.signal.aborted) {
+          } catch (err) {
+            const error = err as Error;
+            lastError = error;
+            if (error.name === "AbortError" && masterController.signal.aborted) {
               throw err;
             }
             // If it's the last attempt, don't retry further
@@ -491,8 +532,9 @@ export default function Chatbot() {
         } else {
           throw lastError || new Error("Failed to fetch");
         }
-      } catch (err: any) {
-        if (err.name === "AbortError" && masterController.signal.aborted) {
+      } catch (err) {
+        const error = err as Error;
+        if (error.name === "AbortError" && masterController.signal.aborted) {
           throw err;
         }
         // 2. FAILOVER ENGINE: Contact local client RAG system
@@ -527,9 +569,10 @@ export default function Chatbot() {
         }
       }
 
-    } catch (e: any) {
+    } catch (e) {
+      const error = e as Error;
       setIsAiTyping(false);
-      if (e.name === "AbortError") {
+      if (error.name === "AbortError") {
         return;
       }
       setMessages((prev) => [
@@ -543,7 +586,7 @@ export default function Chatbot() {
     } finally {
       abortControllerRef.current = null;
     }
-  };
+  }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !isGenerating) {
@@ -835,7 +878,7 @@ export default function Chatbot() {
                   <p className="text-[11px] tracking-[0.15em] font-bold text-accent-cinematic uppercase animate-pulse">
                     {isListening ? "Listening to your voice..." : speechActive ? "Narrating response..." : "Voice mode active"}
                   </p>
-                  <p className="text-[9px] text-white/40 mt-1">Speak clearly (e.g. "Tell me about TravelArt")</p>
+                  <p className="text-[9px] text-white/40 mt-1">Speak clearly (e.g. &quot;Tell me about TravelArt&quot;)</p>
                 </div>
 
                 {/* glowing breathing rings */}
@@ -860,7 +903,7 @@ export default function Chatbot() {
                       key={i}
                       animate={
                         isListening || speechActive
-                          ? { height: [8, Math.random() * 24 + 10, 8] }
+                          ? { height: VOICE_BAR_HEIGHTS[i % VOICE_BAR_HEIGHTS.length] }
                           : { height: 6 }
                       }
                       transition={{

@@ -92,7 +92,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
       isDesktop: "(min-width: 768px)",
       isMobile: "(max-width: 767px)"
     }, (context) => {
-      const { isDesktop } = context.conditions as any;
+      const { isDesktop } = context.conditions as Record<string, boolean>;
 
       // Pin spacing must be false to let next section slide up naturally
       const scrollTimeline = gsap.timeline({

@@ -247,8 +247,7 @@ export default function Projects() {
           viewport={{ once: true, margin: "-80px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full mx-auto"
         >
-          {featuredProjects.map((project, idx) => {
-            const isLast = idx === featuredProjects.length - 1;
+          {featuredProjects.map((project) => {
             
             // Build custom glowing hover borders and shadows based on brand accents
             const borderGlowHover = "hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)] hover:border-white/15";

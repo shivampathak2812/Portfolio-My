@@ -19,7 +19,7 @@ interface SkillCategory {
 }
 
 // 1. Unified Skill Card Component with Localized Cursor Spotlight Glow
-function SkillCard({ category, idx }: { category: SkillCategory; idx: number }) {
+function SkillCard({ category }: { category: SkillCategory; idx: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -39,7 +39,7 @@ function SkillCard({ category, idx }: { category: SkillCategory; idx: number }) 
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as any },
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
     },
   };
 
