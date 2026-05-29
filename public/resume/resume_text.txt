@@ -1,0 +1,47 @@
+Shivam Pathak
+Mumbai, Maharashtra, India
+♂phone+91-8755105612|/envel⌢pepathakshivam3738@gmail.com
+/linkedinlinkedin.com/in/shivam-pathak-9a76ba246|/githubgithub.com/shivampathak2812|/gl⌢bePortfolio
+Professional Summary
+Python Backend Developer and AI Engineer Intern at Northcorp Software with 6 months experience building
+AI-powered REST APIs using FastAPI, PostgreSQL, LLM integration, RAG pipelines, and Google Gemini API. Skilled
+in SQLAlchemy ORM, Docker, Alembic, and MinIO. Background in Machine Learning, Data Science, and Data Analysis
+using Scikit-learn, Pandas, and EDA. Google Cloud Generative AI certified. TCS NQT 2025 qualified (Top 10%).
+Education
+Graphic Era Hill UniversityHaldwani, Uttarakhand
+Bachelor of Technology (B.Tech) in Computer Science and Engineering – CGPA: 6.88/10 July 2022 – June 2025
+Technical Skills
+Languages:Python, C++, SQL, JavaScript, HTML5, CSS3
+Frameworks & Libraries:FastAPI, Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn, Pydantic
+Databases:PostgreSQL, MySQL, SQLAlchemy (Async ORM), Alembic, MinIO
+AI / ML / GenAI:LLM Integration, Generative AI, Google Gemini API, RAG, NLP, TF-IDF, Feature
+Engineering, EDA, Data Preprocessing, Supervised Learning, Model Evaluation (MSE,R 2)
+Tools & DevOps:Git, GitHub, GitLab, Docker, Docker Compose, JWT, bcrypt, Swagger, VS Code, Jupyter
+Notebook, Power BI, MS Excel (Advanced)
+Professional Experience
+AI Engineer Intern Jan 2026 – Present
+Northcorp Software Remote
+• Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and
+PostgreSQL — skill gap analysis, resume generation, and cover letter automation.
+• Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schema with
+SQLAlchemy async ORM, 5+ Alembic migrations, MinIO storage, and JWT + bcrypt auth.
+• Deployed services via Docker Compose; contributed across design, development, and testing using GitLab
+workflow.
+Projects
+House Price Prediction|Python, Scikit-learn, EDA, Linear RegressionGitHub
+• Built Linear Regression model using Scikit-learn to predict house prices with full EDA pipeline — missing value
+handling, outlier removal (IQR method), and feature scaling.
+• Evaluated model performance using MSE andR 2 score; applied train-test split and bias-variance tradeoff
+analysis to improve prediction accuracy.
+Courier Partner Web App|Python, FastAPI, REST API, HTML, CSSGitHub
+• Built full-stack FastAPI web application with REST API endpoints, HTML frontend integration, and static file
+handling for a courier partner service.
+• Structured scalable backend using FastAPI with database connectivity and auto-generated Swagger
+documentation for API exploration and testing.
+Achievements & Certifications
+•ClearedTCS National Qualifier Test (NQT) 2025– shortlisted for Ninja role interview among top 10%
+candidates nationwide
+•CompletedGoogle Cloud Skills Boostcertification in Generative AI Fundamentals (2024)
+•Python Development Internship Certificate– Cognifyz Technologies (2024)
+•Represented state atNational Basketball Championship, demonstrating teamwork, leadership, and
+performance under pressure

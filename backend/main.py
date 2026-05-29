@@ -423,7 +423,7 @@ def get_local_reply(query: str, history: list) -> dict:
 
     if intent == "summary":
         return {
-            "answer": "Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Pursuing his B.Tech in CSE at **Graphic Era Hill University** (expected graduation 2026) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?",
+            "answer": "Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?",
             "actions": [
                 {"label": "View Experience 💼", "type": "scroll", "target": "#experience"},
                 {"label": "View Skills ⚡", "type": "scroll", "target": "#skills"}
@@ -444,7 +444,7 @@ def get_local_reply(query: str, history: list) -> dict:
 
     if intent == "education":
         return {
-            "answer": "Shivam is pursuing a **B.Tech in Computer Science and Engineering** at **Graphic Era Hill University, Dehradun** (2022 - 2026) where he maintains a **6.88 CGPA**.\n\n**Academic Highlights:**\n*   Shortlisted as a Top 10% candidate in TCS NQT 2025.\n*   Completed Google Cloud GenAI Certification.\n*   Completed Python Development Program by Cognifyz Technologies.\n*   Represented the university in the National Basketball Championship.\n\nI have shifted your focus down to his academic credentials panel!",
+            "answer": "Shivam holds a **B.Tech in Computer Science and Engineering** from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) where he achieved a **6.88 CGPA**.\n\n**Academic Highlights:**\n*   Shortlisted as a Top 10% candidate in TCS NQT 2025.\n*   Completed Google Cloud GenAI Certification.\n*   Completed Python Development Program by Cognifyz Technologies.\n*   Represented his university in the National Basketball Championship.\n\nI have shifted your focus down to his academic credentials panel!",
             "actions": [{"label": "Go to Education 🎓", "type": "scroll", "target": "#education"}]
         }
 

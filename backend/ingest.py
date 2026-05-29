@@ -11,8 +11,8 @@ PORTFOLIO_DOCUMENTS = [
         page_content="""
         Shivam Pathak is an AI Engineer and Data Science Specialist. 
         He specializes in building intelligent systems, production-ready AI agents, Retrieval-Augmented Generation (RAG) pipelines, and scalable backends.
-        He pursues a B.Tech in Computer Science and Engineering from Graphic Era Hill University, Dehradun (expected graduation 2026) where he maintains a 6.88 CGPA.
-        Shivam has certifications and accomplishments like being a TCS NQT 2025 Top 10% candidate, obtaining a Google Cloud GenAI Certification, and representing Graphic Era in the National Basketball Championship.
+        He holds a Bachelor of Technology (B.Tech) in Computer Science and Engineering from Graphic Era Hill University, Haldwani (Graduated in June 2025) where he maintained a 6.88 CGPA.
+        Shivam has certifications and accomplishments like being a TCS NQT 2025 Top 10% candidate, obtaining a Google Cloud GenAI Certification, and representing his university in the National Basketball Championship.
         Shivam is currently employed as an AI Engineer Intern at Northcorp Software (Remote) since January 2026.
         Shivam's email address is pathakshivam3738@gmail.com, his GitHub profile is https://github.com/shivampathak2812, and his LinkedIn profile is https://www.linkedin.com/in/shivam-pathak-9a76ba246.
         """,
@@ -48,13 +48,14 @@ PORTFOLIO_DOCUMENTS = [
         page_content="""
         Shivam Pathak's academics and education:
         Degree: Bachelor of Technology (B.Tech) in Computer Science and Engineering (CSE).
-        Institution: Graphic Era Hill University, Dehradun (2022 - 2026).
-        Academics: Maintains a 6.88 / 10.0 CGPA.
+        Institution: Graphic Era Hill University, Haldwani (July 2022 - June 2025).
+        Status: Graduated (Degree Completed in June 2025).
+        Academics: Achieved a 6.88 / 10.0 CGPA.
         Achievements and Certifications:
         - Shortlisted as a Top 10% candidate in TCS NQT 2025.
         - Completed Google Cloud GenAI Certification.
         - Completed Python Development Program by Cognifyz Technologies.
-        - Represented Graphic Era Hill University in the National Basketball Championship.
+        - Represented his university in the National Basketball Championship.
         """,
         metadata={"source": "education", "category": "academic"}
     ),

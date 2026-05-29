@@ -13,7 +13,7 @@ export interface RAGResponse {
 
 export const KNOWLEDGE_BASE = {
   bio: {
-    summary30s: "Shivam Pathak is an AI Engineer Intern at Northcorp Software with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He is also a B.Tech CSE candidate from Graphic Era Hill University with a 6.88 CGPA.",
+    summary30s: "Shivam Pathak is an AI Engineer Intern at Northcorp Software with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He also holds a B.Tech in CSE from Graphic Era Hill University, Haldwani (Graduated in June 2025) with a 6.88 CGPA.",
     professional: "Shivam specializes in bridging AI/ML models with clean, high-performance backends. His focus lies in GenAI engineering, semantic document parsing (RAG pipelines), and asynchronous database management (SQLAlchemy ORM). He is fully equipped to hit the ground running in fast-paced software teams building next-generation intelligent applications.",
   },
   experience: {
@@ -84,15 +84,15 @@ export const KNOWLEDGE_BASE = {
     tools: ["Docker Compose", "Git", "GitLab Workflow", "Git/GitHub", "Linux Bash", "Excel (KPI Dashboards, Pivot Tables)"]
   },
   education: {
-    institution: "Graphic Era Hill University, Dehradun",
-    degree: "B.Tech in Computer Science and Engineering",
-    duration: "2022 - 2026",
+    institution: "Graphic Era Hill University, Haldwani",
+    degree: "B.Tech in Computer Science and Engineering (CSE)",
+    duration: "July 2022 - June 2025",
     cgpa: "6.88 / 10.0",
     achievements: [
       "Shortlisted as a Top 10% candidate in TCS NQT 2025.",
       "Completed Google Cloud GenAI Certification.",
       "Completed Python Development Program by Cognifyz Technologies.",
-      "Represented the university in the National Basketball Championship."
+      "Represented his university in the National Basketball Championship."
     ]
   }
 };
@@ -548,7 +548,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "summary":
       return {
-        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Pursuing his B.Tech in CSE at **Graphic Era Hill University** (expected graduation 2026) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
+        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
         actions: [
           { label: "View Experience 💼", type: "scroll", target: "#experience" },
           { label: "View Skills ⚡", type: "scroll", target: "#skills" }
@@ -576,7 +576,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
     case "education": {
       const achievements = KNOWLEDGE_BASE.education.achievements.map(a => `* ${a}`).join("\n");
       return {
-        answer: `Shivam is pursuing a **B.Tech in Computer Science and Engineering** at **Graphic Era Hill University, Dehradun** (2022 - 2026) where he maintains a **6.88 CGPA**.\n\n**Academic Highlights:**\n${achievements}\n\nI have shifted your focus down to his academic credentials panel!`,
+        answer: `Shivam holds a **B.Tech in Computer Science and Engineering** from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) where he achieved a **6.88 CGPA**.\n\n**Academic Highlights:**\n${achievements}\n\nI have shifted your focus down to his academic credentials panel!`,
         actions: [
           { label: "Go to Education 🎓", type: "scroll", target: "#education" }
         ]

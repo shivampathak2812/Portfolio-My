@@ -126,7 +126,7 @@ export default function Education() {
                       </span>
                       <div className="flex items-center space-x-1.5 text-xs text-white/50">
                         <Calendar className="w-3.5 h-3.5 text-white/30" />
-                        <span>July 2022 – June 2026</span>
+                        <span>July 2022 – June 2025</span>
                       </div>
                     </div>
                     <div>
