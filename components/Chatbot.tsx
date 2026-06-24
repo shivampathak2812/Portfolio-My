@@ -627,16 +627,16 @@ export default function Chatbot() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setIsOpen(true)}
-              className="relative group w-14 h-14 rounded-full bg-[#030712] text-white cursor-pointer shadow-lg border border-white/10 flex items-center justify-center"
+              className="relative group w-14 h-14 rounded-xl bg-[#030712] text-white cursor-pointer shadow-lg border border-white/10 flex items-center justify-center overflow-hidden"
               aria-label="Open AI Assistant"
             >
               {/* Outer Subtle Aura */}
-              <div className="absolute inset-0 rounded-full bg-white/5 blur-sm opacity-60 group-hover:opacity-100 transition-all duration-300" />
+              <div className="absolute inset-0 rounded-xl bg-white/5 blur-sm opacity-60 group-hover:opacity-100 transition-all duration-300" />
               
               <img 
                 src="/images/avix-logo.png" 
                 alt="Avix Logo" 
-                className="w-12 h-12 object-contain relative z-10"
+                className="w-12 h-12 object-contain relative z-10 rounded-lg"
               />
               
               {/* Floating Badge Helper (Positioned perfectly on the outer boundary edge) */}
