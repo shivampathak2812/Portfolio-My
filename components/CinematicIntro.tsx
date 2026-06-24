@@ -17,6 +17,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
   const spacerRef = useRef<HTMLDivElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
   const [hasEntered, setHasEntered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -84,6 +85,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
     const video = videoRef.current;
     const portfolio = portfolioRef.current;
     const spacer = spacerRef.current;
+    const scrollIndicator = scrollIndicatorRef.current;
 
     // Use GSAP's matchMedia for responsive animations and scaling limits
     const mm = gsap.matchMedia();
@@ -139,6 +141,15 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
           duration: 0.4,
           ease: "power1.out",
         }, 0.05);
+      }
+
+      if (scrollIndicator) {
+        scrollTimeline.to(scrollIndicator, {
+          opacity: 0,
+          y: 20,
+          duration: 0.25,
+          ease: "power1.out",
+        }, 0);
       }
     });
 
@@ -262,6 +273,34 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
               {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
             </button>
           </div>
+        )}
+
+        {/* Scroll Down Indicator */}
+        {hasEntered && (
+          <motion.div
+            ref={scrollIndicatorRef}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.8, ease: "easeOut" }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center pointer-events-none"
+          >
+            <span className="text-[10px] uppercase tracking-[0.3em] font-semibold text-white/50 mb-2">
+              Scroll to explore
+            </span>
+            <div className="w-[1px] h-10 bg-gradient-to-b from-white/40 to-transparent relative overflow-hidden">
+              <motion.div
+                animate={{
+                  y: ["-100%", "100%"],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute top-0 left-0 w-full h-1/2 bg-white/85"
+              />
+            </div>
+          </motion.div>
         )}
       </div>
 
