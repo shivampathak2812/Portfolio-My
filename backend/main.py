@@ -263,7 +263,7 @@ def score_intent(q: str) -> str:
         # General projects (lower weight so specific ones win)
         {
             "intent": "projects_all",
-            "keywords": ["projects", "all projects", "portfolio projects", "show projects", "list projects", "his projects", "what projects", "how many projects", "what has he built"],
+            "keywords": ["project", "projects", "all projects", "portfolio projects", "show projects", "list projects", "his projects", "what projects", "how many projects", "what has he built", "built", "build"],
             "boost": ["showcase", "portfolio"],
             "exclude": [],
             "weight": 2
