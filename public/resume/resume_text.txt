@@ -3,7 +3,7 @@ Mumbai, Maharashtra, India
 ♂phone+91-8755105612|/envel⌢pepathakshivam3738@gmail.com
 /linkedinlinkedin.com/in/shivam-pathak-9a76ba246|/githubgithub.com/shivampathak2812|/gl⌢bePortfolio
 Professional Summary
-Python Backend Developer and AI Engineer Intern at Northcorp Software with 6 months experience building
+Python Backend Developer and AI Engineer Intern at Northcorp Software (Remote) (Freelance) with 6 months experience building
 AI-powered REST APIs using FastAPI, PostgreSQL, LLM integration, RAG pipelines, and Google Gemini API. Skilled
 in SQLAlchemy ORM, Docker, Alembic, and MinIO. Background in Machine Learning, Data Science, and Data Analysis
 using Scikit-learn, Pandas, and EDA. Google Cloud Generative AI certified. TCS NQT 2025 qualified (Top 10%).
@@ -20,7 +20,7 @@ Tools & DevOps:Git, GitHub, GitLab, Docker, Docker Compose, JWT, bcrypt, Swagger
 Notebook, Power BI, MS Excel (Advanced)
 Professional Experience
 AI Engineer Intern Jan 2026 – Present
-Northcorp Software Remote
+Northcorp Software (Remote) (Freelance)
 • Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and
 PostgreSQL — skill gap analysis, resume generation, and cover letter automation.
 • Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schema with

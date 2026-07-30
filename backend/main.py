@@ -423,7 +423,7 @@ def get_local_reply(query: str, history: list) -> dict:
 
     if intent == "summary":
         return {
-            "answer": "Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?",
+            "answer": "Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software (Remote) (Freelance)**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?",
             "actions": [
                 {"label": "View Experience 💼", "type": "scroll", "target": "#experience"},
                 {"label": "View Skills ⚡", "type": "scroll", "target": "#skills"}
@@ -432,7 +432,7 @@ def get_local_reply(query: str, history: list) -> dict:
 
     if intent == "experience":
         return {
-            "answer": "Shivam is currently employed as an **AI Engineer Intern** at **Northcorp Software** (Remote, Jan 2026 - Present).\n\n**Key Achievements:**\n*   Built 10+ REST API endpoints for the Talent Assessment Platform (TAP) using FastAPI and PostgreSQL.\n*   Developed LLM features using the Google Gemini API and structured RAG pipelines.\n*   Managed PostgreSQL schema with SQLAlchemy async ORM, Alembic migrations, MinIO storage, and secure JWT auth.\n*   Successfully deployed services via Docker Compose.\n\nI have automatically scrolled your window to his timeline below to see it in style!",
+            "answer": "Shivam worked as an **AI Engineer Intern** at **Northcorp Software (Remote) (Freelance)** (Jan 2026 - May 2026).\n\n**Key Achievements:**\n*   Built 10+ REST API endpoints for the Talent Assessment Platform (TAP) using FastAPI and PostgreSQL.\n*   Developed LLM features using the Google Gemini API and structured RAG pipelines.\n*   Managed PostgreSQL schema with SQLAlchemy async ORM, Alembic migrations, MinIO storage, and secure JWT auth.\n*   Successfully deployed services via Docker Compose.\n\nI have automatically scrolled your window to his timeline below to see it in style!",
             "actions": [{"label": "Go to Experience Timeline 💼", "type": "scroll", "target": "#experience"}]
         }
 

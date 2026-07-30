@@ -13,20 +13,32 @@ export interface RAGResponse {
 
 export const KNOWLEDGE_BASE = {
   bio: {
-    summary30s: "Shivam Pathak is an AI Engineer Intern at Northcorp Software with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He also holds a B.Tech in CSE from Graphic Era Hill University, Haldwani (Graduated in June 2025) with a 6.88 CGPA.",
+    summary30s: "Shivam Pathak is an AI Engineer Intern at Northcorp Software (Remote) (Freelance) with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He also holds a B.Tech in CSE from Graphic Era Hill University, Haldwani (Graduated in June 2025) with a 6.88 CGPA.",
     professional: "Shivam specializes in bridging AI/ML models with clean, high-performance backends. His focus lies in GenAI engineering, semantic document parsing (RAG pipelines), and asynchronous database management (SQLAlchemy ORM). He is fully equipped to hit the ground running in fast-paced software teams building next-generation intelligent applications.",
   },
-  experience: {
-    role: "AI Engineer Intern",
-    company: "Northcorp Software (Remote)",
-    duration: "Jan 2026 - Present",
-    details: [
-      "Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and PostgreSQL, managing skill gap analysis, resume generation, and cover letter automation.",
-      "Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schemas with SQLAlchemy async ORMs, 5+ Alembic migrations, MinIO storage, and secure JWT + bcrypt authentication.",
-      "Deployed microservices using Docker Compose and successfully engineered workflows across design, development, and testing via GitLab."
-    ],
-    skills: ["FastAPI", "PostgreSQL", "Google Gemini API", "RAG Pipelines", "SQLAlchemy ORM", "Alembic", "MinIO", "Docker Compose", "GitLab Workflow"]
-  },
+  experience: [
+    {
+      role: "Trainee Engineer – Data Science & AI/ML",
+      company: "Silicon Interfaces Pvt. Ltd. (Mumbai, India)",
+      duration: "Jul 2026 - Present",
+      details: [
+        "Working on Data Science and Machine Learning solutions using Python, SQL, Pandas, NumPy, and Scikit-learn for data preprocessing, exploratory data analysis (EDA), and model development.",
+        "Performing data cleaning, feature engineering, model evaluation, and SQL-based data analysis while gaining hands-on experience in real-world AI/ML workflows."
+      ],
+      skills: ["Python", "SQL", "Pandas", "NumPy", "Scikit-learn", "EDA", "Feature Engineering", "Model Evaluation", "Machine Learning"]
+    },
+    {
+      role: "AI Engineer Intern",
+      company: "Northcorp Software (Remote) (Freelance)",
+      duration: "Jan 2026 - May 2026",
+      details: [
+        "Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and PostgreSQL, managing skill gap analysis, resume generation, and cover letter automation.",
+        "Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schemas with SQLAlchemy async ORMs, 5+ Alembic migrations, MinIO storage, and secure JWT + bcrypt authentication.",
+        "Deployed microservices using Docker Compose and successfully engineered workflows across design, development, and testing via GitLab."
+      ],
+      skills: ["FastAPI", "PostgreSQL", "Google Gemini API", "RAG Pipelines", "SQLAlchemy ORM", "Alembic", "MinIO", "Docker Compose", "GitLab Workflow"]
+    }
+  ],
   projects: [
     {
       title: "TravelArt",
@@ -548,7 +560,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "summary":
       return {
-        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
+        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software (Remote) (Freelance)**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
         actions: [
           { label: "View Experience 💼", type: "scroll", target: "#experience" },
           { label: "View Skills ⚡", type: "scroll", target: "#skills" }
@@ -556,9 +568,13 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
       };
 
     case "experience": {
-      const details = KNOWLEDGE_BASE.experience.details.map(d => `* ${d}`).join("\n");
+      const expList = KNOWLEDGE_BASE.experience.map(e => 
+        `**${e.role}** at **${e.company}** (${e.duration})\n` +
+        e.details.map(d => `* ${d}`).join("\n") +
+        `\n*Tech Stack:* \`${e.skills.join(", ")}\``
+      ).join("\n\n");
       return {
-        answer: `Shivam is currently employed as an **AI Engineer Intern** at **Northcorp Software** (Remote, Jan 2026 - Present).\n\n**Key Achievements:**\n${details}\n\n**Internship Tech Stack:**\n\`${KNOWLEDGE_BASE.experience.skills.join(", ")}\`.\n\nI have automatically scrolled your window to his timeline below to see it in style!`,
+        answer: `Here is a summary of Shivam's professional experience:\n\n${expList}\n\nI have automatically scrolled your window to his timeline below to see it in style!`,
         actions: [
           { label: "Go to Experience Timeline 💼", type: "scroll", target: "#experience" }
         ]

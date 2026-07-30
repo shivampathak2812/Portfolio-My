@@ -13,7 +13,7 @@ PORTFOLIO_DOCUMENTS = [
         He specializes in building intelligent systems, production-ready AI agents, Retrieval-Augmented Generation (RAG) pipelines, and scalable backends.
         He holds a Bachelor of Technology (B.Tech) in Computer Science and Engineering from Graphic Era Hill University, Haldwani (Graduated in June 2025) where he maintained a 6.88 CGPA.
         Shivam has certifications and accomplishments like being a TCS NQT 2025 Top 10% candidate, obtaining a Google Cloud GenAI Certification, and representing his university in the National Basketball Championship.
-        Shivam is currently employed as an AI Engineer Intern at Northcorp Software (Remote) since January 2026.
+        Shivam is currently employed as an AI Engineer Intern at Northcorp Software (Remote) (Freelance) since January 2026.
         Shivam's email address is pathakshivam3738@gmail.com, his GitHub profile is https://github.com/shivampathak2812, and his LinkedIn profile is https://www.linkedin.com/in/shivam-pathak-9a76ba246.
         """,
         metadata={"source": "bio", "category": "general"}
@@ -22,7 +22,7 @@ PORTFOLIO_DOCUMENTS = [
     # Work Experience Documents
     Document(
         page_content="""
-        Shivam Pathak is an AI Engineer Intern at Northcorp Software (Remote) from January 2026 to Present.
+        Shivam Pathak is an AI Engineer Intern at Northcorp Software (Remote) (Freelance) from January 2026 to Present.
         His core responsibilities and achievements in this role include:
         - Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and PostgreSQL, managing skill gap analysis, resume generation, and cover letter automation.
         - Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schema with SQLAlchemy async ORM, 5+ Alembic migrations, MinIO storage, and JWT + bcrypt auth.

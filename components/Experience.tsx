@@ -17,9 +17,31 @@ interface TimelineItem {
 export default function Experience() {
   const experiences: TimelineItem[] = useMemo(() => [
     {
+      role: "Trainee Engineer – Data Science & AI/ML",
+      company: "Silicon Interfaces Pvt. Ltd. (Mumbai, India)",
+      duration: "Jul 2026 - PRESENT",
+      icon: <Briefcase className="w-5 h-5" />,
+      accentColor: "orange",
+      description: [
+        "Working on Data Science and Machine Learning solutions using Python, SQL, Pandas, NumPy, and Scikit-learn for data preprocessing, exploratory data analysis (EDA), and model development.",
+        "Performing data cleaning, feature engineering, model evaluation, and SQL-based data analysis while gaining hands-on experience in real-world AI/ML workflows.",
+      ],
+      skills: [
+        "Python",
+        "SQL",
+        "Pandas",
+        "NumPy",
+        "Scikit-learn",
+        "EDA",
+        "Feature Engineering",
+        "Model Evaluation",
+        "Machine Learning",
+      ],
+    },
+    {
       role: "AI Engineer Intern",
-      company: "Northcorp Software (Remote)",
-      duration: "Jan 2026 - PRESENT",
+      company: "Northcorp Software (Remote) (Freelance)",
+      duration: "Jan 2026 - May 2026",
       icon: <Briefcase className="w-5 h-5" />,
       accentColor: "purple",
       description: [

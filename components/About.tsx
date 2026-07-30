@@ -98,10 +98,7 @@ export default function About() {
               className="space-y-6 text-sm md:text-base text-white/70 leading-relaxed font-light mb-8"
             >
               <p>
-                Hi, I&apos;m <strong className="text-white font-medium">Shivam Pathak</strong>. I am a dedicated <strong className="text-white font-medium">Python Backend Developer and AI Engineer Intern</strong> at Northcorp Software, where I build robust, AI-powered REST APIs, construct advanced RAG pipelines, and integrate state-of-the-art models like the Google Gemini API.
-              </p>
-              <p>
-                With a strong background in Machine Learning, Data Science, and comprehensive Exploratory Data Analysis (EDA) using Scikit-learn and Pandas, I specialize in engineering high-performance systems with FastAPI, PostgreSQL, and SQLAlchemy. I am Google Cloud Generative AI certified and ranked in the top 10% nationwide for the TCS NQT 2025.
+                <strong className="text-white font-medium">AI Engineer</strong> with experience in <strong className="text-white font-medium">Python</strong>, <strong className="text-white font-medium">FastAPI</strong>, <strong className="text-white font-medium">PostgreSQL</strong>, <strong className="text-white font-medium">LLMs</strong>, <strong className="text-white font-medium">RAG</strong>, and <strong className="text-white font-medium">Machine Learning</strong>. Skilled in <strong className="text-white font-medium">Data Science</strong>, <strong className="text-white font-medium">SQL</strong>, <strong className="text-white font-medium">Scikit-learn</strong>, and <strong className="text-white font-medium">AI application development</strong>.
               </p>
             </motion.div>
 
