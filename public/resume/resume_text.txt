@@ -1,47 +1,52 @@
 Shivam Pathak
 Mumbai, Maharashtra, India
-♂phone+91-8755105612|/envel⌢pepathakshivam3738@gmail.com
-/linkedinlinkedin.com/in/shivam-pathak-9a76ba246|/githubgithub.com/shivampathak2812|/gl⌢bePortfolio
++91-8755105612 | pathakshivam3738@gmail.com
+linkedin.com/in/shivam-pathak-9a76ba246 | github.com/shivampathak2812 | Portfolio
 Professional Summary
-Python Backend Developer and AI Engineer Intern at Northcorp Software with 6 months experience building
-AI-powered REST APIs using FastAPI, PostgreSQL, LLM integration, RAG pipelines, and Google Gemini API. Skilled
-in SQLAlchemy ORM, Docker, Alembic, and MinIO. Background in Machine Learning, Data Science, and Data Analysis
-using Scikit-learn, Pandas, and EDA. Google Cloud Generative AI certified. TCS NQT 2025 qualified (Top 10%).
+Data & AI Engineer with hands-on experience in Python, SQL, Machine Learning, Data Science, LLMs,
+RAG, FastAPI, and PostgreSQL. Experienced in data analysis, ML model development, AI applications,
+REST APIs, and data pipelines.
 Education
-Graphic Era Hill UniversityHaldwani, Uttarakhand
-Bachelor of Technology (B.Tech) in Computer Science and Engineering – CGPA: 6.88/10 July 2022 – June 2025
+Graphic Era Hill University
+Bachelor of Technology (B.Tech) in Computer Science and Engineering – CGPA: 6.88/10
+Haldwani, Uttarakhand
+July 2022 – June 2025
 Technical Skills
-Languages:Python, C++, SQL, JavaScript, HTML5, CSS3
-Frameworks & Libraries:FastAPI, Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn, Pydantic
-Databases:PostgreSQL, MySQL, SQLAlchemy (Async ORM), Alembic, MinIO
-AI / ML / GenAI:LLM Integration, Generative AI, Google Gemini API, RAG, NLP, TF-IDF, Feature
-Engineering, EDA, Data Preprocessing, Supervised Learning, Model Evaluation (MSE,R 2)
-Tools & DevOps:Git, GitHub, GitLab, Docker, Docker Compose, JWT, bcrypt, Swagger, VS Code, Jupyter
-Notebook, Power BI, MS Excel (Advanced)
+Programming & Analytics: Python, SQL, Pandas, NumPy, EDA, Power BI, Data Cleaning
+Machine Learning & AI: Scikit-learn, XGBoost, Feature Engineering, Model Evaluation, LLMs, RAG, Gemini
+API, NLP
+Data Engineering: ETL Pipelines, Apache Airflow, Data Processing, Data Validation
+Backend & Databases: FastAPI, REST APIs, PostgreSQL, MySQL, SQLAlchemy
+Tools: Git, GitLab, Docker, VS Code, Google Colab
 Professional Experience
-AI Engineer Intern Jan 2026 – Present
+Silicon Interfaces Pvt. Ltd.
+Mumbai, India
+Trainee Engineer - Data Science & AI/ML
+Jul 2026 – Present
+• Working on Data Science and Machine Learning solutions using Python, Pandas, NumPy, and Scikit-learn for
+data preprocessing, exploratory data analysis (EDA), and model development.
+• Performing data cleaning, feature engineering, model evaluation, and SQL-based data analysis while gaining
+hands-on experience in real-world AI/ML workflows.
 Northcorp Software
-• Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and
-PostgreSQL — skill gap analysis, resume generation, and cover letter automation.
-• Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schema with
-SQLAlchemy async ORM, 5+ Alembic migrations, MinIO storage, and JWT + bcrypt auth.
-• Deployed services via Docker Compose; contributed across design, development, and testing using GitLab
-workflow.
+AI Engineer Intern
+Jan 2026 – June 2026
+• Developed AI-powered REST APIs using FastAPI, PostgreSQL, and SQLAlchemy for resume generation, skill gap
+analysis, and cover letter automation.
+• Built LLM-based features using Google Gemini API and RAG pipelines while contributing to Docker-based
+deployment and GitLab development workflows.
 Projects
-House Price Prediction|Python, Scikit-learn, EDA, Linear RegressionGitHub
-• Built Linear Regression model using Scikit-learn to predict house prices with full EDA pipeline — missing value
-handling, outlier removal (IQR method), and feature scaling.
-• Evaluated model performance using MSE andR 2 score; applied train-test split and bias-variance tradeoff
-analysis to improve prediction accuracy.
-Courier Partner Web App|Python, FastAPI, REST API, HTML, CSSGitHub
-• Built full-stack FastAPI web application with REST API endpoints, HTML frontend integration, and static file
-handling for a courier partner service.
-• Structured scalable backend using FastAPI with database connectivity and auto-generated Swagger
-documentation for API exploration and testing.
+WorkLens | Python, XGBoost, FastAPI, React
+GitHub
+• Built an end-to-end XGBoost employee attrition prediction system achieving 91% F1-score and 83% test accuracy,
+with FastAPI deployment and React dashboard.
+PHP Vibe Coder | Python, RAG, Gemini API, FAISS, Streamlit
+GitHub
+• Developed a GenAI-powered PHP Vibe Coding platform using RAG and Gemini API for context-aware PHP
+project generation, testing, debugging, and refactoring.
 Achievements & Certifications
-•ClearedTCS National Qualifier Test (NQT) 2025– shortlisted for Ninja role interview among top 10%
+• Cleared TCS National Qualifier Test (NQT) 2025 – shortlisted for Ninja role interview among top 10%
 candidates nationwide
-•CompletedGoogle Cloud Skills Boostcertification in Generative AI Fundamentals (2024)
-•Python Development Internship Certificate– Cognifyz Technologies (2024)
-•Represented state atNational Basketball Championship, demonstrating teamwork, leadership, and
+• Completed Advanced Certification in Data Science (ML) – Seed Infotech (2026)
+• Python Development Internship Certificate – Cognifyz Technologies (2024)
+• Represented state at National Basketball Championship, demonstrating teamwork, leadership, and
 performance under pressure
