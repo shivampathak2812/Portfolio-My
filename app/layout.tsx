@@ -16,9 +16,15 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Shivam Pathak | AI Engineer & Data Science Specialist",
-  description: "Cinematic portfolio of Shivam Pathak, an AI Engineer and Data Science Enthusiast building intelligent systems, modern web experiences, and scalable AI products.",
-  keywords: ["AI Engineer", "Data Science", "Machine Learning", "FastAPI", "Next.js", "React", "Three.js", "Shivam Pathak"],
+  title: "Shivam Pathak | Data & AI Engineer",
+  description: "Portfolio of Shivam Pathak, a Data & AI Engineer with hands-on experience in Python, SQL, Machine Learning, Data Science, LLMs, RAG, FastAPI, and PostgreSQL — building ML models, AI applications, REST APIs, and data pipelines.",
+  keywords: ["Data Engineer", "AI Engineer", "Data Science", "Machine Learning", "LLM", "RAG", "ETL Pipelines", "Apache Airflow", "FastAPI", "PostgreSQL", "Python", "SQL", "Shivam Pathak"],
+  authors: [{ name: "Shivam Pathak" }],
+  openGraph: {
+    title: "Shivam Pathak | Data & AI Engineer",
+    description: "Data & AI Engineer building ML models, LLM/RAG applications, REST APIs, and data pipelines.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

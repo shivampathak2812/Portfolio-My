@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -10,7 +11,9 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import CinematicIntro from "@/components/CinematicIntro";
 import Experience from "@/components/Experience";
-import Chatbot from "@/components/Chatbot";
+
+// Chatbot is a large, interaction-only widget — split it into its own client bundle
+const Chatbot = dynamic(() => import("@/components/Chatbot"), { ssr: false });
 
 export default function Home() {
   const portfolioRef = useRef<HTMLDivElement>(null);

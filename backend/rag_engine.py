@@ -60,9 +60,9 @@ class PortfolioAssistant:
         if "resume" in q or "cv" in q or "download" in q:
             actions.append({"label": "Download Resume 📄", "type": "download", "target": "/resume/Resume_Shivam.pdf"})
             
-        if "travelart" in q or "travel art" in q:
+        if "vibecoder" in q or "vibe coder" in q or "php" in q:
             actions.append({"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"})
-            actions.append({"label": "View TravelArt Code 🐙", "type": "link", "target": "https://github.com/shivampathak2812/TravelART.git"})
+            actions.append({"label": "View PHP Vibe Coder Code 🐙", "type": "link", "target": "https://github.com/shivampathak2812/PHP-VibeCoder.git"})
             
         if "ats" in q or "ats-pro" in q or "analyzer" in q:
             actions.append({"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"})
