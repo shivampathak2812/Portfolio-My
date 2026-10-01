@@ -63,7 +63,7 @@ export default function Hero() {
           ref={taglineRef}
           className="text-[10px] md:text-xs tracking-[0.25em] font-semibold text-yellow-500 mb-4 uppercase inline-flex items-center space-x-2"
         >
-          <span>AI ENGINEER</span>
+          <span>DATA &amp; AI ENGINEER</span>
         </div>
 
         {/* Stacked Giant Easing Name */}
