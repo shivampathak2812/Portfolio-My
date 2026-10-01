@@ -198,7 +198,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
               className="max-w-md flex flex-col items-center relative z-10"
             >
               <div className="text-[10px] tracking-[0.4em] font-semibold text-yellow-500 mb-4 uppercase">
-                AI ENGINEER
+                DATA &amp; AI ENGINEER
               </div>
 
               <h1 className="font-display font-black text-4xl md:text-5xl tracking-[0.2em] text-white uppercase mb-8">
