@@ -226,6 +226,13 @@ def score_intent(q: str) -> str:
             "weight": 5
         },
         {
+            "intent": "project_worklens",
+            "keywords": ["worklens", "work lens", "attrition", "employee attrition", "hr analytics"],
+            "boost": ["xgboost", "attrition"],
+            "exclude": [],
+            "weight": 5
+        },
+        {
             "intent": "project_houseprice",
             "keywords": ["house price", "house prediction", "real estate", "price prediction"],
             "boost": ["regression", "scikit"],
@@ -371,7 +378,7 @@ def get_local_reply(query: str, history: list) -> dict:
 
     if intent == "chitchat_capabilities":
         return {
-            "answer": "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 7 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
+            "answer": "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 8 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
             "actions": [
                 {"label": "Summarize Shivam ⏱️", "type": "scroll", "target": "trigger:summary"},
                 {"label": "Show AI Projects 🧭", "type": "scroll", "target": "#projects"},
@@ -408,7 +415,7 @@ def get_local_reply(query: str, history: list) -> dict:
 
     if intent == "chitchat_favorite":
         return {
-            "answer": "If I had to pick a favorite, I'd say I love talking about **PHP Vibe Coder** — it's Shivam's flagship AI project that combines Google Gemini, RAG over PHP docs with FAISS, and a self-healing debug agent! 💻⚡\n\nBut honestly, all 7 of his projects are impressive in their own way. Want me to walk you through them?",
+            "answer": "If I had to pick a favorite, I'd say I love talking about **PHP Vibe Coder** — it's Shivam's flagship AI project that combines Google Gemini, RAG over PHP docs with FAISS, and a self-healing debug agent! 💻⚡\n\nBut honestly, all 8 of his projects are impressive in their own way. Want me to walk you through them?",
             "actions": [
                 {"label": "Show All Projects 🧭", "type": "scroll", "target": "#projects"},
                 {"label": "View PHP Vibe Coder 🐙", "type": "link", "target": "https://github.com/shivampathak2812/PHP-VibeCoder.git"}
@@ -432,19 +439,19 @@ def get_local_reply(query: str, history: list) -> dict:
 
     if intent == "experience":
         return {
-            "answer": "Shivam worked as an **AI Engineer Intern** at **Northcorp Software** (Jan 2026 - May 2026).\n\n**Key Achievements:**\n*   Built 10+ REST API endpoints for the Talent Assessment Platform (TAP) using FastAPI and PostgreSQL.\n*   Developed LLM features using the Google Gemini API and structured RAG pipelines.\n*   Managed PostgreSQL schema with SQLAlchemy async ORM, Alembic migrations, MinIO storage, and secure JWT auth.\n*   Successfully deployed services via Docker Compose.\n\nI have automatically scrolled your window to his timeline below to see it in style!",
+            "answer": "Shivam worked as an **AI Engineer Intern** at **Northcorp Software** (Jan 2026 - Jun 2026).\n\n**Key Achievements:**\n*   Built 10+ REST API endpoints for the Talent Assessment Platform (TAP) using FastAPI and PostgreSQL.\n*   Developed LLM features using the Google Gemini API and structured RAG pipelines.\n*   Managed PostgreSQL schema with SQLAlchemy async ORM, Alembic migrations, MinIO storage, and secure JWT auth.\n*   Successfully deployed services via Docker Compose.\n\nI have automatically scrolled your window to his timeline below to see it in style!",
             "actions": [{"label": "Go to Experience Timeline 💼", "type": "scroll", "target": "#experience"}]
         }
 
     if intent == "skills":
         return {
-            "answer": "Shivam's technical proficiency is balanced across AI engineering and modern backends:\n\n*   **AI/ML & Generative AI:** Google Gemini API, LLaMA 3, RAG pipelines, NLP, Scikit-Learn, Pandas, NumPy, Seaborn.\n*   **Backend & DBs:** FastAPI, Python, PostgreSQL, SQLAlchemy Async ORM, Alembic migrations, Redis Caching, MinIO object storage, secure JWT auth.\n*   **Tools & DevOps:** Docker Compose, Git, GitLab Workflow, Linux Bash, Excel KPIs.\n\nI have scrolled the page directly to his skills spotlight grid below!",
+            "answer": "Shivam's technical proficiency is balanced across AI engineering and modern backends:\n\n*   **AI/ML & Generative AI:** Google Gemini API, LLaMA 3, RAG pipelines, NLP, Scikit-Learn, XGBoost, Pandas, NumPy, Seaborn.\n*   **Backend & DBs:** FastAPI, Python, PostgreSQL, SQLAlchemy Async ORM, Alembic migrations, Redis Caching, MinIO object storage, secure JWT auth.\n*   **Tools & DevOps:** Docker Compose, Git, GitLab Workflow, Linux Bash, Excel KPIs.\n\nI have scrolled the page directly to his skills spotlight grid below!",
             "actions": [{"label": "Go to Skills Spotlight ⚡", "type": "scroll", "target": "#skills"}]
         }
 
     if intent == "education":
         return {
-            "answer": "Shivam holds a **B.Tech in Computer Science and Engineering** from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) where he achieved a **6.88 CGPA**.\n\n**Academic Highlights:**\n*   Shortlisted as a Top 10% candidate in TCS NQT 2025.\n*   Completed Google Cloud GenAI Certification.\n*   Completed Python Development Program by Cognifyz Technologies.\n*   Represented his university in the National Basketball Championship.\n\nI have shifted your focus down to his academic credentials panel!",
+            "answer": "Shivam holds a **B.Tech in Computer Science and Engineering** from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) where he achieved a **6.88 CGPA**.\n\n**Academic Highlights:**\n*   Shortlisted as a Top 10% candidate in TCS NQT 2025.\n*   Completed Advanced Certification in Data Science (ML) from Seed Infotech (2026).\n*   Completed Python Development Program by Cognifyz Technologies.\n*   Represented his university in the National Basketball Championship.\n\nI have shifted your focus down to his academic credentials panel!",
             "actions": [{"label": "Go to Education 🎓", "type": "scroll", "target": "#education"}]
         }
 
@@ -519,10 +526,19 @@ def get_local_reply(query: str, history: list) -> dict:
             ]
         }
 
+    if intent == "project_worklens":
+        return {
+            "answer": "**WorkLens** is Shivam's end-to-end HR analytics and employee attrition prediction platform:\n\n*   **ML Engine:** An optimized **XGBoost** classifier trained on the IBM HR Attrition dataset, achieving a **91% F1-score** and **83% test accuracy**.\n*   **Backend:** **FastAPI** prediction and outcome endpoints with prediction-history logging.\n*   **Frontend:** A **React (Vite)** multi-step form wizard plus a **Recharts** dashboard showing attrition by department, risk distribution, and configurable HR alerts.\n\nI've scrolled down to his project grid. Check out WorkLens and its code!",
+            "actions": [
+                {"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"},
+                {"label": "View WorkLens Code 🐙", "type": "link", "target": "https://github.com/shivampathak2812/WorkLens.git"}
+            ]
+        }
+
     # ── ALL PROJECTS ──
     if intent == "projects_all":
         return {
-            "answer": "Shivam has designed **7 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!",
+            "answer": "Shivam has designed **8 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n8.  **WorkLens:** XGBoost employee attrition predictor (91% F1) with FastAPI & React dashboard.\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!",
             "actions": [
                 {"label": "Go to Projects Showcase 🧭", "type": "scroll", "target": "#projects"}
             ]

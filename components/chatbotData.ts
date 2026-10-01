@@ -30,7 +30,7 @@ export const KNOWLEDGE_BASE = {
     {
       role: "AI Engineer Intern",
       company: "Northcorp Software",
-      duration: "Jan 2026 - May 2026",
+      duration: "Jan 2026 - Jun 2026",
       details: [
         "Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and PostgreSQL, managing skill gap analysis, resume generation, and cover letter automation.",
         "Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schemas with SQLAlchemy async ORMs, 5+ Alembic migrations, MinIO storage, and secure JWT + bcrypt authentication.",
@@ -88,13 +88,20 @@ export const KNOWLEDGE_BASE = {
       techStack: "Python, Pandas, NumPy, Matplotlib, Seaborn, Statistical EDA",
       github: "https://github.com/shivampathak2812",
       highlights: "Creates heatmap matrices, scatter patterns, and statistical summaries to translate datasets into strategic insights."
+    },
+    {
+      title: "WorkLens",
+      description: "An end-to-end employee attrition prediction and HR analytics platform.",
+      techStack: "Python, XGBoost, FastAPI, React (Vite), Recharts",
+      github: "https://github.com/shivampathak2812/WorkLens.git",
+      highlights: "XGBoost classifier trained on the IBM HR Attrition dataset achieving 91% F1-score and 83% test accuracy, served through FastAPI with a React analytics dashboard."
     }
   ],
   skills: {
-    aiml: ["Google Gemini API", "LLaMA 3/3.3", "RAG Pipelines", "Scikit-Learn", "NLP", "Pandas", "NumPy", "Matplotlib", "Seaborn"],
+    aiml: ["Google Gemini API", "LLaMA 3/3.3", "RAG Pipelines", "Scikit-Learn", "XGBoost", "NLP", "Pandas", "NumPy", "Matplotlib", "Seaborn"],
     backend: ["FastAPI", "Python", "PostgreSQL", "SQLAlchemy ORM", "Alembic", "Redis", "MinIO", "JWT + bcrypt Auth", "REST APIs"],
     dataEngineering: ["ETL Pipelines", "Apache Airflow", "Data Processing", "Data Validation"],
-    tools: ["Docker Compose", "Git", "GitLab Workflow", "Git/GitHub", "Linux Bash", "Excel (KPI Dashboards, Pivot Tables)"]
+    tools: ["Docker Compose", "Git", "GitLab Workflow", "Git/GitHub", "Google Colab", "Linux Bash", "Excel (KPI Dashboards, Pivot Tables)"]
   },
   education: {
     institution: "Graphic Era Hill University, Haldwani",
@@ -103,7 +110,7 @@ export const KNOWLEDGE_BASE = {
     cgpa: "6.88 / 10.0",
     achievements: [
       "Shortlisted as a Top 10% candidate in TCS NQT 2025.",
-      "Completed Google Cloud GenAI Certification.",
+      "Completed Advanced Certification in Data Science (ML) from Seed Infotech (2026).",
       "Completed Python Development Program by Cognifyz Technologies.",
       "Represented his university in the National Basketball Championship."
     ]
@@ -364,6 +371,13 @@ function scoreIntent(queryText: string): IntentMatch {
       weight: 5
     },
     {
+      intent: "project_worklens",
+      keywords: [["worklens"], ["work", "lens"], ["attrition"], ["employee", "attrition"], ["hr", "analytics"]],
+      boost: [["xgboost"], ["attrition"]],
+      exclude: [],
+      weight: 5
+    },
+    {
       intent: "project_eda",
       keywords: [["exploratory", "data", "analysis"], ["eda"]],
       boost: [["seaborn"], ["matplotlib"], ["heatmap"]],
@@ -508,7 +522,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "chitchat_capabilities":
       return {
-        answer: "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 7 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
+        answer: "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 8 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
         actions: [
           { label: "Summarize Shivam ⏱️", type: "scroll", target: "trigger:summary" },
           { label: "Show AI Projects 🧭", type: "scroll", target: "#projects" },
@@ -545,7 +559,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "chitchat_favorite":
       return {
-        answer: "If I had to pick a favorite, I'd say I love talking about **PHP Vibe Coder** — it's Shivam's flagship AI project that combines Google Gemini, RAG over PHP docs with FAISS, and a self-healing debug agent! 💻⚡\n\nBut honestly, all 7 of his projects are impressive in their own way. Want me to walk you through them?",
+        answer: "If I had to pick a favorite, I'd say I love talking about **PHP Vibe Coder** — it's Shivam's flagship AI project that combines Google Gemini, RAG over PHP docs with FAISS, and a self-healing debug agent! 💻⚡\n\nBut honestly, all 8 of his projects are impressive in their own way. Want me to walk you through them?",
         actions: [
           { label: "Show All Projects 🧭", type: "scroll", target: "#projects" },
           { label: "View PHP Vibe Coder 🐙", type: "link", target: "https://github.com/shivampathak2812/PHP-VibeCoder.git" }
@@ -585,7 +599,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "skills":
       return {
-        answer: `Shivam's technical proficiency is balanced across AI engineering and modern backends:\n\n*   **AI/ML & GenAI:** Google Gemini API, LLaMA 3, Retrieval-Augmented Generation (RAG) pipelines, NLP, Scikit-Learn, Pandas, NumPy.\n*   **Data Engineering:** ETL pipelines, Apache Airflow, data processing, data validation.\n*   **Backend & DBs:** FastAPI, Python, PostgreSQL, SQLAlchemy Async ORM, Alembic migrations, Redis Caching, MinIO object storage, JWT secure auth.\n*   **Tools & DevOps:** Docker Compose, GitLab workflow, Git/GitHub, Linux Bash, Excel analytical modeling.\n\nI have scrolled the page directly to his interactive spotlight skill grid below!`,
+        answer: `Shivam's technical proficiency is balanced across AI engineering and modern backends:\n\n*   **AI/ML & GenAI:** Google Gemini API, LLaMA 3, Retrieval-Augmented Generation (RAG) pipelines, NLP, Scikit-Learn, XGBoost, Pandas, NumPy.\n*   **Data Engineering:** ETL pipelines, Apache Airflow, data processing, data validation.\n*   **Backend & DBs:** FastAPI, Python, PostgreSQL, SQLAlchemy Async ORM, Alembic migrations, Redis Caching, MinIO object storage, JWT secure auth.\n*   **Tools & DevOps:** Docker Compose, GitLab workflow, Git/GitHub, Linux Bash, Excel analytical modeling.\n\nI have scrolled the page directly to his interactive spotlight skill grid below!`,
         actions: [
           { label: "Go to Skills Spotlight ⚡", type: "scroll", target: "#skills" }
         ]
@@ -688,10 +702,21 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
       };
     }
 
-    // ── ALL PROJECTS — lists all 7 projects clearly ──
+    case "project_worklens": {
+      const proj = KNOWLEDGE_BASE.projects[7];
+      return {
+        answer: `**WorkLens** is Shivam's end-to-end HR analytics and employee attrition prediction platform:\n\n*   **ML Engine:** An optimized **XGBoost** classifier trained on the IBM HR Attrition dataset, achieving a **91% F1-score** and **83% test accuracy**.\n*   **Backend:** **FastAPI** prediction and outcome endpoints with prediction-history logging.\n*   **Frontend:** A **React (Vite)** multi-step form wizard plus a **Recharts** dashboard showing attrition by department, risk distribution, and configurable HR alerts.\n\nI've scrolled down to his project grid. Check out WorkLens and its code!`,
+        actions: [
+          { label: "Go to Projects Grid 🧭", type: "scroll", target: "#projects" },
+          { label: "View WorkLens Code 🐙", type: "link", target: proj.github }
+        ]
+      };
+    }
+
+    // ── ALL PROJECTS — lists all 8 projects clearly ──
     case "projects_all":
       return {
-        answer: `Shivam has designed **7 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!`,
+        answer: `Shivam has designed **8 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n8.  **WorkLens:** XGBoost employee attrition predictor (91% F1) with FastAPI & React dashboard.\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!`,
         actions: [
           { label: "Go to Projects Showcase 🧭", type: "scroll", target: "#projects" }
         ]

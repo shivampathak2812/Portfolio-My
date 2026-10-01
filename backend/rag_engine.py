@@ -64,6 +64,10 @@ class PortfolioAssistant:
             actions.append({"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"})
             actions.append({"label": "View PHP Vibe Coder Code 🐙", "type": "link", "target": "https://github.com/shivampathak2812/PHP-VibeCoder.git"})
             
+        if "worklens" in q or "work lens" in q or "attrition" in q:
+            actions.append({"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"})
+            actions.append({"label": "View WorkLens Code 🐙", "type": "link", "target": "https://github.com/shivampathak2812/WorkLens.git"})
+
         if "ats" in q or "ats-pro" in q or "analyzer" in q:
             actions.append({"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"})
             actions.append({"label": "View ATS-Pro Code 🐙", "type": "link", "target": "https://github.com/shivampathak2812/ATS-Pro-Analyzer.git"})

@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
-import { FolderGit2, Github, Code2, Cpu, Calculator, Truck, Home, TrendingUp, Activity } from "lucide-react";
+import { FolderGit2, Github, Code2, Cpu, Users, Calculator, Truck, Home, TrendingUp, Activity } from "lucide-react";
 
 interface Project {
   title: string;
@@ -42,6 +42,32 @@ export default function Projects() {
             </foreignObject>
           </svg>
           <Code2 className="absolute top-4 right-4 w-5 h-5 text-white/20" />
+        </div>
+      ),
+    },
+    {
+      title: "WorkLens",
+      description: "Built an end-to-end employee attrition prediction system with an XGBoost classifier achieving 91% F1-score and 83% test accuracy, served via FastAPI with a React HR analytics dashboard.",
+      tags: ["Python", "XGBoost", "FastAPI", "React", "Recharts", "HR Analytics"],
+      githubUrl: "https://github.com/shivampathak2812/WorkLens.git",
+      accentClass: "orange",
+      graphic: (
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="25" y1="100" x2="175" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
+            <rect x="35" y="70" width="14" height="30" rx="2" fill="rgba(255,255,255,0.05)" />
+            <rect x="57" y="55" width="14" height="45" rx="2" fill="rgba(255,255,255,0.08)" />
+            <rect x="79" y="78" width="14" height="22" rx="2" fill="rgba(255,255,255,0.05)" />
+            <rect x="101" y="45" width="14" height="55" rx="2" fill="rgba(255,255,255,0.12)" />
+            <rect x="123" y="62" width="14" height="38" rx="2" fill="rgba(255,255,255,0.06)" />
+            <foreignObject x="110" y="18" width="62" height="28" className="overflow-visible">
+              <div className="bg-black/70 border border-white/5 rounded px-1 flex flex-col items-center justify-center">
+                <span className="text-[4px] text-white/40 tracking-widest font-black uppercase">ATTRITION</span>
+                <span className="text-[7px] font-bold text-white tracking-tighter">91% F1</span>
+              </div>
+            </foreignObject>
+          </svg>
+          <Users className="absolute top-4 left-4 w-5 h-5 text-white/20" />
         </div>
       ),
     },
