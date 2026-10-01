@@ -2,7 +2,7 @@
 
 import React, { useRef, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Brain, Database, Server, Settings, Terminal } from "lucide-react";
+import { Brain, Database, Server, Settings, Terminal, Workflow } from "lucide-react";
 
 // Detect touch device once at module level
 const IS_TOUCH = typeof navigator !== "undefined" && navigator.maxTouchPoints > 0;
@@ -125,6 +125,7 @@ export default function Skills() {
         { name: "RAG Pipelines" },
         { name: "NLP & TF-IDF" },
         { name: "Supervised Learning" },
+        { name: "XGBoost" },
         { name: "Model Evaluation" },
       ],
     },
@@ -143,9 +144,20 @@ export default function Skills() {
       ],
     },
     {
+      title: "Data Engineering",
+      icon: <Workflow className="w-5 h-5" />,
+      accentColor: "purple",
+      skills: [
+        { name: "ETL Pipelines" },
+        { name: "Apache Airflow" },
+        { name: "Data Processing" },
+        { name: "Data Validation" },
+      ],
+    },
+    {
       title: "Databases & Backend",
       icon: <Server className="w-5 h-5" />,
-      accentColor: "purple",
+      accentColor: "orange",
       skills: [
         { name: "FastAPI & REST APIs" },
         { name: "PostgreSQL & MySQL" },
@@ -158,13 +170,13 @@ export default function Skills() {
     {
       title: "Tools & DevOps",
       icon: <Settings className="w-5 h-5" />,
-      accentColor: "orange",
+      accentColor: "purple",
       skills: [
         { name: "Docker & Docker Compose" },
         { name: "Git, GitHub & GitLab" },
         { name: "JWT & bcrypt" },
         { name: "Swagger API Docs" },
-        { name: "VS Code & Jupyter" },
+        { name: "VS Code, Jupyter & Colab" },
         { name: "Power BI & Excel" },
       ],
     },

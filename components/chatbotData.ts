@@ -13,7 +13,7 @@ export interface RAGResponse {
 
 export const KNOWLEDGE_BASE = {
   bio: {
-    summary30s: "Shivam Pathak is an AI Engineer Intern at Northcorp Software (Remote) (Freelance) with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He also holds a B.Tech in CSE from Graphic Era Hill University, Haldwani (Graduated in June 2025) with a 6.88 CGPA.",
+    summary30s: "Shivam Pathak is an AI Engineer Intern at Northcorp Software with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He also holds a B.Tech in CSE from Graphic Era Hill University, Haldwani (Graduated in June 2025) with a 6.88 CGPA.",
     professional: "Shivam specializes in bridging AI/ML models with clean, high-performance backends. His focus lies in GenAI engineering, semantic document parsing (RAG pipelines), and asynchronous database management (SQLAlchemy ORM). He is fully equipped to hit the ground running in fast-paced software teams building next-generation intelligent applications.",
   },
   experience: [
@@ -29,8 +29,8 @@ export const KNOWLEDGE_BASE = {
     },
     {
       role: "AI Engineer Intern",
-      company: "Northcorp Software (Remote) (Freelance)",
-      duration: "Jan 2026 - May 2026",
+      company: "Northcorp Software",
+      duration: "Jan 2026 - Jun 2026",
       details: [
         "Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and PostgreSQL, managing skill gap analysis, resume generation, and cover letter automation.",
         "Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schemas with SQLAlchemy async ORMs, 5+ Alembic migrations, MinIO storage, and secure JWT + bcrypt authentication.",
@@ -41,11 +41,11 @@ export const KNOWLEDGE_BASE = {
   ],
   projects: [
     {
-      title: "TravelArt",
-      description: "An AI-powered full-stack travel itinerary platform featuring secure JWT + OTP authentication and dynamic AI trip modification.",
-      techStack: "FastAPI, React, PostgreSQL, Redis, Groq LLaMA 3.3, JWT + OTP",
-      github: "https://github.com/shivampathak2812/TravelART.git",
-      highlights: "Integrates Groq LLaMA 3.3 to construct custom day-by-day travel routes, utilizing Redis caching to reduce latency by 60%."
+      title: "PHP Vibe Coder",
+      description: "An AI-assisted PHP development workspace that turns plain-English requirements into complete PHP projects, explains existing codebases, and refactors files while preserving behavior.",
+      techStack: "Python, Streamlit, Google Gemini, RAG, Sentence Transformers, FAISS, PHP 8 CLI",
+      github: "https://github.com/shivampathak2812/PHP-VibeCoder.git",
+      highlights: "Retrieves PHP documentation via Sentence Transformers + FAISS (RAG) before Gemini generates code, then validates every file with `php -l` and hands failures to a debugging agent that retries up to 3 times."
     },
     {
       title: "ATS-Pro-Analyzer",
@@ -88,12 +88,20 @@ export const KNOWLEDGE_BASE = {
       techStack: "Python, Pandas, NumPy, Matplotlib, Seaborn, Statistical EDA",
       github: "https://github.com/shivampathak2812",
       highlights: "Creates heatmap matrices, scatter patterns, and statistical summaries to translate datasets into strategic insights."
+    },
+    {
+      title: "WorkLens",
+      description: "An end-to-end employee attrition prediction and HR analytics platform.",
+      techStack: "Python, XGBoost, FastAPI, React (Vite), Recharts",
+      github: "https://github.com/shivampathak2812/WorkLens.git",
+      highlights: "XGBoost classifier trained on the IBM HR Attrition dataset achieving 91% F1-score and 83% test accuracy, served through FastAPI with a React analytics dashboard."
     }
   ],
   skills: {
-    aiml: ["Google Gemini API", "LLaMA 3/3.3", "RAG Pipelines", "Scikit-Learn", "NLP", "Pandas", "NumPy", "Matplotlib", "Seaborn"],
+    aiml: ["Google Gemini API", "LLaMA 3/3.3", "RAG Pipelines", "Scikit-Learn", "XGBoost", "NLP", "Pandas", "NumPy", "Matplotlib", "Seaborn"],
     backend: ["FastAPI", "Python", "PostgreSQL", "SQLAlchemy ORM", "Alembic", "Redis", "MinIO", "JWT + bcrypt Auth", "REST APIs"],
-    tools: ["Docker Compose", "Git", "GitLab Workflow", "Git/GitHub", "Linux Bash", "Excel (KPI Dashboards, Pivot Tables)"]
+    dataEngineering: ["ETL Pipelines", "Apache Airflow", "Data Processing", "Data Validation"],
+    tools: ["Docker Compose", "Git", "GitLab Workflow", "Git/GitHub", "Google Colab", "Linux Bash", "Excel (KPI Dashboards, Pivot Tables)"]
   },
   education: {
     institution: "Graphic Era Hill University, Haldwani",
@@ -102,7 +110,7 @@ export const KNOWLEDGE_BASE = {
     cgpa: "6.88 / 10.0",
     achievements: [
       "Shortlisted as a Top 10% candidate in TCS NQT 2025.",
-      "Completed Google Cloud GenAI Certification.",
+      "Completed Advanced Certification in Data Science (ML) from Seed Infotech (2026).",
       "Completed Python Development Program by Cognifyz Technologies.",
       "Represented his university in the National Basketball Championship."
     ]
@@ -152,8 +160,9 @@ function scoreIntent(queryText: string): IntentMatch {
     "universty": "university",
     "conatct": "contact",
     "contct": "contact",
-    "travelart": "travelart",
-    "travel-art": "travelart",
+    "vibecoder": "vibecoder",
+    "vibe-coder": "vibecoder",
+    "php-vibecoder": "vibecoder",
     "ats-pro": "ats",
     "atspro": "ats"
   };
@@ -183,7 +192,7 @@ function scoreIntent(queryText: string): IntentMatch {
       intent: "greeting",
       keywords: [["hello"], ["hi"], ["hey"], ["good", "morning"], ["good", "evening"], ["howdy"], ["hola"], ["how", "are", "you"], ["how", "r", "u"]],
       boost: [],
-      exclude: ["project", "skill", "experience", "resume", "summarize", "education", "contact", "travelart", "ats"],
+      exclude: ["project", "skill", "experience", "resume", "summarize", "education", "contact", "php", "vibecoder", "ats"],
       weight: 1
     },
     {
@@ -320,9 +329,9 @@ function scoreIntent(queryText: string): IntentMatch {
     },
     // SPECIFIC PROJECT INTENTS
     {
-      intent: "project_travelart",
-      keywords: [["travelart"], ["travel", "art"], ["travel", "itinerary"], ["travel", "project"], ["travel", "app"]],
-      boost: [["travel"]],
+      intent: "project_vibecoder",
+      keywords: [["vibecoder"], ["vibe", "coder"], ["php"], ["vibe", "coding"], ["code", "generator"]],
+      boost: [["vibe"], ["php"]],
       exclude: [],
       weight: 5
     },
@@ -358,6 +367,13 @@ function scoreIntent(queryText: string): IntentMatch {
       intent: "project_zomato",
       keywords: [["zomato"], ["food", "delivery", "dashboard"]],
       boost: [["pivot"]],
+      exclude: [],
+      weight: 5
+    },
+    {
+      intent: "project_worklens",
+      keywords: [["worklens"], ["work", "lens"], ["attrition"], ["employee", "attrition"], ["hr", "analytics"]],
+      boost: [["xgboost"], ["attrition"]],
       exclude: [],
       weight: 5
     },
@@ -500,13 +516,13 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
         answer: "Here's one for you! 😂\n\nWhy do programmers prefer dark mode?\n\nBecause **light attracts bugs!** 🐛💡\n\nHaha, but seriously — Shivam doesn't just squash bugs, he builds entire AI systems! Want to see his work?",
         actions: [
           { label: "Show AI Projects 🧭", type: "scroll", target: "#projects" },
-          { label: "View TravelArt 🐙", type: "link", target: "https://github.com/shivampathak2812/TravelART.git" }
+          { label: "View PHP Vibe Coder 🐙", type: "link", target: "https://github.com/shivampathak2812/PHP-VibeCoder.git" }
         ]
       };
 
     case "chitchat_capabilities":
       return {
-        answer: "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 7 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
+        answer: "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 8 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
         actions: [
           { label: "Summarize Shivam ⏱️", type: "scroll", target: "trigger:summary" },
           { label: "Show AI Projects 🧭", type: "scroll", target: "#projects" },
@@ -516,10 +532,10 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "chitchat_weather":
       return {
-        answer: "I wish I could check the weather for you! ☀️🌧️ But I'm specialized in navigating Shivam's portfolio — think of me as an indoor assistant! 😄\n\nHow about I show you something cool instead? Like his **TravelArt** project that actually helps plan trips with AI? 🌍",
+        answer: "I wish I could check the weather for you! ☀️🌧️ But I'm specialized in navigating Shivam's portfolio — think of me as an indoor assistant! 😄\n\nHow about I show you something cool instead? Like his **PHP Vibe Coder** project that turns plain English into working PHP code with AI? 💻",
         actions: [
-          { label: "See TravelArt 🧭", type: "scroll", target: "#projects" },
-          { label: "View TravelArt Code 🐙", type: "link", target: "https://github.com/shivampathak2812/TravelART.git" }
+          { label: "See PHP Vibe Coder 🧭", type: "scroll", target: "#projects" },
+          { label: "View PHP Vibe Coder Code 🐙", type: "link", target: "https://github.com/shivampathak2812/PHP-VibeCoder.git" }
         ]
       };
 
@@ -543,10 +559,10 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "chitchat_favorite":
       return {
-        answer: "If I had to pick a favorite, I'd say I love talking about **TravelArt** — it's Shivam's flagship AI project that combines LLaMA 3.3, Redis caching, and a beautiful React frontend! 🌍✈️\n\nBut honestly, all 7 of his projects are impressive in their own way. Want me to walk you through them?",
+        answer: "If I had to pick a favorite, I'd say I love talking about **PHP Vibe Coder** — it's Shivam's flagship AI project that combines Google Gemini, RAG over PHP docs with FAISS, and a self-healing debug agent! 💻⚡\n\nBut honestly, all 8 of his projects are impressive in their own way. Want me to walk you through them?",
         actions: [
           { label: "Show All Projects 🧭", type: "scroll", target: "#projects" },
-          { label: "View TravelArt 🐙", type: "link", target: "https://github.com/shivampathak2812/TravelART.git" }
+          { label: "View PHP Vibe Coder 🐙", type: "link", target: "https://github.com/shivampathak2812/PHP-VibeCoder.git" }
         ]
       };
 
@@ -560,7 +576,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "summary":
       return {
-        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software (Remote) (Freelance)**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
+        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
         actions: [
           { label: "View Experience 💼", type: "scroll", target: "#experience" },
           { label: "View Skills ⚡", type: "scroll", target: "#skills" }
@@ -583,7 +599,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "skills":
       return {
-        answer: `Shivam's technical proficiency is balanced across AI engineering and modern backends:\n\n*   **AI/ML & GenAI:** Google Gemini API, LLaMA 3, Retrieval-Augmented Generation (RAG) pipelines, NLP, Scikit-Learn, Pandas, NumPy.\n*   **Backend & DBs:** FastAPI, Python, PostgreSQL, SQLAlchemy Async ORM, Alembic migrations, Redis Caching, MinIO object storage, JWT secure auth.\n*   **Tools & DevOps:** Docker Compose, GitLab workflow, Git/GitHub, Linux Bash, Excel analytical modeling.\n\nI have scrolled the page directly to his interactive spotlight skill grid below!`,
+        answer: `Shivam's technical proficiency is balanced across AI engineering and modern backends:\n\n*   **AI/ML & GenAI:** Google Gemini API, LLaMA 3, Retrieval-Augmented Generation (RAG) pipelines, NLP, Scikit-Learn, XGBoost, Pandas, NumPy.\n*   **Data Engineering:** ETL pipelines, Apache Airflow, data processing, data validation.\n*   **Backend & DBs:** FastAPI, Python, PostgreSQL, SQLAlchemy Async ORM, Alembic migrations, Redis Caching, MinIO object storage, JWT secure auth.\n*   **Tools & DevOps:** Docker Compose, GitLab workflow, Git/GitHub, Linux Bash, Excel analytical modeling.\n\nI have scrolled the page directly to his interactive spotlight skill grid below!`,
         actions: [
           { label: "Go to Skills Spotlight ⚡", type: "scroll", target: "#skills" }
         ]
@@ -609,13 +625,13 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     // ── SPECIFIC PROJECT RESPONSES ──
 
-    case "project_travelart": {
+    case "project_vibecoder": {
       const proj = KNOWLEDGE_BASE.projects[0];
       return {
-        answer: `**TravelArt** is Shivam's flagship AI project! It is a fully featured travel itinerary platform:\n\n*   **Core Feature:** Generates daily travel schedules using **Groq LLaMA 3.3** based on user parameters, supporting dynamic route edits.\n*   **Backend:** Powered by **FastAPI**, with **PostgreSQL** storage, **Redis caching** (reducing query latency by 60%), and **JWT + OTP** dual-layer authentication.\n\nI've scrolled down to his project grid. Check out the TravelArt dashboard and code!`,
+        answer: `**PHP Vibe Coder** is Shivam's flagship AI project — an AI-assisted PHP development workspace:\n\n*   **Core Feature:** Turns a plain-English requirement (plus an optional document or image) into a complete PHP project using **Google Gemini**.\n*   **RAG Engine:** Retrieves relevant PHP documentation with **Sentence Transformers + FAISS** before generating code.\n*   **Self-Healing:** Validates every file with \`php -l\`; failures go to a **debugging agent** that retries up to 3 times.\n*   **Extras:** Explains existing PHP projects and refactors files while preserving behavior, all in a **Streamlit** UI.\n\nI've scrolled down to his project grid. Check out PHP Vibe Coder and its code!`,
         actions: [
           { label: "Go to Projects Grid 🧭", type: "scroll", target: "#projects" },
-          { label: "View TravelArt Code 🐙", type: "link", target: proj.github }
+          { label: "View PHP Vibe Coder Code 🐙", type: "link", target: proj.github }
         ]
       };
     }
@@ -686,10 +702,21 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
       };
     }
 
-    // ── ALL PROJECTS — lists all 7 projects clearly ──
+    case "project_worklens": {
+      const proj = KNOWLEDGE_BASE.projects[7];
+      return {
+        answer: `**WorkLens** is Shivam's end-to-end HR analytics and employee attrition prediction platform:\n\n*   **ML Engine:** An optimized **XGBoost** classifier trained on the IBM HR Attrition dataset, achieving a **91% F1-score** and **83% test accuracy**.\n*   **Backend:** **FastAPI** prediction and outcome endpoints with prediction-history logging.\n*   **Frontend:** A **React (Vite)** multi-step form wizard plus a **Recharts** dashboard showing attrition by department, risk distribution, and configurable HR alerts.\n\nI've scrolled down to his project grid. Check out WorkLens and its code!`,
+        actions: [
+          { label: "Go to Projects Grid 🧭", type: "scroll", target: "#projects" },
+          { label: "View WorkLens Code 🐙", type: "link", target: proj.github }
+        ]
+      };
+    }
+
+    // ── ALL PROJECTS — lists all 8 projects clearly ──
     case "projects_all":
       return {
-        answer: `Shivam has designed **7 distinct software projects** matching his resume competencies:\n\n1.  **TravelArt:** LLaMA 3.3 & FastAPI itinerary planner.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!`,
+        answer: `Shivam has designed **8 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n8.  **WorkLens:** XGBoost employee attrition predictor (91% F1) with FastAPI & React dashboard.\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!`,
         actions: [
           { label: "Go to Projects Showcase 🧭", type: "scroll", target: "#projects" }
         ]
@@ -700,11 +727,11 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
       // Check conversational follow-ups using history context
       const lastUserMsg = history.length >= 2 ? history[history.length - 2].content.toLowerCase() : "";
       if (q.includes("tech stack") || q.includes("technologies used") || q.includes("what code")) {
-        if (lastUserMsg.includes("travelart") || lastUserMsg.includes("travel")) {
+        if (lastUserMsg.includes("vibe") || lastUserMsg.includes("php")) {
           const proj = KNOWLEDGE_BASE.projects[0];
           return {
-            answer: `TravelArt was constructed using:\n*   **Backend:** FastAPI, Python, Redis (Caching/Speed), SQLAlchemy ORM.\n*   **Frontend:** React, Tailwind CSS.\n*   **AI Engine:** Groq LLaMA 3.3 model integrations.\n*   **Database:** PostgreSQL.\n\nYou can review the complete code architecture directly on his GitHub!`,
-            actions: [{ label: "View TravelArt GitHub 🐙", type: "link", target: proj.github }]
+            answer: `PHP Vibe Coder was constructed using:\n*   **Language & UI:** Python 3.13, Streamlit.\n*   **AI Engine:** Google Gemini (google-genai) with multi-agent orchestration.\n*   **RAG:** Sentence Transformers (all-MiniLM-L6-v2) embeddings + FAISS vector search over PHP docs.\n*   **Validation:** PHP 8.x CLI syntax checks with an automated debug-and-retry loop.\n\nYou can review the complete code architecture directly on his GitHub!`,
+            actions: [{ label: "View PHP Vibe Coder GitHub 🐙", type: "link", target: proj.github }]
           };
         }
         if (lastUserMsg.includes("ats") || lastUserMsg.includes("analyzer")) {
@@ -718,7 +745,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
       // Professional default fallback
       return {
-        answer: "I'm **Shivam's AI Portfolio Assistant** — here to help you explore everything about his profile.\n\n**Try asking me things like:**\n*   *\"Tell me about his projects\"*\n*   *\"Summarize Shivam in 30 seconds\"*\n*   *\"What is his work experience at Northcorp?\"*\n*   *\"Tell me about TravelArt\"*\n*   *\"What are his technical skills?\"*\n*   *\"Download his resume\"*\n\nI'll give you detailed, accurate answers with quick-action buttons!",
+        answer: "I'm **Shivam's AI Portfolio Assistant** — here to help you explore everything about his profile.\n\n**Try asking me things like:**\n*   *\"Tell me about his projects\"*\n*   *\"Summarize Shivam in 30 seconds\"*\n*   *\"What is his work experience at Northcorp?\"*\n*   *\"Tell me about PHP Vibe Coder\"*\n*   *\"What are his technical skills?\"*\n*   *\"Download his resume\"*\n\nI'll give you detailed, accurate answers with quick-action buttons!",
         actions: [
           { label: "Summarize Shivam ⏱️", type: "scroll", target: "trigger:summary" },
           { label: "Show AI Projects 🧭", type: "scroll", target: "#projects" }

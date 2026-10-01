@@ -12,8 +12,8 @@ PORTFOLIO_DOCUMENTS = [
         Shivam Pathak is an AI Engineer and Data Science Specialist. 
         He specializes in building intelligent systems, production-ready AI agents, Retrieval-Augmented Generation (RAG) pipelines, and scalable backends.
         He holds a Bachelor of Technology (B.Tech) in Computer Science and Engineering from Graphic Era Hill University, Haldwani (Graduated in June 2025) where he maintained a 6.88 CGPA.
-        Shivam has certifications and accomplishments like being a TCS NQT 2025 Top 10% candidate, obtaining a Google Cloud GenAI Certification, and representing his university in the National Basketball Championship.
-        Shivam is currently employed as an AI Engineer Intern at Northcorp Software (Remote) (Freelance) since January 2026.
+        Shivam has certifications and accomplishments like being a TCS NQT 2025 Top 10% candidate, completing an Advanced Certification in Data Science (ML) from Seed Infotech, and representing his university in the National Basketball Championship.
+        Shivam worked as an AI Engineer Intern at Northcorp Software from January 2026 to June 2026, and since July 2026 he has been a Trainee Engineer – Data Science & AI/ML at Silicon Interfaces Pvt. Ltd., Mumbai.
         Shivam's email address is pathakshivam3738@gmail.com, his GitHub profile is https://github.com/shivampathak2812, and his LinkedIn profile is https://www.linkedin.com/in/shivam-pathak-9a76ba246.
         """,
         metadata={"source": "bio", "category": "general"}
@@ -22,7 +22,7 @@ PORTFOLIO_DOCUMENTS = [
     # Work Experience Documents
     Document(
         page_content="""
-        Shivam Pathak is an AI Engineer Intern at Northcorp Software (Remote) (Freelance) from January 2026 to Present.
+        Shivam Pathak is an AI Engineer Intern at Northcorp Software from January 2026 to June 2026.
         His core responsibilities and achievements in this role include:
         - Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and PostgreSQL, managing skill gap analysis, resume generation, and cover letter automation.
         - Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schema with SQLAlchemy async ORM, 5+ Alembic migrations, MinIO storage, and JWT + bcrypt auth.
@@ -35,10 +35,11 @@ PORTFOLIO_DOCUMENTS = [
     # Skills Documents
     Document(
         page_content="""
-        Shivam Pathak's technical skills matrix is classified into three categories:
-        1. AI/ML & Generative AI: Google Gemini API, LLaMA 3/3.3 models, Retrieval-Augmented Generation (RAG) pipelines, Natural Language Processing (NLP), Scikit-Learn, Pandas, NumPy, Matplotlib, Seaborn.
+        Shivam Pathak's technical skills matrix is classified into four categories:
+        1. AI/ML & Generative AI: Google Gemini API, LLaMA 3/3.3 models, Retrieval-Augmented Generation (RAG) pipelines, Natural Language Processing (NLP), Scikit-Learn, XGBoost, Pandas, NumPy, Matplotlib, Seaborn.
         2. Backend & Databases: FastAPI, Python, PostgreSQL, SQLAlchemy Async ORM, Alembic migrations, Redis caching, MinIO object storage, JWT + bcrypt authentication, REST API development.
-        3. Tools & DevOps: Docker Compose, Git, GitLab Workflow, Git/GitHub, Linux Bash, Excel analytical modeling (Pivot tables, slicers, KPI dashboards).
+        3. Data Engineering: ETL pipelines, Apache Airflow, data processing, data validation.
+        4. Tools & DevOps: Docker Compose, Git, GitLab Workflow, Git/GitHub, Linux Bash, Excel analytical modeling (Pivot tables, slicers, KPI dashboards).
         """,
         metadata={"source": "skills", "category": "technical"}
     ),
@@ -53,26 +54,40 @@ PORTFOLIO_DOCUMENTS = [
         Academics: Achieved a 6.88 / 10.0 CGPA.
         Achievements and Certifications:
         - Shortlisted as a Top 10% candidate in TCS NQT 2025.
-        - Completed Google Cloud GenAI Certification.
+        - Completed Advanced Certification in Data Science (ML) from Seed Infotech (2026).
         - Completed Python Development Program by Cognifyz Technologies.
         - Represented his university in the National Basketball Championship.
         """,
         metadata={"source": "education", "category": "academic"}
     ),
     
-    # Project 1: TravelArt
+    # Project 1: PHP Vibe Coder
     Document(
         page_content="""
-        Project Title: TravelArt
-        GitHub Repository: https://github.com/shivampathak2812/TravelART.git
-        Technologies: FastAPI, React, PostgreSQL, Redis, Groq LLaMA 3.3, JWT + OTP Authentication
-        Description: Built an AI-powered full-stack travel itinerary platform. 
-        It integrates Groq LLaMA 3.3 to construct custom day-by-day travel routes, utilizing Redis caching to reduce query latency by 60%.
-        Features secure JWT + OTP authentication, responsive React frontend, and dynamic AI trip modification based on user budgets and interests.
+        Project Title: PHP Vibe Coder
+        GitHub Repository: https://github.com/shivampathak2812/PHP-VibeCoder.git
+        Technologies: Python, Streamlit, Google Gemini (google-genai), RAG, Sentence Transformers (all-MiniLM-L6-v2), FAISS, PHP 8 CLI
+        Description: Built an AI-assisted PHP development workspace that turns a plain-English requirement (with an optional document or image) into a complete PHP project.
+        It retrieves relevant PHP documentation through Sentence Transformers embeddings and FAISS vector search (RAG) before Google Gemini generates code.
+        Every generated file is checked with PHP's built-in syntax validator (php -l); failures are sent to a debugging agent that repairs and re-validates up to three times.
+        It can also explain an existing PHP project's structure and code flow, and refactor a selected file while preserving its behavior.
         """,
-        metadata={"source": "projects", "project": "TravelArt", "accent": "purple"}
+        metadata={"source": "projects", "project": "PHP Vibe Coder", "accent": "purple"}
     ),
     
+    # Project: WorkLens
+    Document(
+        page_content="""
+        Project Title: WorkLens
+        GitHub Repository: https://github.com/shivampathak2812/WorkLens.git
+        Technologies: Python, XGBoost, FastAPI, React (Vite), Recharts, Pandas, Scikit-learn
+        Description: Built an end-to-end employee attrition prediction and HR analytics platform.
+        An optimized XGBoost classifier trained on the IBM HR Attrition dataset scores attrition risk from 15 core employee parameters, achieving a 91% F1-score and 83% test accuracy.
+        A FastAPI backend serves prediction and outcome endpoints and logs prediction history; a React (Vite) multi-step form wizard and Recharts dashboard show attrition by department, risk distributions, and configurable HR alert thresholds.
+        """,
+        metadata={"source": "projects", "project": "WorkLens", "accent": "orange"}
+    ),
+
     # Project 2: ATS-Pro-Analyzer
     Document(
         page_content="""

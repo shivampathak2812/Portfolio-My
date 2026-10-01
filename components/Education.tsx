@@ -32,8 +32,8 @@ export default function Education() {
       icon: <Award className="w-4 h-4 text-white/60" />,
     },
     {
-      title: "Google Cloud Skills Boost Certification",
-      desc: "Earned certification in Generative AI Fundamentals (2024).",
+      title: "Advanced Certification in Data Science (ML)",
+      desc: "Completed advanced certification in Data Science and Machine Learning at Seed Infotech (2026).",
       icon: <Award className="w-4 h-4 text-white/60" />,
     },
     {

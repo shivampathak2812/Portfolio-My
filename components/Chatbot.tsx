@@ -878,7 +878,7 @@ export default function Chatbot() {
                   <p className="text-[11px] tracking-[0.15em] font-bold text-accent-cinematic uppercase animate-pulse">
                     {isListening ? "Listening to your voice..." : speechActive ? "Narrating response..." : "Voice mode active"}
                   </p>
-                  <p className="text-[9px] text-white/40 mt-1">Speak clearly (e.g. &quot;Tell me about TravelArt&quot;)</p>
+                  <p className="text-[9px] text-white/40 mt-1">Speak clearly (e.g. &quot;Tell me about PHP Vibe Coder&quot;)</p>
                 </div>
 
                 {/* glowing breathing rings */}

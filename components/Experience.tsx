@@ -40,8 +40,8 @@ export default function Experience() {
     },
     {
       role: "AI Engineer Intern",
-      company: "Northcorp Software (Remote) (Freelance)",
-      duration: "Jan 2026 - May 2026",
+      company: "Northcorp Software",
+      duration: "Jan 2026 - Jun 2026",
       icon: <Briefcase className="w-5 h-5" />,
       accentColor: "purple",
       description: [

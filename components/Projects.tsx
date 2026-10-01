@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
-import { FolderGit2, Github, Compass, Cpu, Calculator, Truck, Home, TrendingUp, Activity } from "lucide-react";
+import { FolderGit2, Github, Code2, Cpu, Users, Calculator, Truck, Home, TrendingUp, Activity } from "lucide-react";
 
 interface Project {
   title: string;
@@ -17,31 +17,57 @@ export default function Projects() {
   // Memoize project data + inline SVG graphics to prevent expensive re-creation on re-renders
   const featuredProjects: Project[] = useMemo(() => [
     {
-      title: "TravelArt",
-      description: "Built an AI-powered full-stack travel itinerary platform with FastAPI, React, PostgreSQL, Redis, and Groq LLaMA 3.3 featuring secure JWT + OTP authentication and dynamic AI trip modification.",
-      tags: ["FastAPI", "React", "PostgreSQL", "Redis", "LLaMA 3.3", "JWT + OTP"],
-      githubUrl: "https://github.com/shivampathak2812/TravelART.git",
+      title: "PHP Vibe Coder",
+      description: "Built an AI-assisted PHP development workspace with Streamlit and Google Gemini that turns plain-English requirements into complete PHP projects, using RAG over PHP docs (Sentence Transformers + FAISS) and auto-validating code with a self-healing debug agent.",
+      tags: ["Python", "Google Gemini", "RAG", "FAISS", "Streamlit", "AI Agents"],
+      githubUrl: "https://github.com/shivampathak2812/PHP-VibeCoder.git",
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
           <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="40" cy="80" r="3" className="fill-white/30" />
-            <circle cx="160" cy="30" r="3" className="fill-white/20" />
-            <path d="M40 80 Q 100 15 160 30" stroke="rgba(255,255,255,0.15)" strokeWidth="1" strokeDasharray="3,3" />
-            <g className="opacity-40">
-              <circle cx="90" cy="48" r="2" className="fill-white" />
-              <circle cx="120" cy="36" r="2" className="fill-white" />
-            </g>
-            <foreignObject x="45" y="65" width="110" height="42" className="overflow-visible">
-              <div className="bg-black/60 border border-white/5 rounded-lg p-2 flex flex-col justify-between h-full shadow-lg">
-                <div className="flex items-center justify-between">
-                  <span className="text-[5px] tracking-wider text-white/50 uppercase">DESTINATION</span>
-                  <Compass className="w-2.5 h-2.5 text-white/40" />
-                </div>
-                <span className="text-[7px] font-bold text-white tracking-wide">AI TRIP • LLaMA 3.3</span>
+            <rect x="30" y="18" width="140" height="84" rx="6" stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="rgba(255,255,255,0.01)" />
+            <line x1="30" y1="30" x2="170" y2="30" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+            <circle cx="38" cy="24" r="1.5" className="fill-white/30" />
+            <circle cx="44" cy="24" r="1.5" className="fill-white/20" />
+            <circle cx="50" cy="24" r="1.5" className="fill-white/10" />
+            <line x1="42" y1="42" x2="110" y2="42" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
+            <line x1="50" y1="52" x2="130" y2="52" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+            <line x1="50" y1="62" x2="100" y2="62" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+            <line x1="42" y1="72" x2="90" y2="72" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
+            <foreignObject x="95" y="70" width="70" height="26" className="overflow-visible">
+              <div className="bg-black/70 border border-white/5 rounded px-1.5 py-1 flex items-center justify-between space-x-1">
+                <span className="text-[5px] tracking-wider text-white/50 uppercase">php -l</span>
+                <span className="text-[6px] font-bold text-white tracking-wide">✓ PASSED</span>
               </div>
             </foreignObject>
           </svg>
+          <Code2 className="absolute top-4 right-4 w-5 h-5 text-white/20" />
+        </div>
+      ),
+    },
+    {
+      title: "WorkLens",
+      description: "Built an end-to-end employee attrition prediction system with an XGBoost classifier achieving 91% F1-score and 83% test accuracy, served via FastAPI with a React HR analytics dashboard.",
+      tags: ["Python", "XGBoost", "FastAPI", "React", "Recharts", "HR Analytics"],
+      githubUrl: "https://github.com/shivampathak2812/WorkLens.git",
+      accentClass: "orange",
+      graphic: (
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="25" y1="100" x2="175" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
+            <rect x="35" y="70" width="14" height="30" rx="2" fill="rgba(255,255,255,0.05)" />
+            <rect x="57" y="55" width="14" height="45" rx="2" fill="rgba(255,255,255,0.08)" />
+            <rect x="79" y="78" width="14" height="22" rx="2" fill="rgba(255,255,255,0.05)" />
+            <rect x="101" y="45" width="14" height="55" rx="2" fill="rgba(255,255,255,0.12)" />
+            <rect x="123" y="62" width="14" height="38" rx="2" fill="rgba(255,255,255,0.06)" />
+            <foreignObject x="110" y="18" width="62" height="28" className="overflow-visible">
+              <div className="bg-black/70 border border-white/5 rounded px-1 flex flex-col items-center justify-center">
+                <span className="text-[4px] text-white/40 tracking-widest font-black uppercase">ATTRITION</span>
+                <span className="text-[7px] font-bold text-white tracking-tighter">91% F1</span>
+              </div>
+            </foreignObject>
+          </svg>
+          <Users className="absolute top-4 left-4 w-5 h-5 text-white/20" />
         </div>
       ),
     },
