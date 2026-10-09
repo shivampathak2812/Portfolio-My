@@ -233,6 +233,13 @@ def score_intent(q: str) -> str:
             "weight": 5
         },
         {
+            "intent": "project_hrleave",
+            "keywords": ["hr leave", "leave agent", "leave assistant", "hrleaveagent", "leave application", "leave request"],
+            "boost": ["langgraph", "leave"],
+            "exclude": [],
+            "weight": 5
+        },
+        {
             "intent": "project_houseprice",
             "keywords": ["house price", "house prediction", "real estate", "price prediction"],
             "boost": ["regression", "scikit"],
@@ -378,7 +385,7 @@ def get_local_reply(query: str, history: list) -> dict:
 
     if intent == "chitchat_capabilities":
         return {
-            "answer": "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 8 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
+            "answer": "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 9 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
             "actions": [
                 {"label": "Summarize Shivam ⏱️", "type": "scroll", "target": "trigger:summary"},
                 {"label": "Show AI Projects 🧭", "type": "scroll", "target": "#projects"},
@@ -526,6 +533,16 @@ def get_local_reply(query: str, history: list) -> dict:
             ]
         }
 
+    if intent == "project_hrleave":
+        return {
+            "answer": "**HR Leave Assistant** is Shivam's AI agent for HR leave management:\n\n*   **Agent:** Built with **LangGraph** and **Google Gemini**. Employees apply for leave in plain English (e.g. \"I want 2 days leave on 2026-10-20\").\n*   **Rule enforcement:** Looks up the employee in an Excel database, checks probation, notice period, max consecutive days and balance against the company rule book, then approves (updating the database) or explains the rejection.\n*   **UI:** A **Streamlit** chat app with employee and HR logins, live tool-call traces, file uploads for custom rule books/databases, and an FAQ cache for instant answers.\n\nIt's deployed live, so you can try it yourself!",
+            "actions": [
+                {"label": "Try Live Demo 🚀", "type": "link", "target": "https://hr-leave-assistant.streamlit.app/"},
+                {"label": "View HR Leave Code 🐙", "type": "link", "target": "https://github.com/shivampathak2812/HRLeaveAgent.git"},
+                {"label": "Go to Projects Grid 🧭", "type": "scroll", "target": "#projects"}
+            ]
+        }
+
     if intent == "project_worklens":
         return {
             "answer": "**WorkLens** is Shivam's end-to-end HR analytics and employee attrition prediction platform:\n\n*   **ML Engine:** An optimized **XGBoost** classifier trained on the IBM HR Attrition dataset, achieving a **91% F1-score** and **83% test accuracy**.\n*   **Backend:** **FastAPI** prediction and outcome endpoints with prediction-history logging.\n*   **Frontend:** A **React (Vite)** multi-step form wizard plus a **Recharts** dashboard showing attrition by department, risk distribution, and configurable HR alerts.\n\nI've scrolled down to his project grid. Check out WorkLens and its code!",
@@ -538,7 +555,7 @@ def get_local_reply(query: str, history: list) -> dict:
     # ── ALL PROJECTS ──
     if intent == "projects_all":
         return {
-            "answer": "Shivam has designed **8 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n8.  **WorkLens:** XGBoost employee attrition predictor (91% F1) with FastAPI & React dashboard.\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!",
+            "answer": "Shivam has designed **9 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n8.  **WorkLens:** XGBoost employee attrition predictor (91% F1) with FastAPI & React dashboard.\n9.  **HR Leave Assistant:** LangGraph + Gemini agent that approves leave requests against an HR rule book (live on Streamlit).\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!",
             "actions": [
                 {"label": "Go to Projects Showcase 🧭", "type": "scroll", "target": "#projects"}
             ]

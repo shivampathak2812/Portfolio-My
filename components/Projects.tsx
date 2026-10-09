@@ -2,13 +2,14 @@
 
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
-import { FolderGit2, Github, Code2, Cpu, Users, Calculator, Truck, Home, TrendingUp, Activity } from "lucide-react";
+import { FolderGit2, Github, Code2, Cpu, Users, Calculator, Truck, Home, TrendingUp, Activity, CalendarCheck, ExternalLink } from "lucide-react";
 
 interface Project {
   title: string;
   description: string;
   tags: string[];
   githubUrl: string;
+  liveUrl?: string;
   accentClass: string; // Color key for accents
   graphic: React.ReactNode; // SVG programmatic visualization
 }
@@ -16,6 +17,32 @@ interface Project {
 export default function Projects() {
   // Memoize project data + inline SVG graphics to prevent expensive re-creation on re-renders
   const featuredProjects: Project[] = useMemo(() => [
+    {
+      title: "HR Leave Assistant",
+      description: "Built an AI HR leave agent with LangGraph and Google Gemini that lets employees apply for leave in plain English: it looks up the employee record, checks the request against the company rule book, and approves it (updating the database) or explains why not, via a Streamlit chat UI with employee and HR logins.",
+      tags: ["Python", "LangGraph", "Google Gemini", "AI Agents", "Streamlit", "HR Automation"],
+      githubUrl: "https://github.com/shivampathak2812/HRLeaveAgent.git",
+      liveUrl: "https://hr-leave-assistant.streamlit.app/",
+      accentClass: "purple",
+      graphic: (
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="18" width="140" height="84" rx="6" stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="rgba(255,255,255,0.01)" />
+            <rect x="40" y="30" width="80" height="14" rx="4" fill="rgba(255,255,255,0.05)" />
+            <line x1="46" y1="37" x2="110" y2="37" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
+            <rect x="80" y="52" width="80" height="14" rx="4" fill="rgba(255,255,255,0.08)" />
+            <line x1="86" y1="59" x2="150" y2="59" stroke="rgba(255,255,255,0.18)" strokeWidth="2" />
+            <foreignObject x="40" y="72" width="80" height="24" className="overflow-visible">
+              <div className="bg-black/70 border border-white/5 rounded px-1.5 py-1 flex items-center justify-between space-x-1">
+                <span className="text-[5px] tracking-wider text-white/50 uppercase">E101 · 2 days</span>
+                <span className="text-[6px] font-bold text-white tracking-wide">✓ APPROVED</span>
+              </div>
+            </foreignObject>
+          </svg>
+          <CalendarCheck className="absolute top-4 right-4 w-5 h-5 text-white/20" />
+        </div>
+      ),
+    },
     {
       title: "PHP Vibe Coder",
       description: "Built an AI-assisted PHP development workspace with Streamlit and Google Gemini that turns plain-English requirements into complete PHP projects, using RAG over PHP docs (Sentence Transformers + FAISS) and auto-validating code with a self-healing debug agent.",
@@ -327,6 +354,17 @@ export default function Projects() {
                       <Github className="w-3.5 h-3.5 text-accent-cinematic group-hover/link:scale-110 transition-transform duration-300" />
                       <span>SOURCE</span>
                     </a>
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-2 text-[9px] font-semibold tracking-wider text-white/60 hover:text-white transition-colors duration-300 group/live"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5 text-accent-orange group-hover/live:scale-110 transition-transform duration-300" />
+                        <span>LIVE DEMO</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>

@@ -88,6 +88,20 @@ PORTFOLIO_DOCUMENTS = [
         metadata={"source": "projects", "project": "WorkLens", "accent": "orange"}
     ),
 
+    # Project: HR Leave Assistant
+    Document(
+        page_content="""
+        Project Title: HR Leave Assistant
+        GitHub Repository: https://github.com/shivampathak2812/HRLeaveAgent.git
+        Live Demo: https://hr-leave-assistant.streamlit.app/
+        Technologies: Python, LangGraph, Google Gemini, Streamlit, Pandas
+        Description: Built an AI HR leave agent that lets an employee apply for leave in plain English.
+        A LangGraph agent powered by Google Gemini looks up the employee in an Excel database, checks the request against the company rule book (probation, advance notice, max 5 consecutive days, leave balance), and either approves it and updates the database or explains why not.
+        The Streamlit chat UI has employee and HR logins, live tool-call traces, uploads for custom rule books and databases, and an FAQ cache that answers common policy questions instantly.
+        """,
+        metadata={"source": "projects", "project": "HR Leave Assistant", "accent": "purple"}
+    ),
+
     # Project 2: ATS-Pro-Analyzer
     Document(
         page_content="""
