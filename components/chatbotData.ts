@@ -96,6 +96,15 @@ export const KNOWLEDGE_BASE = {
       github: "https://github.com/shivampathak2812/WorkLens.git",
       highlights: "XGBoost classifier trained on the IBM HR Attrition dataset achieving 91% F1-score and 83% test accuracy, served through FastAPI with a React analytics dashboard."
     }
+,
+    {
+      title: "HR Leave Assistant",
+      description: "An AI HR leave agent that lets employees apply for leave in plain English and checks every request against the company rule book.",
+      techStack: "Python, LangGraph, Google Gemini, Streamlit, Pandas",
+      github: "https://github.com/shivampathak2812/HRLeaveAgent.git",
+      live: "https://hr-leave-assistant.streamlit.app/",
+      highlights: "LangGraph agent with Gemini that looks up the employee, validates probation, notice, max-days and balance rules, and approves (updating the Excel database) or explains the rejection, via a Streamlit chat UI with employee and HR logins."
+    }
   ],
   skills: {
     aiml: ["Google Gemini API", "LLaMA 3/3.3", "RAG Pipelines", "Scikit-Learn", "XGBoost", "NLP", "Pandas", "NumPy", "Matplotlib", "Seaborn"],
@@ -378,6 +387,13 @@ function scoreIntent(queryText: string): IntentMatch {
       weight: 5
     },
     {
+      intent: "project_hrleave",
+      keywords: [["hr", "leave"], ["leave", "agent"], ["leave", "assistant"], ["hrleaveagent"], ["leave", "application"], ["leave", "request"]],
+      boost: [["langgraph"], ["leave"]],
+      exclude: [],
+      weight: 5
+    },
+    {
       intent: "project_eda",
       keywords: [["exploratory", "data", "analysis"], ["eda"]],
       boost: [["seaborn"], ["matplotlib"], ["heatmap"]],
@@ -522,7 +538,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "chitchat_capabilities":
       return {
-        answer: "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 8 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
+        answer: "Great question! Here's what I can do for you: 🎯\n\n*   📋 **Summarize** Shivam's profile in 30 seconds\n*   💼 **Explain** his work experience at Northcorp Software\n*   🧭 **Navigate** you to any section of this portfolio\n*   📄 **Download** his professional resume as a PDF\n*   🔍 **Deep dive** into any of his 9 projects\n*   ⚡ **List** his technical skills and certifications\n*   🎤 **Voice mode** — just tap the mic and talk to me!\n\nI'll also highlight and scroll to the relevant sections for you automatically!",
         actions: [
           { label: "Summarize Shivam ⏱️", type: "scroll", target: "trigger:summary" },
           { label: "Show AI Projects 🧭", type: "scroll", target: "#projects" },
@@ -702,6 +718,18 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
       };
     }
 
+    case "project_hrleave": {
+      const proj = KNOWLEDGE_BASE.projects[8];
+      return {
+        answer: `**HR Leave Assistant** is Shivam's AI agent for HR leave management:\n\n*   **Agent:** Built with **LangGraph** and **Google Gemini**. Employees apply for leave in plain English (e.g. "I want 2 days leave on 2026-10-20").\n*   **Rule enforcement:** Looks up the employee in an Excel database, checks probation, notice period, max consecutive days and balance against the company rule book, then approves (updating the database) or explains the rejection.\n*   **UI:** A **Streamlit** chat app with employee and HR logins, live tool-call traces, file uploads for custom rule books/databases, and an FAQ cache for instant answers.\n\nIt's deployed live, so you can try it yourself!`,
+        actions: [
+          { label: "Try Live Demo 🚀", type: "link", target: proj.live ?? proj.github },
+          { label: "View HR Leave Code 🐙", type: "link", target: proj.github },
+          { label: "Go to Projects Grid 🧭", type: "scroll", target: "#projects" }
+        ]
+      };
+    }
+
     case "project_worklens": {
       const proj = KNOWLEDGE_BASE.projects[7];
       return {
@@ -713,10 +741,10 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
       };
     }
 
-    // ── ALL PROJECTS — lists all 8 projects clearly ──
+    // ── ALL PROJECTS — lists all 9 projects clearly ──
     case "projects_all":
       return {
-        answer: `Shivam has designed **8 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n8.  **WorkLens:** XGBoost employee attrition predictor (91% F1) with FastAPI & React dashboard.\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!`,
+        answer: `Shivam has designed **9 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n8.  **WorkLens:** XGBoost employee attrition predictor (91% F1) with FastAPI & React dashboard.\n9.  **HR Leave Assistant:** LangGraph + Gemini agent that approves leave requests against an HR rule book (live on Streamlit).\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!`,
         actions: [
           { label: "Go to Projects Showcase 🧭", type: "scroll", target: "#projects" }
         ]
