@@ -14,6 +14,8 @@ import Experience from "@/components/Experience";
 
 // Chatbot is a large, interaction-only widget — split it into its own client bundle
 const Chatbot = dynamic(() => import("@/components/Chatbot"), { ssr: false });
+// In-page resume viewer modal (pdf.js itself is lazy-loaded on first open)
+const ResumeViewer = dynamic(() => import("@/components/ResumeViewer"), { ssr: false });
 
 export default function Home() {
   const portfolioRef = useRef<HTMLDivElement>(null);
@@ -60,6 +62,9 @@ export default function Home() {
         {/* Premium Cinematic AI Chatbot & Voice Assistant */}
         <Chatbot />
       </div>
+
+      {/* 3. Resume viewer modal — opened from navbar, hero, contact, chatbot or /#resume */}
+      <ResumeViewer />
     </>
   );
 }

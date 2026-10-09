@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import dynamic from "next/dynamic";
+import { Download } from "lucide-react";
+import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 
 export default function Hero() {
@@ -109,15 +111,32 @@ export default function Hero() {
             <span className="relative z-10">VIEW PROJECTS</span>
           </motion.a>
 
-          <motion.a
-            href="/resume/Resume_Shivam.pdf"
-            download="Shivam_Pathak_Resume.pdf"
-            whileHover={{ scale: 1.015 }}
-            whileTap={{ scale: 0.98 }}
-            className="px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-white border border-white/10 bg-transparent hover:bg-white/5 hover:border-white/20 text-center transition-all duration-300"
-          >
-            <span className="relative z-10">DOWNLOAD RESUME</span>
-          </motion.a>
+          <div className="flex items-stretch space-x-3">
+            <motion.a
+              href={RESUME_HASH}
+              onClick={(e) => {
+                e.preventDefault();
+                openResumeViewer();
+              }}
+              whileHover={{ scale: 1.015 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex-1 sm:flex-none px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-white border border-white/10 bg-transparent hover:bg-white/5 hover:border-white/20 text-center transition-all duration-300"
+            >
+              <span className="relative z-10">VIEW RESUME</span>
+            </motion.a>
+
+            <motion.a
+              href={RESUME_URL}
+              download={RESUME_FILENAME}
+              aria-label="Download resume"
+              title="Download resume"
+              whileHover={{ scale: 1.015 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center justify-center px-4 rounded-lg text-white border border-white/10 bg-transparent hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+            >
+              <Download className="w-4 h-4" />
+            </motion.a>
+          </div>
         </div>
       </div>
 

@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, Menu, X } from "lucide-react";
+import { Download, FileText, Menu, X } from "lucide-react";
+import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -76,17 +77,20 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA: Download Resume */}
+          {/* CTA: View Resume (viewer modal also offers download) */}
           <div className="hidden md:block">
             <a
-              href="/resume/Resume_Shivam.pdf"
-              download="Shivam_Pathak_Resume.pdf"
+              href={RESUME_HASH}
+              onClick={(e) => {
+                e.preventDefault();
+                openResumeViewer();
+              }}
               className="relative overflow-hidden group inline-flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider text-white border border-white/10 glass-panel hover:border-accent-cinematic/50 transition-all duration-300 active:scale-95"
             >
               {/* Button background anim */}
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-accent-cinematic/20 to-accent-orange/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <Download className="w-3.5 h-3.5 text-accent-cinematic group-hover:text-white transition-colors duration-300" />
+              <FileText className="w-3.5 h-3.5 text-accent-cinematic group-hover:text-white transition-colors duration-300" />
               <span className="relative z-10">RESUME</span>
             </a>
           </div>
@@ -131,11 +135,23 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navItems.length * 0.05 }}
-                className="pt-8 flex justify-center"
+                className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-3"
               >
                 <a
-                  href="/resume/Resume_Shivam.pdf"
-                  download="Shivam_Pathak_Resume.pdf"
+                  href={RESUME_HASH}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    openResumeViewer();
+                  }}
+                  className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-sm font-semibold tracking-wider text-white border border-white/10 glass-panel"
+                >
+                  <FileText className="w-4 h-4 text-accent-cinematic" />
+                  <span>VIEW RESUME</span>
+                </a>
+                <a
+                  href={RESUME_URL}
+                  download={RESUME_FILENAME}
                   onClick={() => setMobileMenuOpen(false)}
                   className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-sm font-semibold tracking-wider text-white border border-white/10 glass-panel"
                 >

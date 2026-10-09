@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Github, Linkedin, FileText, Copy, Check, Terminal } from "lucide-react";
+import { Send, Github, Linkedin, FileText, Copy, Check, Terminal, Download } from "lucide-react";
+import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
@@ -30,9 +31,9 @@ export default function Contact() {
     {
       name: "RESUME",
       icon: <FileText className="w-5 h-5 text-white/70" />,
-      url: "/resume/Resume_Shivam.pdf",
-      download: "Shivam_Pathak_Resume.pdf",
-      label: "Download offline PDF",
+      url: RESUME_HASH,
+      opensResumeViewer: true,
+      label: "View or download PDF",
     },
   ];
 
@@ -139,27 +140,48 @@ export default function Contact() {
             className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full"
           >
             {socialLinks.map((link) => (
-              <motion.a
-                key={link.name}
-                href={link.url}
-                download={link.download}
-                target={link.download ? undefined : "_blank"}
-                rel={link.download ? undefined : "noopener noreferrer"}
-                whileHover={{ y: -2 }}
-                className="relative rounded-2xl glass-panel border border-white/5 p-6 flex flex-col items-center justify-center hover:border-white/15 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-500 group select-none cursor-pointer"
-              >
-                {/* Tile Icon with pulse anim on hover */}
-                <div className="w-11 h-11 rounded-xl bg-white/[0.02] border border-white/[0.05] group-hover:bg-white/[0.04] group-hover:border-white/15 flex items-center justify-center mb-4 transition-all duration-300">
-                  {link.icon}
-                </div>
+              <div key={link.name} className="relative">
+                <motion.a
+                  href={link.url}
+                  onClick={
+                    link.opensResumeViewer
+                      ? (e) => {
+                          e.preventDefault();
+                          openResumeViewer();
+                        }
+                      : undefined
+                  }
+                  target={link.opensResumeViewer ? undefined : "_blank"}
+                  rel={link.opensResumeViewer ? undefined : "noopener noreferrer"}
+                  whileHover={{ y: -2 }}
+                  className="relative h-full rounded-2xl glass-panel border border-white/5 p-6 flex flex-col items-center justify-center hover:border-white/15 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-500 group select-none cursor-pointer"
+                >
+                  {/* Tile Icon with pulse anim on hover */}
+                  <div className="w-11 h-11 rounded-xl bg-white/[0.02] border border-white/[0.05] group-hover:bg-white/[0.04] group-hover:border-white/15 flex items-center justify-center mb-4 transition-all duration-300">
+                    {link.icon}
+                  </div>
 
-                <span className="text-xs font-bold tracking-[0.2em] text-white uppercase mb-1">
-                  {link.name}
-                </span>
-                <span className="text-[10px] text-white/40 font-light tracking-wide text-center">
-                  {link.label}
-                </span>
-              </motion.a>
+                  <span className="text-xs font-bold tracking-[0.2em] text-white uppercase mb-1">
+                    {link.name}
+                  </span>
+                  <span className="text-[10px] text-white/40 font-light tracking-wide text-center">
+                    {link.label}
+                  </span>
+                </motion.a>
+
+                {/* Direct download shortcut (sibling, since links can't nest) */}
+                {link.opensResumeViewer && (
+                  <a
+                    href={RESUME_URL}
+                    download={RESUME_FILENAME}
+                    aria-label="Download resume"
+                    title="Download resume"
+                    className="absolute top-3 right-3 z-10 w-8 h-8 rounded-lg flex items-center justify-center text-white/50 border border-white/5 bg-white/[0.02] hover:text-white hover:border-white/15 hover:bg-white/[0.05] transition-all duration-300"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                  </a>
+                )}
+              </div>
             ))}
           </motion.div>
 
