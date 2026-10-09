@@ -6,9 +6,10 @@ import {
   Send, Mic, X, 
   Sparkles, Download, ExternalLink, User, 
   Volume2, VolumeX, Keyboard, ChevronRight,
-  Maximize2, Minimize2
+  Maximize2, Minimize2, Eye
 } from "lucide-react";
 import { queryLocalRAG, ChatAction } from "./chatbotData";
+import { openResumeViewer } from "./resume";
 
 // Detect mobile/touch once at module level to avoid re-evaluation
 const IS_MOBILE = typeof window !== "undefined" && (window.innerWidth < 768 || navigator.maxTouchPoints > 0);
@@ -268,7 +269,10 @@ export default function Chatbot() {
 
   // Scrolling + Highlighting core triggers
   const executeAction = (action: ChatAction) => {
-    if (action.type === "download") {
+    if (action.type === "view") {
+      // Open the in-page resume viewer modal
+      openResumeViewer();
+    } else if (action.type === "download") {
       // Trigger PDF download shortcut
       const link = document.createElement("a");
       link.href = action.target;
@@ -824,6 +828,7 @@ export default function Chatbot() {
                             className="inline-flex items-center space-x-1 px-3 py-1 rounded-md text-[9.5px] font-medium tracking-wider text-white border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                           >
                             <span>{act.label}</span>
+                            {act.type === "view" && <Eye className="w-2 h-2 text-white/50" />}
                             {act.type === "download" && <Download className="w-2 h-2 text-white/50" />}
                             {act.type === "link" && <ExternalLink className="w-2 h-2 text-white/50" />}
                             {act.type === "scroll" && <ChevronRight className="w-2 h-2 text-white/50" />}

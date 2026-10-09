@@ -431,8 +431,11 @@ def get_local_reply(query: str, history: list) -> dict:
 
     if intent == "resume":
         return {
-            "answer": "I would be glad to help with that! I am initiating a direct download of **Shivam Pathak's Professional PDF Resume** for you right now. You can review his certifications, full academics, and internships in detail.",
-            "actions": [{"label": "Download Resume 📄", "type": "download", "target": "/resume/Resume_Shivam.pdf"}]
+            "answer": "I would be glad to help with that! You can **view Shivam Pathak's resume** right here on the site or **download the PDF**. It covers his experience, projects, skills, academics, and certifications in detail.",
+            "actions": [
+                {"label": "View Resume 👁", "type": "view", "target": "/resume/Resume_Shivam.pdf"},
+                {"label": "Download Resume 📄", "type": "download", "target": "/resume/Resume_Shivam.pdf"}
+            ]
         }
 
     if intent == "summary":
