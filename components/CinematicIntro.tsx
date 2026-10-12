@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Sparkles, Volume2, VolumeX, Play, Pause } from "lucide-react";
+import { lockScroll, unlockScroll } from "./lenis";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +23,9 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
   const [hasEntered, setHasEntered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
+  // Read inside the ScrollTrigger callback so toggling mute doesn't rebuild the timeline
+  const isMutedRef = useRef(false);
+  const isPlayingRef = useRef(true);
   const [videoSrc, setVideoSrc] = useState("/videos/hero-video.mp4");
 
   // Detect mobile/touch for adaptive optimizations
@@ -34,21 +38,17 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
     setVideoSrc(FALLBACK_VIDEO_URL);
   };
 
-  // 1. Lock screen scrolling before entry gesture
+  // 1. Lock screen scrolling (and pause Lenis) before the entry gesture
   useEffect(() => {
-    if (!hasEntered) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (hasEntered) return;
+    lockScroll();
+    return unlockScroll;
   }, [hasEntered]);
 
   const handleEnterExperience = () => {
     setHasEntered(true);
     setIsMuted(false);
+    isMutedRef.current = false;
 
     const video = videoRef.current;
     if (video) {
@@ -66,6 +66,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
       } else {
         video.play().catch(err => console.log(err));
       }
+      isPlayingRef.current = !isPlaying;
       setIsPlaying(!isPlaying);
     }
   };
@@ -74,6 +75,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
     if (videoRef.current) {
       const nextMuteState = !isMuted;
       videoRef.current.muted = nextMuteState;
+      isMutedRef.current = nextMuteState;
       setIsMuted(nextMuteState);
     }
   };
@@ -105,9 +107,14 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
           scrub: true,
           pin: videoContainerRef.current,
           pinSpacing: false,
+          // Stop decoding the full-screen video once it is fully faded out
+          onLeave: () => video.pause(),
+          onEnterBack: () => {
+            if (isPlayingRef.current) video.play().catch(() => {});
+          },
           onUpdate: (self) => {
             // Dynamic volume linear decay based on scroll progress
-            if (video && !isMuted) {
+            if (video && !isMutedRef.current) {
               const currentVolume = Math.max(0, Math.min(1, 1 - self.progress));
               video.volume = currentVolume;
               
@@ -176,7 +183,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
         }
       });
     };
-  }, [hasEntered, isMuted, portfolioRef]);
+  }, [hasEntered, portfolioRef]);
 
   return (
     <>
@@ -187,9 +194,9 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[#030712] px-6 text-center select-none"
+            className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-background-cinematic px-6 text-center select-none"
           >
-            <div className="absolute w-[350px] h-[350px] bg-accent-cinematic/2 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute w-[350px] h-[350px] bg-radial from-accent-cinematic/2 to-transparent to-70% pointer-events-none" />
 
             <motion.div
               initial={{ scale: 0.98, opacity: 0 }}
@@ -197,7 +204,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
               transition={{ duration: 1.2, ease: "easeOut" }}
               className="max-w-md flex flex-col items-center relative z-10"
             >
-              <div className="text-[10px] tracking-[0.4em] font-semibold text-yellow-500 mb-4 uppercase">
+              <div className="text-[10px] tracking-[0.4em] font-semibold text-accent-soft mb-4 uppercase">
                 DATA &amp; AI ENGINEER
               </div>
 
@@ -226,7 +233,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
         <div 
           className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-20"
           style={{
-            background: "radial-gradient(circle at center, rgba(109, 40, 217, 0.08) 0%, rgba(217, 119, 6, 0.03) 50%, transparent 100%)",
+            background: "radial-gradient(circle at center, rgba(94, 106, 210, 0.08) 0%, rgba(139, 147, 232, 0.03) 50%, transparent 100%)",
           }}
         />
 

@@ -51,11 +51,11 @@ export default function Education() {
   return (
     <section
       id="education"
-      className="relative w-full fluid-py-section bg-[#030712] overflow-hidden px-6 md:px-12 border-b border-white/5"
+      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Background Decorative Ambient Blobs - Quiet Luxury Desaturated Blur */}
-      <div className="absolute top-1/4 left-0 w-80 h-80 rounded-full bg-white/[0.005] blur-[120px] pointer-events-none z-0" />
-      <div className="absolute bottom-1/4 right-0 w-80 h-80 rounded-full bg-white/[0.003] blur-[120px] pointer-events-none z-0" />
+      <div className="absolute top-1/4 left-0 w-80 h-80 bg-radial from-white/[0.005] to-transparent to-70% pointer-events-none z-0" />
+      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-radial from-white/[0.003] to-transparent to-70% pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div

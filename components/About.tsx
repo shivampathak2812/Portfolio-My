@@ -31,8 +31,8 @@ export default function About() {
       className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Background Decorative Ambient Blobs */}
-      <div className="absolute top-1/4 right-0 w-80 h-80 rounded-full bg-accent-cinematic/[0.015] blur-[100px] pointer-events-none z-0" />
-      <div className="absolute bottom-1/4 left-0 w-80 h-80 rounded-full bg-accent-orange/[0.005] blur-[100px] pointer-events-none z-0" />
+      <div className="absolute top-1/4 right-0 w-80 h-80 bg-radial from-accent-cinematic/[0.015] to-transparent to-70% pointer-events-none z-0" />
+      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-radial from-accent-soft/[0.005] to-transparent to-70% pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div
@@ -64,7 +64,6 @@ export default function About() {
                   fill
                   sizes="(max-width: 768px) 100vw, 360px"
                   className="object-cover brightness-[0.9] group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
-                  priority
                 />
                 
                 {/* Overlay vignette */}

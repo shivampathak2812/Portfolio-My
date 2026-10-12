@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { Download, ExternalLink, X, ZoomIn, ZoomOut } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, onResumeViewerOpen } from "./resume";
+import { lockScroll, unlockScroll } from "./lenis";
 
 // pdf.js is heavy and browser-only — load it on first open
 const ResumePdf = dynamic(() => import("./ResumePdf"), { ssr: false });
@@ -51,8 +52,7 @@ export default function ResumeViewer() {
   // Lock page scroll, close on Escape, focus the close button while open
   useEffect(() => {
     if (!isOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockScroll();
     closeButtonRef.current?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -60,7 +60,7 @@ export default function ResumeViewer() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      unlockScroll();
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [isOpen, close]);
@@ -90,7 +90,7 @@ export default function ResumeViewer() {
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative flex flex-col w-full h-full md:max-w-5xl md:h-[92vh] md:rounded-2xl overflow-hidden bg-[#0B0F19] border border-white/10 shadow-2xl"
+            className="relative flex flex-col w-full h-full md:max-w-5xl md:h-[92vh] md:rounded-2xl overflow-hidden bg-surface border border-white/10 shadow-2xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between gap-3 px-4 md:px-5 py-3 border-b border-white/10">
@@ -133,7 +133,7 @@ export default function ResumeViewer() {
                 <a
                   href={RESUME_URL}
                   download={RESUME_FILENAME}
-                  className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-lg text-xs font-bold tracking-[0.12em] text-[#030712] bg-white hover:bg-white/90 transition-colors duration-200"
+                  className="hidden sm:inline-flex items-center gap-2 h-9 px-4 rounded-lg text-xs font-bold tracking-[0.12em] text-background-cinematic bg-white hover:bg-white/90 transition-colors duration-200"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>DOWNLOAD</span>
@@ -151,7 +151,7 @@ export default function ResumeViewer() {
             </div>
 
             {/* Document */}
-            <div className="flex-1 overflow-auto overscroll-contain px-3 py-4 md:px-8 md:py-6 bg-[#030712]/60">
+            <div className="flex-1 overflow-auto overscroll-contain px-3 py-4 md:px-8 md:py-6 bg-background-cinematic/60">
               <ResumePdf zoom={zoom} />
             </div>
 
@@ -160,7 +160,7 @@ export default function ResumeViewer() {
               <a
                 href={RESUME_URL}
                 download={RESUME_FILENAME}
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-lg text-xs font-bold tracking-[0.15em] text-[#030712] bg-white"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-lg text-xs font-bold tracking-[0.15em] text-background-cinematic bg-white"
               >
                 <Download className="w-4 h-4" />
                 <span>DOWNLOAD RESUME</span>

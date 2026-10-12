@@ -15,7 +15,7 @@ interface SkillCategory {
   title: string;
   icon: React.ReactNode;
   skills: SkillItem[];
-  accentColor: string; // Tailored glow color class e.g., 'accent-cinematic' or 'accent-orange'
+  accentColor: string; // Tailored glow color class e.g., 'accent-cinematic' or 'accent-soft'
 }
 
 // 1. Unified Skill Card Component with Localized Cursor Spotlight Glow
@@ -61,8 +61,8 @@ function SkillCard({ category }: { category: SkillCategory; idx: number }) {
         style={{
           background: `radial-gradient(
             220px circle at var(--card-mouse-x, 0px) var(--card-mouse-y, 0px),
-            ${category.accentColor === "orange" ? "rgba(217, 119, 6, 0.04)" : "rgba(109, 40, 217, 0.04)"},
-            rgba(59, 130, 246, 0.01) 50%,
+            ${category.accentColor === "orange" ? "rgba(139, 147, 232, 0.04)" : "rgba(94, 106, 210, 0.04)"},
+            rgba(94, 106, 210, 0.01) 50%,
             transparent 100%
           )`,
         }}
@@ -71,7 +71,7 @@ function SkillCard({ category }: { category: SkillCategory; idx: number }) {
       {/* Decorative Corner Glow */}
       <div
         className={`absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-10 blur-2xl group-hover:scale-125 transition-transform duration-500 pointer-events-none ${
-          category.accentColor === "orange" ? "bg-accent-orange" : "bg-accent-cinematic"
+          category.accentColor === "orange" ? "bg-accent-soft" : "bg-accent-cinematic"
         }`}
       />
 
@@ -199,7 +199,7 @@ export default function Skills() {
       className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Atmospheric glow blobs */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-accent-cinematic/[0.02] blur-[150px] pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-radial from-accent-cinematic/[0.02] to-transparent to-70% pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Header */}

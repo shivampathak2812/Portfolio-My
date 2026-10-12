@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { queryLocalRAG, ChatAction } from "./chatbotData";
 import { openResumeViewer } from "./resume";
+import { scrollToTarget } from "./lenis";
 
 // Detect mobile/touch once at module level to avoid re-evaluation
 const IS_MOBILE = typeof window !== "undefined" && (window.innerWidth < 768 || navigator.maxTouchPoints > 0);
@@ -299,8 +300,8 @@ export default function Chatbot() {
     const section = document.querySelector(sectionSelector);
     if (!section) return;
 
-    // 1. Smoothly scroll viewport utilizing built-in Lenis triggers
-    section.scrollIntoView({ behavior: "smooth", block: "center" });
+    // 1. Smoothly scroll viewport through the shared Lenis instance
+    scrollToTarget(section as HTMLElement, { block: "center" });
 
     // 2. Add dynamic cinematic spotlight glow & dim other sections
     const allSections = document.querySelectorAll("section");
@@ -326,6 +327,10 @@ export default function Chatbot() {
       allSections.forEach((sec) => {
         sec.classList.remove("highlight-active", "dimmed-background");
       });
+      // Drop the transition hook once the fade-back finishes
+      setTimeout(() => {
+        allSections.forEach((sec) => sec.classList.remove("section-spotlight"));
+      }, 900);
       if (heroSection) {
         heroSection.classList.remove("dimmed-background");
       }
@@ -631,7 +636,7 @@ export default function Chatbot() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setIsOpen(true)}
-              className="relative group w-14 h-14 rounded-xl bg-[#030712] text-white cursor-pointer shadow-lg border border-white/10 flex items-center justify-center overflow-hidden"
+              className="relative group w-14 h-14 rounded-xl bg-background-cinematic text-white cursor-pointer shadow-lg border border-white/10 flex items-center justify-center overflow-hidden"
               aria-label="Open AI Assistant"
             >
               {/* Outer Subtle Aura */}
@@ -646,7 +651,7 @@ export default function Chatbot() {
               {/* Floating Badge Helper (Positioned perfectly on the outer boundary edge) */}
               <span className="absolute top-0.5 right-0.5 flex h-3 w-3 z-20">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 border-2 border-[#030712]"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 border-2 border-background-cinematic"></span>
               </span>
             </motion.button>
           )}
@@ -686,8 +691,8 @@ export default function Chatbot() {
               }`}
             >
               {/* Ambient Background Light Leaks Inside Chat */}
-              <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-white/[0.02] blur-[40px] pointer-events-none" />
-              <div className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-white/[0.01] blur-[40px] pointer-events-none" />
+              <div className="absolute -top-32 -right-32 w-64 h-64 bg-radial from-white/[0.02] to-transparent to-70% pointer-events-none" />
+              <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-radial from-white/[0.01] to-transparent to-70% pointer-events-none" />
 
 
             {/* A. Dynamic Chat Header */}
@@ -699,7 +704,7 @@ export default function Chatbot() {
                     alt="Avix Logo" 
                     className="w-7 h-7 object-contain"
                   />
-                  <span className={`absolute bottom-0.5 right-0.5 w-2 h-2 rounded-full border border-[#030712] transition-colors duration-300 ${
+                  <span className={`absolute bottom-0.5 right-0.5 w-2 h-2 rounded-full border border-background-cinematic transition-colors duration-300 ${
                     backendStatus === "online" 
                       ? "bg-green-500" 
                       : backendStatus === "connecting"
@@ -747,7 +752,7 @@ export default function Chatbot() {
                     if (next) stopVoiceSpeech();
                   }}
                   className={`p-2 rounded-lg border transition-all duration-300 text-white/40 hover:text-white border-white/5 hover:border-white/10 ${
-                    isMuted ? "text-accent-orange/70" : ""
+                    isMuted ? "text-accent-soft/70" : ""
                   }`}
                   title={isMuted ? "Unmute Voice Reading" : "Mute Voice Reading"}
                 >
@@ -893,7 +898,7 @@ export default function Chatbot() {
                     onClick={toggleListening}
                     className={`relative z-10 p-4 rounded-full text-white shadow-lg cursor-pointer border border-white/10 transition-all duration-300 ${
                       isListening 
-                        ? "bg-accent-orange hover:bg-accent-orange/90" 
+                        ? "bg-red-500/90 hover:bg-red-500" 
                         : "bg-accent-cinematic hover:bg-accent-cinematic/90"
                     }`}
                   >
@@ -926,7 +931,7 @@ export default function Chatbot() {
                   onClick={stopVoiceAssistantMode}
                   className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wider text-white/60 hover:text-white border border-white/5 hover:border-white/10 transition-colors"
                 >
-                  <Keyboard className="w-3 h-3 text-accent-orange" />
+                  <Keyboard className="w-3 h-3 text-accent-soft" />
                   <span>SWITCH TO KEYBOARD</span>
                 </button>
               </motion.div>
@@ -956,10 +961,10 @@ export default function Chatbot() {
                 {!isVoiceMode && (
                   <button
                     onClick={startVoiceAssistantMode}
-                    className="p-2 rounded-xl border border-white/10 bg-white/[0.03] text-white/60 hover:text-white hover:border-accent-orange/30 transition-all active:scale-95 cursor-pointer"
+                    className="p-2 rounded-xl border border-white/10 bg-white/[0.03] text-white/60 hover:text-white hover:border-accent-soft/30 transition-all active:scale-95 cursor-pointer"
                     title="Activate Voice AI Assistant"
                   >
-                    <Mic className="w-4 h-4 text-accent-orange" />
+                    <Mic className="w-4 h-4 text-accent-soft" />
                   </button>
                 )}
 

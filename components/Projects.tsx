@@ -25,7 +25,7 @@ export default function Projects() {
       liveUrl: "https://hr-leave-assistant.streamlit.app/",
       accentClass: "purple",
       graphic: (
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
           <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="30" y="18" width="140" height="84" rx="6" stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="rgba(255,255,255,0.01)" />
             <rect x="40" y="30" width="80" height="14" rx="4" fill="rgba(255,255,255,0.05)" />
@@ -50,7 +50,7 @@ export default function Projects() {
       githubUrl: "https://github.com/shivampathak2812/PHP-VibeCoder.git",
       accentClass: "purple",
       graphic: (
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
           <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="30" y="18" width="140" height="84" rx="6" stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="rgba(255,255,255,0.01)" />
             <line x1="30" y1="30" x2="170" y2="30" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
@@ -79,7 +79,7 @@ export default function Projects() {
       githubUrl: "https://github.com/shivampathak2812/WorkLens.git",
       accentClass: "orange",
       graphic: (
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
           <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line x1="25" y1="100" x2="175" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
             <rect x="35" y="70" width="14" height="30" rx="2" fill="rgba(255,255,255,0.05)" />
@@ -105,7 +105,7 @@ export default function Projects() {
       githubUrl: "https://github.com/shivampathak2812/ATS-Pro-Analyzer.git",
       accentClass: "orange",
       graphic: (
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
           <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="50" y="15" width="100" height="90" rx="6" stroke="rgba(255,255,255,0.05)" strokeWidth="1" fill="none" />
             <line x1="60" y1="35" x2="140" y2="35" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
@@ -130,7 +130,7 @@ export default function Projects() {
       githubUrl: "https://github.com/shivampathak2812/Machine_learning.git",
       accentClass: "purple",
       graphic: (
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
           <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
             <line x1="20" y1="20" x2="20" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
@@ -158,7 +158,7 @@ export default function Projects() {
       githubUrl: "https://github.com/shivampathak2812/courier_partner.git",
       accentClass: "orange",
       graphic: (
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
           <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="40" r="3" className="fill-white/20" />
             <circle cx="150" cy="40" r="3" className="fill-white/20" />
@@ -182,11 +182,11 @@ export default function Projects() {
       githubUrl: "https://github.com/shivampathak2812/matrix_calculator.git",
       accentClass: "purple",
       graphic: (
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/20 to-[#0B0F19] flex items-center justify-center p-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-accent-cinematic/[0.06] to-surface flex items-center justify-center p-6 overflow-hidden">
           <div className="w-full h-full flex flex-col justify-center items-center font-mono opacity-25 select-none">
             <div className="text-[9px] text-accent-cinematic tracking-widest">[ 1  0  3 ]</div>
             <div className="text-[9px] text-white/50 tracking-widest my-1">[ 0  1  2 ]</div>
-            <div className="text-[9px] text-accent-orange tracking-widest">[ 4  2  1 ]</div>
+            <div className="text-[9px] text-accent-soft tracking-widest">[ 4  2  1 ]</div>
           </div>
           <foreignObject x="55" y="45" width="90" height="30" className="overflow-visible">
             <div className="bg-black/65 border border-white/10 rounded-md p-1 flex items-center justify-center space-x-2 backdrop-blur-sm shadow-md">
@@ -204,7 +204,7 @@ export default function Projects() {
       githubUrl: "https://github.com/shivampathak2812/Zomato-Dashboard.git",
       accentClass: "orange",
       graphic: (
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
           <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="20" y="20" width="40" height="30" rx="3" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" />
             <rect x="80" y="20" width="40" height="30" rx="3" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" />
@@ -231,7 +231,7 @@ export default function Projects() {
       githubUrl: "https://github.com/shivampathak2812",
       accentClass: "purple",
       graphic: (
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-[#030712] flex items-center justify-center p-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
           <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="25" y="25" width="20" height="20" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.05)" />
             <rect x="47" y="25" width="20" height="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.05)" />
@@ -276,8 +276,8 @@ export default function Projects() {
       className="relative w-full fluid-py-section bg-background-cinematic border-b border-white/5 overflow-hidden"
     >
       {/* Decorative Atmosphere Glow Blobs */}
-      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-accent-cinematic/[0.012] blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-accent-orange/[0.012] blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-radial from-accent-cinematic/[0.012] to-transparent to-70% pointer-events-none" />
+      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-radial from-accent-soft/[0.012] to-transparent to-70% pointer-events-none" />
 
       <div className="max-w-7xl w-full mx-auto px-6 md:px-12 relative z-10">
         
@@ -316,7 +316,7 @@ export default function Projects() {
                   <div className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-105">
                     {project.graphic}
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19]/90 via-transparent to-transparent z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface/90 via-transparent to-transparent z-10" />
                 </div>
 
                 {/* Info Ledger */}
@@ -334,7 +334,7 @@ export default function Projects() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-display font-bold text-sm md:text-base tracking-wide text-white uppercase mb-2 group-hover:text-glow-accent transition-all duration-300">
+                  <h3 className="font-display font-bold text-sm md:text-base tracking-wide text-white uppercase mb-2 transition-colors duration-300">
                     {project.title}
                   </h3>
 
@@ -361,7 +361,7 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         className="flex items-center space-x-2 text-[9px] font-semibold tracking-wider text-white/60 hover:text-white transition-colors duration-300 group/live"
                       >
-                        <ExternalLink className="w-3.5 h-3.5 text-accent-orange group-hover/live:scale-110 transition-transform duration-300" />
+                        <ExternalLink className="w-3.5 h-3.5 text-accent-soft group-hover/live:scale-110 transition-transform duration-300" />
                         <span>LIVE DEMO</span>
                       </a>
                     )}

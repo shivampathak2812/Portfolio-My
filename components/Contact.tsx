@@ -63,8 +63,8 @@ export default function Contact() {
       className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12"
     >
       {/* Dynamic Background Light Rings */}
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent-cinematic/[0.005] blur-[150px] pointer-events-none" />
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-accent-orange/[0.001] blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-radial from-accent-cinematic/[0.005] to-transparent to-70% pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-radial from-accent-soft/[0.001] to-transparent to-70% pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto">
         <motion.div
@@ -103,7 +103,7 @@ export default function Contact() {
             variants={itemVariants}
             className="relative w-full max-w-md p-2.5 rounded-3xl glass-panel border border-white/5 mb-16 shadow-xl shadow-black/40"
           >
-            <div className="relative w-full h-full rounded-2xl bg-[#030712] p-4 flex items-center justify-between border border-white/5">
+            <div className="relative w-full h-full rounded-2xl bg-background-cinematic p-4 flex items-center justify-between border border-white/5">
               <div className="flex items-center space-x-3 text-left">
                 <div className="w-8 h-8 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-white/70">
                   <Send className="w-3.5 h-3.5" />
@@ -121,8 +121,8 @@ export default function Contact() {
               >
                 {copied ? (
                   <>
-                    <Check className="w-3 h-3 text-accent-orange" />
-                    <span className="text-accent-orange">COPIED</span>
+                    <Check className="w-3 h-3 text-accent-soft" />
+                    <span className="text-accent-soft">COPIED</span>
                   </>
                 ) : (
                   <>
@@ -191,7 +191,7 @@ export default function Contact() {
             className="pt-20 mt-12 border-t border-white/5 w-full flex flex-col sm:flex-row items-center justify-between text-white/30 text-[10px] tracking-widest font-light space-y-4 sm:space-y-0"
           >
             <span>© 2026 SHIVAM PATHAK. ALL RIGHTS RESERVED.</span>
-            <span>BUILT WITH NEXT.JS 15, THREE.JS, & GSAP</span>
+            <span>BUILT WITH NEXT.JS 16, THREE.JS, & GSAP</span>
           </motion.div>
         </motion.div>
       </div>

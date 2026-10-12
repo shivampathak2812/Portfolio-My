@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import dynamic from "next/dynamic";
 import { Download } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
+import { scrollToTarget } from "./lenis";
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 
 export default function Hero() {
@@ -42,10 +43,7 @@ export default function Hero() {
   }, []);
 
   const scrollToAbout = () => {
-    const aboutSection = document.querySelector("#about");
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth" });
-    }
+    scrollToTarget("#about");
   };
 
   return (
@@ -63,7 +61,7 @@ export default function Hero() {
         {/* Tagline */}
         <div
           ref={taglineRef}
-          className="text-[10px] md:text-xs tracking-[0.25em] font-semibold text-yellow-500 mb-4 uppercase inline-flex items-center space-x-2"
+          className="text-[10px] md:text-xs tracking-[0.25em] font-semibold text-accent-soft mb-4 uppercase inline-flex items-center space-x-2"
         >
           <span>DATA &amp; AI ENGINEER</span>
         </div>
@@ -102,11 +100,11 @@ export default function Hero() {
             href="#projects"
             onClick={(e) => {
               e.preventDefault();
-              document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
+              scrollToTarget("#projects");
             }}
             whileHover={{ scale: 1.015 }}
             whileTap={{ scale: 0.98 }}
-            className="px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-[#030712] bg-white border border-white text-center shadow-md hover:bg-white/90 transition-all duration-300 relative overflow-hidden"
+            className="px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-background-cinematic bg-white border border-white text-center shadow-md hover:bg-white/90 transition-all duration-300 relative overflow-hidden"
           >
             <span className="relative z-10">VIEW PROJECTS</span>
           </motion.a>

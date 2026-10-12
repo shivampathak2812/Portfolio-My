@@ -1,32 +1,57 @@
 @import "tailwindcss";
 
 :root {
-  --background: #030712;
-  --foreground: #FFFFFF;
-  --accent: #6D28D9;
-  --accent-orange: #D97706;
-  --accent-blue: #2563EB;
+  /* Graphite + Electric Indigo */
+  --background: #0A0A0B;
+  --surface: #111113;
+  --surface-raised: #17171A;
+  --border: rgba(255, 255, 255, 0.06);
+  --foreground: #EDEDEF;
+  --muted: #8A8F98;
+  --accent: #5E6AD2;
+  /* Lighter indigo for small text/icons on dark (AA contrast) */
+  --accent-soft: #8B93E8;
 }
 
 @theme {
   --color-background-cinematic: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-muted: var(--muted);
   --color-accent-cinematic: var(--accent);
-  --color-accent-orange: var(--accent-orange);
-  --color-accent-blue: var(--accent-blue);
-  
-  --font-sans: "Inter", sans-serif;
-  --font-display: "Outfit", "Inter", sans-serif;
+  --color-accent-soft: var(--accent-soft);
+  /* Off-white instead of pure #FFF: softer, Linear/Vercel-style text */
+  --color-white: #EDEDEF;
+
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 html, body {
-  background-color: #030712;
-  color: #FFFFFF;
-  font-family: "Inter", sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  scroll-behavior: smooth;
-  height: 100%;
+}
+
+html {
+  /* Lenis owns scroll easing; native smooth-scroll would fight it */
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Firefox scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) var(--background);
 }
 
 /* Custom Cinematic Scrollbar */
@@ -36,47 +61,30 @@ html, body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
-  border: 2px solid #030712;
+  border: 2px solid var(--background);
   transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(124, 58, 237, 0.4);
+  background: rgba(94, 106, 210, 0.45);
 }
 
-/* Animated Film Grain Overlay */
+/* Static Film Grain Overlay
+   (the old 0.15s jitter animation repainted a 4x-viewport layer every frame
+   for a texture at <1% opacity — static grain looks identical and costs nothing) */
 .noise-overlay {
   position: fixed;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  width: 200%;
-  height: 200%;
+  inset: 0;
   background: transparent url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E') repeat;
   opacity: 0.008;
   pointer-events: none;
   z-index: 9999;
-  animation: noiseAnimation 0.15s infinite;
-}
-
-@keyframes noiseAnimation {
-  0% { transform: translate(0, 0); }
-  10% { transform: translate(-1%, -1%); }
-  20% { transform: translate(-2%, 1%); }
-  30% { transform: translate(1%, -2%); }
-  40% { transform: translate(-1%, 3%); }
-  50% { transform: translate(-1%, -1%); }
-  60% { transform: translate(1%, 1%); }
-  75% { transform: translate(-2%, -2%); }
-  90% { transform: translate(1%, 3%); }
-  100% { transform: translate(0, 0); }
 }
 
 /* Dynamic Radial Mouse-Spotlight CSS */
@@ -89,42 +97,47 @@ html, body {
   pointer-events: none;
   background: radial-gradient(
     600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(109, 40, 217, 0.025),
-    rgba(37, 99, 235, 0.008) 40%,
+    rgba(94, 106, 210, 0.03),
+    rgba(94, 106, 210, 0.008) 40%,
     transparent 80%
   );
   z-index: 1;
-  transition: background 0.3s ease;
+  /* Own compositor layer so cursor moves never repaint the page behind it */
+  transform: translateZ(0);
+  contain: strict;
 }
 
-/* Lenis Smooth Scrolling Styles */
-html.lenis, html.lenis body {
+@media (hover: none), (pointer: coarse) {
+  .spotlight-glow {
+    display: none;
+  }
+}
+
+/* Lenis Smooth Scrolling Styles (mirrors lenis/dist/lenis.css for v1.3) */
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
-.lenis-smooth {
-  scroll-behavior: auto !important;
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
 }
 
-.lenis-smooth [data-lenis-prevent] {
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch] {
   overscroll-behavior: contain;
 }
 
-.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis-scrolling iframe {
+.lenis.lenis-smooth iframe {
   pointer-events: none;
 }
 
 /* Premium Typography Soft Glows */
-.text-glow-accent {
-  text-shadow: 0 0 10px rgba(109, 40, 217, 0.1);
-}
-
+/* Theme uses crisp text — glow helpers kept as no-ops for compatibility */
+.text-glow-accent,
 .text-glow-orange {
-  text-shadow: 0 0 10px rgba(217, 119, 6, 0.1);
+  text-shadow: none;
 }
 
 .text-glow-white {
@@ -133,16 +146,23 @@ html.lenis, html.lenis body {
 
 /* Glassmorphism Classes */
 .glass-panel {
-  background: rgba(3, 7, 18, 0.4);
+  background: rgba(17, 17, 19, 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+}
+
+.glass-panel-hover {
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-panel-hover:hover {
-  background: rgba(3, 7, 18, 0.5);
-  border-color: rgba(109, 40, 217, 0.12);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  background: rgba(23, 23, 26, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   transform: translateY(-2px);
 }
 
@@ -156,7 +176,7 @@ html.lenis, html.lenis body {
   bottom: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(to right, rgba(109, 40, 217, 0.08), rgba(217, 119, 6, 0.08));
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.06), rgba(94, 106, 210, 0.12));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -165,7 +185,7 @@ html.lenis, html.lenis body {
 }
 
 .gradient-border-box:hover::before {
-  background: linear-gradient(to right, rgba(109, 40, 217, 0.3), rgba(217, 119, 6, 0.3));
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.12), rgba(94, 106, 210, 0.45));
 }
 
 /* ==========================================================================
@@ -174,10 +194,8 @@ html.lenis, html.lenis body {
 
 .section-spotlight {
   position: relative;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity, filter;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Custom highlighted spotlight glow border overlay */
@@ -186,8 +204,7 @@ html.lenis, html.lenis body {
   position: absolute;
   inset: 0;
   border-radius: 24px;
-  border: 1px solid rgba(124, 58, 237, 0);
-  box-shadow: 0 0 50px rgba(124, 58, 237, 0);
+  border: 1px solid rgba(94, 106, 210, 0);
   pointer-events: none;
   opacity: 0;
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -200,16 +217,14 @@ html.lenis, html.lenis body {
 }
 
 .section-spotlight.highlight-active::before {
-  border-color: rgba(109, 40, 217, 0.2);
-  box-shadow: 0 0 20px rgba(109, 40, 217, 0.05);
+  border-color: rgba(94, 106, 210, 0.35);
   opacity: 1;
 }
 
 /* Dimming helper when spotlight is active */
 .dimmed-background {
-  opacity: 0.6;
-  filter: blur(1.5px) grayscale(15%) brightness(85%);
-  transform: scale(0.995);
+  /* Opacity only — filtering whole sections forces full-page repaints */
+  opacity: 0.45;
 }
 
 /* Blinking typewriter caret effect */
@@ -234,7 +249,7 @@ html.lenis, html.lenis body {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.25) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.25) 0%, transparent 70%);
   animation: voicePulse 2s infinite ease-out;
   pointer-events: none;
 }
@@ -260,18 +275,18 @@ html.lenis, html.lenis body {
 }
 
 .chatbot-messages-container::-webkit-scrollbar-thumb {
-  background: rgba(124, 58, 237, 0.25); /* matching brand purple */
+  background: rgba(94, 106, 210, 0.3); /* brand indigo */
   border-radius: 9999px;
   transition: background 0.3s ease;
 }
 
 .chatbot-messages-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(124, 58, 237, 0.55);
+  background: rgba(94, 106, 210, 0.6);
 }
 
 .chatbot-messages-container {
   scrollbar-width: thin;
-  scrollbar-color: rgba(124, 58, 237, 0.25) transparent;
+  scrollbar-color: rgba(94, 106, 210, 0.3) transparent;
   overscroll-behavior: contain;
   min-height: 0; /* CRITICAL: ensures messages container can shrink to fit layout bounds */
   flex-grow: 1;
@@ -279,7 +294,7 @@ html.lenis, html.lenis body {
 
 /* Premium specialized chatbot container glassmorphism */
 .chatbot-panel {
-  background: rgba(3, 7, 18, 0.8);
+  background: rgba(17, 17, 19, 0.88);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -362,13 +377,13 @@ html.lenis, html.lenis body {
 @media screen and (max-width: 767px) {
   /* Heavily reduce backdrop-filter blur compute cost on mobile */
   .glass-panel {
-    background: rgba(3, 7, 18, 0.88) !important; /* Slightly more opaque */
+    background: rgba(17, 17, 19, 0.92) !important; /* Slightly more opaque */
     backdrop-filter: blur(3px) !important; /* 3px instead of 8px */
     -webkit-backdrop-filter: blur(3px) !important;
   }
 
   .chatbot-panel {
-    background: rgba(3, 7, 18, 0.94) !important; /* Matte obsidian dark */
+    background: rgba(17, 17, 19, 0.96) !important; /* Matte graphite */
     backdrop-filter: blur(4px) !important;
     -webkit-backdrop-filter: blur(4px) !important;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8) !important; /* Smaller shadow bounds */
@@ -382,7 +397,14 @@ html.lenis, html.lenis body {
   }
 
   /* Disable expensive box shadow glow hover filters on mobile */
-  .glass-panel-hover:hover {
+  .glass-panel-hover {
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
     transform: none !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
     box-shadow: none !important;
@@ -399,5 +421,16 @@ html.lenis, html.lenis body {
   }
 }
 
-
-
+/* ==========================================================================
+   Accessibility: honour the OS "reduce motion" preference
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

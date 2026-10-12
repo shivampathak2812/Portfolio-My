@@ -89,8 +89,8 @@ export default function Experience() {
       className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Background Ambient Glows - Quiet Desaturated Blur */}
-      <div className="absolute top-1/3 left-0 w-80 h-80 rounded-full bg-white/[0.005] blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/3 right-0 w-80 h-80 rounded-full bg-white/[0.003] blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 left-0 w-80 h-80 bg-radial from-white/[0.005] to-transparent to-70% pointer-events-none" />
+      <div className="absolute bottom-1/3 right-0 w-80 h-80 bg-radial from-white/[0.003] to-transparent to-70% pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto">
         {/* Section Header */}
@@ -123,7 +123,7 @@ export default function Experience() {
             >
               {/* Timeline Connector Node */}
               <div
-                className="absolute -left-[30px] md:-left-[54px] top-2.5 w-3 h-3 rounded-full border border-white/20 bg-[#030712] transition-all duration-300 z-10 group-hover:bg-white group-hover:border-white"
+                className="absolute -left-[30px] md:-left-[54px] top-2.5 w-3 h-3 rounded-full border border-white/20 bg-background-cinematic transition-all duration-300 z-10 group-hover:bg-white group-hover:border-white"
               />
 
               {/* Hover Tilt Glass Timeline Node Card */}

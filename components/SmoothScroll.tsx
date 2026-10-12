@@ -2,41 +2,70 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { MotionConfig } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion, setLenis } from "./lenis";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    // 1. Initialize Lenis Smooth Scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
+    // 1. Lenis smooth scroll — skipped entirely for reduced-motion users
+    let lenis: Lenis | null = null;
+    let tick: ((time: number) => void) | null = null;
 
-    let animationFrameId: number;
+    if (!prefersReducedMotion()) {
+      lenis = new Lenis({
+        // Frame-rate independent lerp feels lighter than a fixed duration
+        lerp: 0.1,
+        wheelMultiplier: 1,
+        smoothWheel: true,
+        // Keep native touch momentum on phones — it is already smooth there
+        syncTouch: false,
+      });
+      setLenis(lenis);
 
-    function raf(time: number) {
-      lenis.raf(time);
-      animationFrameId = requestAnimationFrame(raf);
+      // 2. Drive Lenis from GSAP's ticker so ScrollTrigger scrubs/pins read the
+      // exact same scroll position every frame (removes pinned-section jitter)
+      lenis.on("scroll", ScrollTrigger.update);
+      tick = (time: number) => lenis?.raf(time * 1000);
+      gsap.ticker.add(tick);
+      gsap.ticker.lagSmoothing(0);
     }
 
-    animationFrameId = requestAnimationFrame(raf);
+    // 3. Cursor spotlight: rAF-throttled and written to the spotlight element only
+    // (custom properties on <html> force a style recalc of the whole document)
+    const spotlight = document.querySelector<HTMLElement>(".spotlight-glow");
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    let pointerFrame = 0;
+    let pointerX = 0;
+    let pointerY = 0;
 
-    // 2. Global Mouse Spotlight Coordinate Injection
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      document.documentElement.style.setProperty("--mouse-x", `${clientX}px`);
-      document.documentElement.style.setProperty("--mouse-y", `${clientY}px`);
+    const handlePointerMove = (e: PointerEvent) => {
+      pointerX = e.clientX;
+      pointerY = e.clientY;
+      if (pointerFrame) return;
+      pointerFrame = requestAnimationFrame(() => {
+        pointerFrame = 0;
+        spotlight?.style.setProperty("--mouse-x", `${pointerX}px`);
+        spotlight?.style.setProperty("--mouse-y", `${pointerY}px`);
+      });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    if (spotlight && finePointer) {
+      window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    }
 
-    // 3. Clean up on unmount
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      lenis.destroy();
-      window.removeEventListener("mousemove", handleMouseMove);
+      if (tick) gsap.ticker.remove(tick);
+      lenis?.destroy();
+      setLenis(null);
+      cancelAnimationFrame(pointerFrame);
+      window.removeEventListener("pointermove", handlePointerMove);
     };
   }, []);
 
-  return <>{children}</>;
+  // Framer Motion honours the OS "reduce motion" setting site-wide
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }

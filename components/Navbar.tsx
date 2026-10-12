@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, Menu, X } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
+import { scrollToTarget } from "./lenis";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,7 +14,8 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -27,11 +29,8 @@ export default function Navbar() {
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-      setMobileMenuOpen(false);
-    }
+    setMobileMenuOpen(false);
+    scrollToTarget(href);
   };
 
   return (
@@ -53,13 +52,13 @@ export default function Navbar() {
             className="group flex items-center space-x-3 text-white focus:outline-none"
             onClick={(e) => {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
+              scrollToTarget(0);
             }}
           >
-            <span className="font-display font-black tracking-[0.2em] text-lg md:text-xl transition-all duration-300 group-hover:text-glow-accent group-hover:text-accent-cinematic">
+            <span className="font-display font-black tracking-[0.2em] text-lg md:text-xl transition-all duration-300 group-hover:text-accent-soft">
               SHIVAM
             </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-cinematic group-hover:bg-accent-orange transition-all duration-300" />
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-cinematic group-hover:bg-accent-soft transition-all duration-300" />
           </a>
 
           {/* Desktop Navigation Links */}
@@ -72,7 +71,7 @@ export default function Navbar() {
                 className="relative text-xs tracking-[0.2em] font-medium text-white/60 hover:text-white transition-colors duration-300 py-2 group"
               >
                 {item.name}
-                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-gradient-to-r from-accent-cinematic to-accent-orange transition-all duration-300 group-hover:w-full" />
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-accent-cinematic transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
           </div>
@@ -85,10 +84,10 @@ export default function Navbar() {
                 e.preventDefault();
                 openResumeViewer();
               }}
-              className="relative overflow-hidden group inline-flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider text-white border border-white/10 glass-panel hover:border-accent-cinematic/50 transition-all duration-300 active:scale-95"
+              className="relative overflow-hidden group inline-flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider text-white border border-white/10 glass-panel hover:border-accent-cinematic/40 transition-all duration-300 active:scale-95"
             >
               {/* Button background anim */}
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-accent-cinematic/20 to-accent-orange/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <span className="absolute inset-0 w-full h-full bg-accent-cinematic/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               <FileText className="w-3.5 h-3.5 text-accent-cinematic group-hover:text-white transition-colors duration-300" />
               <span className="relative z-10">RESUME</span>
@@ -114,7 +113,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 bg-background-cinematic/95 backdrop-blur-2xl md:hidden flex flex-col justify-center px-8"
+            className="fixed inset-0 z-40 bg-background-cinematic/95 backdrop-blur-md md:hidden flex flex-col justify-center px-8"
           >
             <div className="flex flex-col space-y-8 text-center">
               {navItems.map((item, idx) => (
@@ -125,7 +124,7 @@ export default function Navbar() {
                   key={item.name}
                   href={item.href}
                   onClick={(e) => handleScrollTo(e, item.href)}
-                  className="text-xl tracking-[0.25em] font-medium text-white/70 hover:text-white hover:text-glow-accent transition-all duration-300"
+                  className="text-xl tracking-[0.25em] font-medium text-white/70 hover:text-white transition-colors duration-300"
                 >
                   {item.name}
                 </motion.a>
