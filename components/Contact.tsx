@@ -191,7 +191,7 @@ export default function Contact() {
             className="pt-20 mt-12 border-t border-white/5 w-full flex flex-col sm:flex-row items-center justify-between text-white/30 text-[10px] tracking-widest font-light space-y-4 sm:space-y-0"
           >
             <span>© 2026 SHIVAM PATHAK. ALL RIGHTS RESERVED.</span>
-            <span>BUILT WITH NEXT.JS 15, THREE.JS, & GSAP</span>
+            <span>BUILT WITH NEXT.JS 16, THREE.JS, & GSAP</span>
           </motion.div>
         </motion.div>
       </div>

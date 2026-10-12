@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>An award-winning caliber, Apple-level polished, Vercel-style desaturated AI Engineer portfolio experience.</strong><br />
-  Built using Next.js 15, React 19, TypeScript, Tailwind CSS v4, GSAP, Framer Motion, and vanilla Three.js.
+  Built using Next.js 16, React 19, TypeScript, Tailwind CSS v4, GSAP, Framer Motion, and vanilla Three.js.
 </p>
 
 <p align="center">
