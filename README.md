@@ -37,7 +37,7 @@
     - *Singular/Plural Stemming:* Maps singular and plural nouns to single common roots so both `"projects"` and `"project"` match flawlessly.
     - *Token boundary matching:* Analyzes phrases on word boundaries, preventing false-positive greeting matches.
 *   **🌌 Aurora Glass Design:** Slow-drifting aurora backdrop, frosted-glass panels, a floating glass navbar and Sora headings, applied consistently across every section (dark-only).
-*   **🎥 First-Visit Video Intro:** A 10-second personal video in a portrait glass frame — "Enter with sound", always skippable (button or Esc), shown once per visitor, and replayable from the hero avatar or footer. When it ends, the frame glides into the hero's live video avatar.
+*   **🎥 Video Intro on Every Visit:** A 10-second personal video in a portrait glass frame that starts playing as soon as the site opens (muted with "Tap for sound" where browsers block audio). Always skippable (button or Esc) and replayable from the hero avatar or footer; when it ends, the frame glides into the hero's live video avatar.
 *   **💻 7-Featured Projects Ledger:** Minimal desaturated project grid showing custom, static vector SVGs representing databases, API connectors, and logistics charts.
 *   **⚙️ Zero-Error CI/CD Pipeline Purity:** Fully cleaned all core React/Next.js/TypeScript modules to satisfy strict code rules (no-explicit-any, hoisting, state hooks in effects, unescaped HTML entities), guaranteeing **100% build-and-lint purity** on GitHub Actions workflows.
 
@@ -81,7 +81,7 @@ Shivam-Portfolio/
 │   ├── Chatbot.tsx          # Sleek glassmorphic floating chat, fullscreen toggle, and stop button
 │   ├── chatbotData.ts       # Shared knowledge database & robust fuzzy local NLP RAG engine
 │   ├── Navbar.tsx           # Floating glass pill navigation + theme toggle
-│   ├── IntroOverlay.tsx     # First-visit video intro (skip, Esc, replay, hand-off)
+│   ├── IntroOverlay.tsx     # Video intro on every visit (autoplay, skip, Esc, replay, hand-off)
 │   ├── intro.ts             # Intro state, video sources and caption cues
 │   ├── Hero.tsx             # Centred hero with the live video avatar
 │   ├── About.tsx            # Portrait photo depth frame & professional narrative

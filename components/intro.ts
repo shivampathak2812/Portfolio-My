@@ -1,9 +1,8 @@
-// First-visit video intro: shared state for the welcome overlay and the hero
+// Video intro shown on every visit: shared state for the welcome overlay and the hero
 // avatar that the intro video "lands" in when it finishes.
 
 export type IntroPhase = "welcome" | "playing" | "done";
 
-export const INTRO_STORAGE_KEY = "intro-seen";
 export const INTRO_VIDEO = { mp4: "/videos/intro.mp4", webm: "/videos/intro.webm", poster: "/videos/intro-poster.jpg" };
 
 /**
@@ -12,11 +11,9 @@ export const INTRO_VIDEO = { mp4: "/videos/intro.mp4", webm: "/videos/intro.webm
  */
 export const INTRO_CAPTIONS: { start: number; end: number; text: string }[] = [];
 
-/** Runs in <head> before paint: returning visitors never see the welcome screen flash. */
-export const introInitScript = `(function(){try{if(localStorage.getItem("${INTRO_STORAGE_KEY}")==="1")document.documentElement.setAttribute("data-intro","seen")}catch(e){}})();`;
-
 const listeners = new Set<() => void>();
-let phase: IntroPhase | null = null;
+// Every page load starts on the intro
+let phase: IntroPhase = "welcome";
 // Whether the finishing video glided into the hero avatar (the avatar then appears in place)
 let handoff = false;
 
@@ -25,13 +22,6 @@ function emit() {
 }
 
 export function getIntroPhase(): IntroPhase {
-  if (phase === null) {
-    let seen = false;
-    try {
-      seen = localStorage.getItem(INTRO_STORAGE_KEY) === "1";
-    } catch {}
-    phase = seen ? "done" : "welcome";
-  }
   return phase;
 }
 
@@ -54,9 +44,6 @@ export function playIntro() {
 }
 
 export function finishIntro(glidedIntoAvatar = false) {
-  try {
-    localStorage.setItem(INTRO_STORAGE_KEY, "1");
-  } catch {}
   handoff = glidedIntoAvatar;
   phase = "done";
   emit();
@@ -67,7 +54,3 @@ export function replayIntro() {
   playIntro();
 }
 
-/** Clears the pre-paint "seen" flag so later replays can show the overlay. */
-export function clearIntroPrepaintFlag() {
-  document.documentElement.removeAttribute("data-intro");
-}

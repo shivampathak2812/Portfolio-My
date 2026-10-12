@@ -538,12 +538,6 @@ html.lenis body {
   transition: width 0.25s linear;
 }
 
-/* Returning visitors: the server-rendered welcome screen never paints.
-   visibility (not display) so its exit animation still runs and unmounts it. */
-html[data-intro="seen"] .intro-overlay {
-  visibility: hidden;
-}
-
 /* ==========================================================================
    Accessibility: honour the OS "reduce motion" preference
    ========================================================================== */
