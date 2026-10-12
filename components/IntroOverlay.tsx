@@ -16,6 +16,13 @@ import {
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+const subscribeReducedMotion = (callback: () => void) => {
+  const media = window.matchMedia(REDUCED_MOTION);
+  media.addEventListener("change", callback);
+  return () => media.removeEventListener("change", callback);
+};
+
 export default function IntroOverlay() {
   const phase = useSyncExternalStore(subscribeIntro, getIntroPhase, getServerIntroPhase);
   const isOpen = phase !== "done";
@@ -64,6 +71,14 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
   const [needsTap, setNeedsTap] = useState(false);
   const [progress, setProgress] = useState(0);
   const [caption, setCaption] = useState("");
+  // Manual "Enter with sound" controls only appear when they are actually needed,
+  // so a normal visit goes straight from the poster to the playing video (no flash)
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const reducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION).matches,
+    () => false
+  );
 
   // Play from the start: with sound when the browser allows it, otherwise muted
   // with a "Tap for sound" prompt. Switches to the playing UI only once it really plays.
@@ -89,8 +104,8 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
             setNeedsTap(true);
             playIntro();
           })
-          // Autoplay fully blocked (e.g. battery saver): stay on the welcome screen's play button
-          .catch(() => {});
+          // Autoplay fully blocked (e.g. battery saver): reveal the play button
+          .catch(() => setAutoplayBlocked(true));
       });
   };
 
@@ -165,6 +180,7 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
   };
 
   const isPlaying = phase === "playing";
+  const showManualStart = !isPlaying && (reducedMotion || autoplayBlocked);
 
   return (
     <div ref={scope} className="relative flex flex-1 flex-col min-h-0">
@@ -189,10 +205,10 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
         {/* Kept in the layout while playing (faded) so the frame never jumps */}
         <motion.p
           initial={false}
-          animate={{ opacity: isPlaying ? 0 : 1 }}
+          animate={{ opacity: showManualStart ? 1 : 0 }}
           transition={{ duration: 0.5, ease: EASE }}
           className="intro-chrome text-xs md:text-sm font-medium tracking-[0.2em] uppercase text-accent-soft"
-          aria-hidden={isPlaying}
+          aria-hidden={!showManualStart}
         >
           A 10-second hello
         </motion.p>
@@ -216,7 +232,7 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
             {/* Bottom shade for legibility */}
             <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/75 via-black/25 to-transparent pointer-events-none" />
 
-            {!isPlaying ? (
+            {showManualStart ? (
               <>
                 <button
                   type="button"
@@ -230,10 +246,10 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
                 </button>
                 <div className="absolute inset-x-0 bottom-0 p-5 pointer-events-none">
                   <p className="font-display font-semibold text-lg text-white">Shivam Pathak</p>
-                  <p className="text-xs text-white/70 mt-0.5">Data &amp; AI Engineer</p>
+                  <p className="text-xs text-white/70 mt-0.5">AI/ML Engineer</p>
                 </div>
               </>
-            ) : (
+            ) : isPlaying ? (
               <>
                 {/* Muted autoplay: one big tap restarts the intro with sound */}
                 {needsTap && (
@@ -267,16 +283,16 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
                   <div className="h-full rounded-full intro-progress" style={{ width: `${progress * 100}%` }} />
                 </div>
               </>
-            )}
+            ) : null}
           </div>
         </div>
 
         <motion.div
           initial={false}
-          animate={{ opacity: isPlaying ? 0 : 1 }}
+          animate={{ opacity: showManualStart ? 1 : 0 }}
           transition={{ duration: 0.5, ease: EASE }}
-          className={`intro-chrome flex flex-col items-center gap-3 ${isPlaying ? "pointer-events-none" : ""}`}
-          aria-hidden={isPlaying}
+          className={`intro-chrome flex flex-col items-center gap-3 ${showManualStart ? "" : "pointer-events-none"}`}
+          aria-hidden={!showManualStart}
         >
           <button
             type="button"
