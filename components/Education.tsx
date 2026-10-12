@@ -51,7 +51,7 @@ export default function Education() {
   return (
     <section
       id="education"
-      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
+      className="relative w-full fluid-py-section overflow-hidden px-6 md:px-12"
     >
       {/* Background Decorative Ambient Blobs - Quiet Luxury Desaturated Blur */}
       <div className="absolute top-1/4 left-0 w-80 h-80 bg-radial from-white/[0.005] to-transparent to-70% pointer-events-none z-0" />
@@ -97,11 +97,11 @@ export default function Education() {
               <div className="relative z-10 flex flex-col h-full justify-between">
                 <div className="flex items-start justify-between gap-4 mb-6">
                   <div className="flex items-center space-x-4">
-                    <div className="p-3 rounded-xl bg-white/[0.02] text-white/70 border border-white/5">
+                    <div className="aurora-icon p-3 rounded-xl">
                       <GraduationCap className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-display font-bold text-lg md:text-xl tracking-wide text-white uppercase transition-all duration-300">
+                      <h3 className="font-display font-semibold text-lg md:text-xl tracking-tight text-white transition-all duration-300">
                         Graphic Era Hill University
                       </h3>
                       <p className="text-xs text-white/40 font-light mt-1">Haldwani, Uttarakhand</p>
@@ -160,11 +160,11 @@ export default function Education() {
                 whileHover={{ x: 4 }}
                 className="p-5 rounded-2xl glass-panel border border-white/5 hover:border-white/10 bg-white/[0.01] transition-all duration-300 flex items-start space-x-4 group"
               >
-                <div className="p-2.5 rounded-xl border bg-white/[0.02] border-white/5 text-white/60">
+                <div className="aurora-icon p-2.5 rounded-xl">
                   {ach.icon}
                 </div>
                 <div>
-                  <h4 className="text-xs md:text-sm font-bold text-white uppercase tracking-wide mb-1 transition-all duration-300">
+                  <h4 className="font-display text-sm md:text-base font-semibold tracking-tight text-white mb-1 transition-all duration-300">
                     {ach.title}
                   </h4>
                   <p className="text-xs text-white/40 leading-relaxed font-light">{ach.desc}</p>

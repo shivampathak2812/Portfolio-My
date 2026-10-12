@@ -18,19 +18,19 @@ export default function Contact() {
 
   const socialLinks = [
     {
-      name: "LINKEDIN",
+      name: "LinkedIn",
       icon: <Linkedin className="w-5 h-5 text-white/70" />,
       url: "https://linkedin.com/in/shivam-pathak-9a76ba246",
       label: "Connect professionally",
     },
     {
-      name: "GITHUB",
+      name: "GitHub",
       icon: <Github className="w-5 h-5 text-white/70" />,
       url: "https://github.com/shivampathak2812",
       label: "View open-source files",
     },
     {
-      name: "RESUME",
+      name: "Resume",
       icon: <FileText className="w-5 h-5 text-white/70" />,
       url: RESUME_HASH,
       opensResumeViewer: true,
@@ -61,7 +61,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12"
+      className="relative w-full fluid-py-section overflow-hidden px-6 md:px-12"
     >
       {/* Dynamic Background Light Rings */}
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-radial from-accent-cinematic/[0.005] to-transparent to-70% pointer-events-none" />
@@ -81,7 +81,7 @@ export default function Contact() {
             className="text-[10px] tracking-[0.3em] font-semibold text-white/40 mb-3 flex items-center space-x-2"
           >
             <Terminal className="w-3.5 h-3.5" />
-            <span>04 / CONNECT</span>
+            <span>06 / CONNECT</span>
           </motion.div>
 
           {/* Outro Typography */}
@@ -104,7 +104,7 @@ export default function Contact() {
             variants={itemVariants}
             className="relative w-full max-w-md p-2.5 rounded-3xl glass-panel border border-white/5 mb-16 shadow-xl shadow-black/40"
           >
-            <div className="relative w-full h-full rounded-2xl bg-background-cinematic p-4 flex items-center justify-between border border-white/5">
+            <div className="relative w-full h-full rounded-2xl bg-white/[0.03] p-4 flex items-center justify-between border border-white/10">
               <div className="flex items-center space-x-3 text-left">
                 <div className="w-8 h-8 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-white/70">
                   <Send className="w-3.5 h-3.5" />
@@ -158,11 +158,11 @@ export default function Contact() {
                   className="relative h-full rounded-2xl glass-panel border border-white/5 p-6 flex flex-col items-center justify-center hover:border-white/15 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-500 group select-none cursor-pointer"
                 >
                   {/* Tile Icon with pulse anim on hover */}
-                  <div className="w-11 h-11 rounded-xl bg-white/[0.02] border border-white/[0.05] group-hover:bg-white/[0.04] group-hover:border-white/15 flex items-center justify-center mb-4 transition-all duration-300">
+                  <div className="aurora-icon w-11 h-11 rounded-xl flex items-center justify-center mb-4 transition-all duration-300">
                     {link.icon}
                   </div>
 
-                  <span className="text-xs font-bold tracking-[0.2em] text-white uppercase mb-1">
+                  <span className="font-display text-sm font-semibold tracking-tight text-white mb-1">
                     {link.name}
                   </span>
                   <span className="text-[10px] text-white/40 font-light tracking-wide text-center">
