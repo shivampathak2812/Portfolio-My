@@ -36,7 +36,7 @@
     - *Spellcheck Correction:* Automatically normalizes user typos (e.g. `proejct` -> `project`, `skillz` -> `skill`, `educaton` -> `education`).
     - *Singular/Plural Stemming:* Maps singular and plural nouns to single common roots so both `"projects"` and `"project"` match flawlessly.
     - *Token boundary matching:* Analyzes phrases on word boundaries, preventing false-positive greeting matches.
-*   **🌌 Aurora Glass Design:** Slow-drifting aurora backdrop, frosted-glass panels, a floating glass navbar, Sora headings, and a light/dark theme toggle.
+*   **🌌 Aurora Glass Design:** Slow-drifting aurora backdrop, frosted-glass panels, a floating glass navbar and Sora headings, applied consistently across every section (dark-only).
 *   **🎥 First-Visit Video Intro:** A 10-second personal video in a portrait glass frame — "Enter with sound", always skippable (button or Esc), shown once per visitor, and replayable from the hero avatar or footer. When it ends, the frame glides into the hero's live video avatar.
 *   **💻 7-Featured Projects Ledger:** Minimal desaturated project grid showing custom, static vector SVGs representing databases, API connectors, and logistics charts.
 *   **⚙️ Zero-Error CI/CD Pipeline Purity:** Fully cleaned all core React/Next.js/TypeScript modules to satisfy strict code rules (no-explicit-any, hoisting, state hooks in effects, unescaped HTML entities), guaranteeing **100% build-and-lint purity** on GitHub Actions workflows.

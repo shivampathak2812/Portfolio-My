@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, Menu, X } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
 import { scrollToTarget } from "./lenis";
-import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -75,7 +74,6 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2 md:ml-3">
-            <ThemeToggle />
             <a
               href={RESUME_HASH}
               onClick={(e) => {

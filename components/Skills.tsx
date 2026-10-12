@@ -80,11 +80,11 @@ function SkillCard({ category }: { category: SkillCategory; idx: number }) {
         {/* Header Icon + Name */}
         <div className="flex items-center space-x-4 mb-6">
           <div
-            className="p-3 rounded-xl border transition-all duration-300 bg-white/[0.02] border-white/5 text-white/80 group-hover:bg-white/5 group-hover:border-white/10"
+            className="aurora-icon p-3 rounded-xl transition-all duration-300"
           >
             {category.icon}
           </div>
-          <h3 className="font-display font-bold text-sm tracking-[0.2em] text-white uppercase">
+          <h3 className="font-display font-semibold text-base md:text-lg tracking-tight text-white">
             {category.title}
           </h3>
         </div>
@@ -196,7 +196,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
+      className="relative w-full fluid-py-section overflow-hidden px-6 md:px-12"
     >
       {/* Atmospheric glow blobs */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-radial from-accent-cinematic/[0.02] to-transparent to-70% pointer-events-none z-0" />
@@ -206,7 +206,7 @@ export default function Skills() {
         <div className="text-left mb-16 md:mb-20 max-w-2xl">
           <div className="text-[10px] tracking-[0.3em] font-semibold text-white/40 mb-3 flex items-center space-x-2">
             <Terminal className="w-3.5 h-3.5" />
-            <span>02 / SKILL MATRIX</span>
+            <span>03 / SKILL MATRIX</span>
           </div>
           <h2 className="font-display font-semibold fluid-section-title leading-tight text-white tracking-tight">
             Expertise & <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Technologies</span>.

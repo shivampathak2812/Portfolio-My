@@ -28,7 +28,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
+      className="relative w-full fluid-py-section overflow-hidden px-6 md:px-12"
     >
       {/* Background Decorative Ambient Blobs */}
       <div className="absolute top-1/4 right-0 w-80 h-80 bg-radial from-accent-cinematic/[0.015] to-transparent to-70% pointer-events-none z-0" />
@@ -108,11 +108,11 @@ export default function About() {
             >
               {/* Pillar 1 */}
               <div className="p-5 rounded-2xl glass-panel border border-white/5 flex items-start space-x-4">
-                <div className="p-2.5 rounded-xl bg-white/[0.03] text-white/70 border border-white/10">
+                <div className="aurora-icon p-2.5 rounded-xl">
                   <BrainCircuit className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xs tracking-[0.15em] font-bold text-white mb-1 uppercase">Machine Learning</h3>
+                  <h3 className="font-display text-sm md:text-base font-semibold tracking-tight text-white mb-1">Machine Learning</h3>
                   <p className="text-[11px] text-white/50 leading-relaxed font-light">
                     Fine-tuning large language models, setting up semantic searches, and engineering agentic prompts.
                   </p>
@@ -121,11 +121,11 @@ export default function About() {
 
               {/* Pillar 2 */}
               <div className="p-5 rounded-2xl glass-panel border border-white/5 flex items-start space-x-4">
-                <div className="p-2.5 rounded-xl bg-white/[0.03] text-white/70 border border-white/10">
+                <div className="aurora-icon p-2.5 rounded-xl">
                   <Cpu className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xs tracking-[0.15em] font-bold text-white mb-1 uppercase">Full-Stack Architect</h3>
+                  <h3 className="font-display text-sm md:text-base font-semibold tracking-tight text-white mb-1">Full-Stack Architect</h3>
                   <p className="text-[11px] text-white/50 leading-relaxed font-light">
                     Dockerized backend pipelines, highly interactive frontends, and low-latency API engines.
                   </p>

@@ -273,7 +273,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative w-full fluid-py-section bg-background-cinematic border-b border-white/5 overflow-hidden"
+      className="relative w-full fluid-py-section overflow-hidden"
     >
       {/* Decorative Atmosphere Glow Blobs */}
       <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-radial from-accent-cinematic/[0.012] to-transparent to-70% pointer-events-none" />
@@ -326,7 +326,7 @@ export default function Projects() {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 rounded-md text-[7px] font-medium tracking-wide uppercase bg-white/[0.03] border border-white/5 text-white/40"
+                        className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-white/[0.05] border border-white/10 text-white/60"
                       >
                         {tag}
                       </span>
@@ -334,7 +334,7 @@ export default function Projects() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-display font-bold text-sm md:text-base tracking-wide text-white uppercase mb-2 transition-colors duration-300">
+                  <h3 className="font-display font-semibold text-base md:text-lg tracking-tight text-white mb-2 transition-colors duration-300">
                     {project.title}
                   </h3>
 

@@ -86,7 +86,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
+      className="relative w-full fluid-py-section overflow-hidden px-6 md:px-12"
     >
       {/* Background Ambient Glows - Quiet Desaturated Blur */}
       <div className="absolute top-1/3 left-0 w-80 h-80 bg-radial from-white/[0.005] to-transparent to-70% pointer-events-none" />
@@ -97,7 +97,7 @@ export default function Experience() {
         <div className="text-left mb-16 md:mb-20 max-w-2xl">
           <div className="text-[10px] tracking-[0.3em] font-semibold text-white/40 mb-3 flex items-center space-x-2">
             <Terminal className="w-3.5 h-3.5" />
-            <span>03 / CHRONOLOGY</span>
+            <span>04 / CHRONOLOGY</span>
           </div>
           <h2 className="font-display font-semibold fluid-section-title leading-tight text-white tracking-tight">
             Professional <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Experience</span>.
@@ -137,12 +137,12 @@ export default function Experience() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
                   <div className="flex items-start space-x-4">
                     <div
-                      className="p-2.5 rounded-xl border transition-all duration-300 bg-white/[0.02] border-white/5 text-white/80"
+                      className="aurora-icon p-2.5 rounded-xl transition-all duration-300"
                     >
                       {exp.icon}
                     </div>
                     <div>
-                      <h3 className="font-display font-bold text-base md:text-lg tracking-wide text-white uppercase transition-all duration-300">
+                      <h3 className="font-display font-semibold text-base md:text-lg tracking-tight text-white transition-all duration-300">
                         {exp.role}
                       </h3>
                       <p
@@ -177,7 +177,7 @@ export default function Experience() {
                   {exp.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-2.5 py-1 rounded-md text-[9px] font-medium tracking-wide uppercase bg-white/[0.03] border border-white/5 text-white/40"
+                      className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-white/[0.05] border border-white/10 text-white/65"
                     >
                       {skill}
                     </span>
