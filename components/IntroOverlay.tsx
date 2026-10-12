@@ -266,10 +266,6 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
                     <Play className="w-6 h-6 md:w-7 md:h-7 fill-current ml-1" />
                   </span>
                 </button>
-                <div className="absolute inset-x-0 bottom-0 p-5 pointer-events-none">
-                  <p className="font-display font-semibold text-lg text-white">Shivam Pathak</p>
-                  <p className="text-xs text-white/70 mt-0.5">AI/ML Engineer</p>
-                </div>
               </>
             ) : isPlaying ? (
               <>
@@ -284,7 +280,7 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
                 )}
                 {/* Captions: readable with the sound off */}
                 {caption && (
-                  <p className="absolute inset-x-4 bottom-12 text-center text-sm md:text-base font-medium text-white leading-snug [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
+                  <p className={`absolute inset-x-4 ${showEnter ? "bottom-24" : "bottom-12"} text-center text-sm md:text-base font-medium text-white leading-snug [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]`}>
                     {caption}
                   </p>
                 )}
@@ -301,6 +297,18 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
                 </div>
               </>
             ) : null}
+
+            {/* Name + role on the welcome screen, just above the "Enter with sound" button */}
+            <motion.div
+              initial={false}
+              animate={{ opacity: showEnter ? 1 : 0 }}
+              transition={{ duration: 0.5, ease: EASE }}
+              className="absolute inset-x-0 bottom-0 px-5 pb-8 pointer-events-none"
+              aria-hidden={!showEnter}
+            >
+              <p className="font-display font-semibold text-lg text-white">Shivam Pathak</p>
+              <p className="text-xs text-white/70 mt-0.5">Data &amp; AI Engineer</p>
+            </motion.div>
           </div>
         </div>
 
