@@ -26,12 +26,12 @@ export default function Projects() {
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
-          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="30" y="18" width="140" height="84" rx="6" stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="rgba(255,255,255,0.01)" />
-            <rect x="40" y="30" width="80" height="14" rx="4" fill="rgba(255,255,255,0.05)" />
-            <line x1="46" y1="37" x2="110" y2="37" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
-            <rect x="80" y="52" width="80" height="14" rx="4" fill="rgba(255,255,255,0.08)" />
-            <line x1="86" y1="59" x2="150" y2="59" stroke="rgba(255,255,255,0.18)" strokeWidth="2" />
+          <svg className="w-full h-full text-white" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="18" width="140" height="84" rx="6" stroke="currentColor" strokeOpacity="0.06" strokeWidth="1" fill="currentColor" fillOpacity="0.01" />
+            <rect x="40" y="30" width="80" height="14" rx="4" fill="currentColor" fillOpacity="0.05" />
+            <line x1="46" y1="37" x2="110" y2="37" stroke="currentColor" strokeOpacity="0.14" strokeWidth="2" />
+            <rect x="80" y="52" width="80" height="14" rx="4" fill="currentColor" fillOpacity="0.08" />
+            <line x1="86" y1="59" x2="150" y2="59" stroke="currentColor" strokeOpacity="0.18" strokeWidth="2" />
             <foreignObject x="40" y="72" width="80" height="24" className="overflow-visible">
               <div className="bg-black/70 border border-white/5 rounded px-1.5 py-1 flex items-center justify-between space-x-1">
                 <span className="text-[5px] tracking-wider text-white/50 uppercase">E101 · 2 days</span>
@@ -51,16 +51,16 @@ export default function Projects() {
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
-          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="30" y="18" width="140" height="84" rx="6" stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="rgba(255,255,255,0.01)" />
-            <line x1="30" y1="30" x2="170" y2="30" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+          <svg className="w-full h-full text-white" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="18" width="140" height="84" rx="6" stroke="currentColor" strokeOpacity="0.06" strokeWidth="1" fill="currentColor" fillOpacity="0.01" />
+            <line x1="30" y1="30" x2="170" y2="30" stroke="currentColor" strokeOpacity="0.06" strokeWidth="1" />
             <circle cx="38" cy="24" r="1.5" className="fill-white/30" />
             <circle cx="44" cy="24" r="1.5" className="fill-white/20" />
             <circle cx="50" cy="24" r="1.5" className="fill-white/10" />
-            <line x1="42" y1="42" x2="110" y2="42" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
-            <line x1="50" y1="52" x2="130" y2="52" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
-            <line x1="50" y1="62" x2="100" y2="62" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
-            <line x1="42" y1="72" x2="90" y2="72" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
+            <line x1="42" y1="42" x2="110" y2="42" stroke="currentColor" strokeOpacity="0.14" strokeWidth="2" />
+            <line x1="50" y1="52" x2="130" y2="52" stroke="currentColor" strokeOpacity="0.1" strokeWidth="2" />
+            <line x1="50" y1="62" x2="100" y2="62" stroke="currentColor" strokeOpacity="0.1" strokeWidth="2" />
+            <line x1="42" y1="72" x2="90" y2="72" stroke="currentColor" strokeOpacity="0.14" strokeWidth="2" />
             <foreignObject x="95" y="70" width="70" height="26" className="overflow-visible">
               <div className="bg-black/70 border border-white/5 rounded px-1.5 py-1 flex items-center justify-between space-x-1">
                 <span className="text-[5px] tracking-wider text-white/50 uppercase">php -l</span>
@@ -80,13 +80,13 @@ export default function Projects() {
       accentClass: "orange",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
-          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="100" x2="175" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
-            <rect x="35" y="70" width="14" height="30" rx="2" fill="rgba(255,255,255,0.05)" />
-            <rect x="57" y="55" width="14" height="45" rx="2" fill="rgba(255,255,255,0.08)" />
-            <rect x="79" y="78" width="14" height="22" rx="2" fill="rgba(255,255,255,0.05)" />
-            <rect x="101" y="45" width="14" height="55" rx="2" fill="rgba(255,255,255,0.12)" />
-            <rect x="123" y="62" width="14" height="38" rx="2" fill="rgba(255,255,255,0.06)" />
+          <svg className="w-full h-full text-white" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="25" y1="100" x2="175" y2="100" stroke="currentColor" strokeOpacity="0.06" strokeWidth="1.5" />
+            <rect x="35" y="70" width="14" height="30" rx="2" fill="currentColor" fillOpacity="0.05" />
+            <rect x="57" y="55" width="14" height="45" rx="2" fill="currentColor" fillOpacity="0.08" />
+            <rect x="79" y="78" width="14" height="22" rx="2" fill="currentColor" fillOpacity="0.05" />
+            <rect x="101" y="45" width="14" height="55" rx="2" fill="currentColor" fillOpacity="0.12" />
+            <rect x="123" y="62" width="14" height="38" rx="2" fill="currentColor" fillOpacity="0.06" />
             <foreignObject x="110" y="18" width="62" height="28" className="overflow-visible">
               <div className="bg-black/70 border border-white/5 rounded px-1 flex flex-col items-center justify-center">
                 <span className="text-[4px] text-white/40 tracking-widest font-black uppercase">ATTRITION</span>
@@ -106,12 +106,12 @@ export default function Projects() {
       accentClass: "orange",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
-          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="50" y="15" width="100" height="90" rx="6" stroke="rgba(255,255,255,0.05)" strokeWidth="1" fill="none" />
-            <line x1="60" y1="35" x2="140" y2="35" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
-            <line x1="60" y1="50" x2="120" y2="50" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
-            <line x1="60" y1="65" x2="130" y2="65" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
-            <line x1="45" y1="55" x2="155" y2="55" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+          <svg className="w-full h-full text-white" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="50" y="15" width="100" height="90" rx="6" stroke="currentColor" strokeOpacity="0.05" strokeWidth="1" fill="none" />
+            <line x1="60" y1="35" x2="140" y2="35" stroke="currentColor" strokeOpacity="0.12" strokeWidth="2" />
+            <line x1="60" y1="50" x2="120" y2="50" stroke="currentColor" strokeOpacity="0.12" strokeWidth="2" />
+            <line x1="60" y1="65" x2="130" y2="65" stroke="currentColor" strokeOpacity="0.12" strokeWidth="2" />
+            <line x1="45" y1="55" x2="155" y2="55" stroke="currentColor" strokeOpacity="0.15" strokeWidth="1.5" />
             <foreignObject x="110" y="65" width="45" height="32" className="overflow-visible">
               <div className="bg-black/75 border border-white/5 rounded p-1 flex flex-col items-center justify-center">
                 <span className="text-[4px] text-white/40 tracking-widest font-black uppercase">ATS</span>
@@ -131,10 +131,10 @@ export default function Projects() {
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
-          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
-            <line x1="20" y1="20" x2="20" y2="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1.5" />
-            <line x1="20" y1="90" x2="170" y2="30" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" strokeDasharray="2,2" />
+          <svg className="w-full h-full text-white" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="20" y1="100" x2="180" y2="100" stroke="currentColor" strokeOpacity="0.06" strokeWidth="1.5" />
+            <line x1="20" y1="20" x2="20" y2="100" stroke="currentColor" strokeOpacity="0.06" strokeWidth="1.5" />
+            <line x1="20" y1="90" x2="170" y2="30" stroke="currentColor" strokeOpacity="0.15" strokeWidth="1.5" strokeDasharray="2,2" />
             <circle cx="40" cy="85" r="2.5" className="fill-white/30" />
             <circle cx="70" cy="70" r="2.5" className="fill-white/20" />
             <circle cx="100" cy="55" r="2.5" className="fill-white/40" />
@@ -159,12 +159,12 @@ export default function Projects() {
       accentClass: "orange",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
-          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-full h-full text-white" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="40" r="3" className="fill-white/20" />
             <circle cx="150" cy="40" r="3" className="fill-white/20" />
             <circle cx="100" cy="80" r="3" className="fill-white/30" />
-            <line x1="50" y1="40" x2="100" y2="80" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-            <line x1="150" y1="40" x2="100" y2="80" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+            <line x1="50" y1="40" x2="100" y2="80" stroke="currentColor" strokeOpacity="0.05" strokeWidth="1" />
+            <line x1="150" y1="40" x2="100" y2="80" stroke="currentColor" strokeOpacity="0.05" strokeWidth="1" />
             <foreignObject x="50" y="20" width="100" height="30" className="overflow-visible">
               <div className="bg-black/60 border border-white/5 rounded-md px-1.5 py-1 flex items-center justify-center space-x-1">
                 <span className="text-[5px] font-bold text-white/60 tracking-widest uppercase">STATUS: COMPLETED</span>
@@ -205,15 +205,15 @@ export default function Projects() {
       accentClass: "orange",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
-          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="20" width="40" height="30" rx="3" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" />
-            <rect x="80" y="20" width="40" height="30" rx="3" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" />
-            <rect x="140" y="20" width="40" height="30" rx="3" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" />
-            <circle cx="40" cy="35" r="4" fill="none" stroke="rgba(255,255,255,0.2)" />
-            <line x1="88" y1="30" x2="112" y2="30" stroke="rgba(255,255,255,0.12)" strokeWidth="2.5" />
-            <line x1="88" y1="38" x2="105" y2="38" stroke="rgba(255,255,255,0.06)" strokeWidth="2.5" />
-            <line x1="148" y1="30" x2="172" y2="30" stroke="rgba(255,255,255,0.12)" strokeWidth="2.5" />
-            <line x1="148" y1="38" x2="162" y2="38" stroke="rgba(255,255,255,0.06)" strokeWidth="2.5" />
+          <svg className="w-full h-full text-white" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="20" width="40" height="30" rx="3" fill="currentColor" fillOpacity="0.01" stroke="currentColor" strokeOpacity="0.05" />
+            <rect x="80" y="20" width="40" height="30" rx="3" fill="currentColor" fillOpacity="0.01" stroke="currentColor" strokeOpacity="0.05" />
+            <rect x="140" y="20" width="40" height="30" rx="3" fill="currentColor" fillOpacity="0.01" stroke="currentColor" strokeOpacity="0.05" />
+            <circle cx="40" cy="35" r="4" fill="none" stroke="currentColor" strokeOpacity="0.2" />
+            <line x1="88" y1="30" x2="112" y2="30" stroke="currentColor" strokeOpacity="0.12" strokeWidth="2.5" />
+            <line x1="88" y1="38" x2="105" y2="38" stroke="currentColor" strokeOpacity="0.06" strokeWidth="2.5" />
+            <line x1="148" y1="30" x2="172" y2="30" stroke="currentColor" strokeOpacity="0.12" strokeWidth="2.5" />
+            <line x1="148" y1="38" x2="162" y2="38" stroke="currentColor" strokeOpacity="0.06" strokeWidth="2.5" />
             <foreignObject x="45" y="70" width="110" height="30" className="overflow-visible">
               <div className="bg-black/70 border border-white/5 rounded px-1.5 py-1 text-center">
                 <span className="text-[5px] text-white/50 tracking-widest font-black uppercase">197K+ RECORDS</span>
@@ -232,13 +232,13 @@ export default function Projects() {
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
-          <svg className="w-full h-full text-white/10" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="25" y="25" width="20" height="20" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.05)" />
-            <rect x="47" y="25" width="20" height="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.05)" />
-            <rect x="25" y="47" width="20" height="20" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" />
-            <rect x="47" y="47" width="20" height="20" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)" />
-            <path d="M80 85 Q 120 15 160 85" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" fill="none" />
-            <line x1="75" y1="85" x2="165" y2="85" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
+          <svg className="w-full h-full text-white" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="25" y="25" width="20" height="20" fill="currentColor" fillOpacity="0.02" stroke="currentColor" strokeOpacity="0.05" />
+            <rect x="47" y="25" width="20" height="20" fill="currentColor" fillOpacity="0.04" stroke="currentColor" strokeOpacity="0.05" />
+            <rect x="25" y="47" width="20" height="20" fill="currentColor" fillOpacity="0.01" stroke="currentColor" strokeOpacity="0.05" />
+            <rect x="47" y="47" width="20" height="20" fill="currentColor" fillOpacity="0.03" stroke="currentColor" strokeOpacity="0.05" />
+            <path d="M80 85 Q 120 15 160 85" stroke="currentColor" strokeOpacity="0.15" strokeWidth="1.5" fill="none" />
+            <line x1="75" y1="85" x2="165" y2="85" stroke="currentColor" strokeOpacity="0.08" strokeWidth="1.5" />
             <Activity className="absolute top-4 right-4 w-5 h-5 text-white/20" />
           </svg>
         </div>
@@ -303,7 +303,7 @@ export default function Projects() {
           {featuredProjects.map((project) => {
             
             // Build custom glowing hover borders and shadows based on brand accents
-            const borderGlowHover = "hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)] hover:border-white/15";
+            const borderGlowHover = "hover:shadow-[0_12px_40px_var(--shadow-strong)] hover:border-white/15";
 
             return (
               <motion.div

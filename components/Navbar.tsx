@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, Menu, X } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
 import { scrollToTarget } from "./lenis";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -77,7 +78,8 @@ export default function Navbar() {
           </div>
 
           {/* CTA: View Resume (viewer modal also offers download) */}
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             <a
               href={RESUME_HASH}
               onClick={(e) => {
@@ -94,14 +96,17 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile Menu Icon */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white/80 hover:text-white transition-colors focus:outline-none"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile: theme toggle + menu icon */}
+          <div className="md:hidden flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden text-white/80 hover:text-white transition-colors focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </motion.nav>
 

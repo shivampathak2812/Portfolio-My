@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { getTheme, subscribeTheme } from "./theme";
 
 export default function Particles() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -106,6 +107,17 @@ export default function Particles() {
 
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
+
+    // Additive white glow vanishes on a light page — use soft indigo dots there
+    const applyTheme = () => {
+      const isLight = getTheme() === "light";
+      material.blending = isLight ? THREE.NormalBlending : THREE.AdditiveBlending;
+      material.color.set(isLight ? 0x5e6ad2 : 0xffffff);
+      material.opacity = isLight ? 0.35 : 0.7;
+      material.needsUpdate = true;
+      if (reduceMotion) renderer.render(scene, camera);
+    };
+    const unsubscribeTheme = subscribeTheme(applyTheme);
 
     // 6. Camera Mouse-follow Inertia & Resize State
     const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
@@ -219,6 +231,8 @@ export default function Particles() {
       renderer.render(scene, camera);
     };
 
+    applyTheme();
+
     if (reduceMotion) {
       // Static field of particles, no render loop
       renderer.render(scene, camera);
@@ -235,6 +249,7 @@ export default function Particles() {
       }
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
+      unsubscribeTheme();
 
       // Clean buffer objects
       geometry.dispose();

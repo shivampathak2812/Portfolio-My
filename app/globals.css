@@ -1,28 +1,71 @@
 @import "tailwindcss";
 
-:root {
+:root,
+[data-theme="dark"] {
   /* Graphite + Electric Indigo */
   --background: #0A0A0B;
   --surface: #111113;
   --surface-raised: #17171A;
   --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.1);
   --foreground: #EDEDEF;
+  /* Opposite of foreground: what Tailwind's "black" resolves to */
+  --inverse: #000000;
   --muted: #8A8F98;
   --accent: #5E6AD2;
   /* Lighter indigo for small text/icons on dark (AA contrast) */
   --accent-soft: #8B93E8;
+  --glass-bg: rgba(17, 17, 19, 0.6);
+  --glass-bg-hover: rgba(23, 23, 26, 0.7);
+  --glass-bg-solid: rgba(17, 17, 19, 0.92);
+  --chat-bg: rgba(17, 17, 19, 0.88);
+  --chat-bg-solid: rgba(17, 17, 19, 0.96);
+  --shadow-soft: rgba(0, 0, 0, 0.35);
+  --shadow-strong: rgba(0, 0, 0, 0.6);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.08);
+  color-scheme: dark;
 }
 
-@theme {
+[data-theme="light"] {
+  /* Porcelain + Indigo */
+  --background: #FBFBFC;
+  --surface: #FFFFFF;
+  --surface-raised: #F4F4F6;
+  --border: rgba(10, 10, 11, 0.08);
+  --border-strong: rgba(10, 10, 11, 0.14);
+  --foreground: #0A0A0B;
+  --inverse: #FFFFFF;
+  --muted: #6B6F76;
+  --accent: #5E6AD2;
+  /* Deeper indigo for small text/icons on light (AA contrast) */
+  --accent-soft: #4C57C2;
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-hover: rgba(255, 255, 255, 0.92);
+  --glass-bg-solid: rgba(255, 255, 255, 0.95);
+  --chat-bg: rgba(255, 255, 255, 0.9);
+  --chat-bg-solid: rgba(255, 255, 255, 0.97);
+  --shadow-soft: rgba(17, 24, 39, 0.08);
+  --shadow-strong: rgba(17, 24, 39, 0.12);
+  --scrollbar-thumb: rgba(10, 10, 11, 0.12);
+  color-scheme: light;
+}
+
+/* Colour tokens are inlined so every utility reads the live theme variables,
+   which lets the whole site (or a single subtree) switch theme at runtime. */
+@theme inline {
   --color-background-cinematic: var(--background);
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
   --color-muted: var(--muted);
   --color-accent-cinematic: var(--accent);
   --color-accent-soft: var(--accent-soft);
-  /* Off-white instead of pure #FFF: softer, Linear/Vercel-style text */
-  --color-white: #EDEDEF;
+  /* "white" = foreground and "black" = its opposite, so existing
+     text-white / bg-white/5 / bg-black/60 classes flip with the theme */
+  --color-white: var(--foreground);
+  --color-black: var(--inverse);
+}
 
+@theme {
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-geist), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
@@ -51,7 +94,7 @@ body {
 /* Firefox scrollbar */
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.08) var(--background);
+  scrollbar-color: var(--scrollbar-thumb) var(--background);
 }
 
 /* Custom Cinematic Scrollbar */
@@ -65,7 +108,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
   border: 2px solid var(--background);
   transition: all 0.3s ease;
@@ -146,7 +189,7 @@ html.lenis body {
 
 /* Glassmorphism Classes */
 .glass-panel {
-  background: rgba(17, 17, 19, 0.6);
+  background: var(--glass-bg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border);
@@ -160,9 +203,9 @@ html.lenis body {
 }
 
 .glass-panel-hover:hover {
-  background: rgba(23, 23, 26, 0.7);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  background: var(--glass-bg-hover);
+  border-color: var(--border-strong);
+  box-shadow: 0 8px 24px var(--shadow-soft);
   transform: translateY(-2px);
 }
 
@@ -176,7 +219,7 @@ html.lenis body {
   bottom: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.06), rgba(94, 106, 210, 0.12));
+  background: linear-gradient(to right, var(--border), rgba(94, 106, 210, 0.12));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -185,7 +228,7 @@ html.lenis body {
 }
 
 .gradient-border-box:hover::before {
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.12), rgba(94, 106, 210, 0.45));
+  background: linear-gradient(to right, var(--border-strong), rgba(94, 106, 210, 0.45));
 }
 
 /* ==========================================================================
@@ -294,18 +337,18 @@ html.lenis body {
 
 /* Premium specialized chatbot container glassmorphism */
 .chatbot-panel {
-  background: rgba(17, 17, 19, 0.88);
+  background: var(--chat-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
   box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.7);
+    0 12px 40px var(--shadow-strong);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .chatbot-panel:hover {
   box-shadow: 
-    0 16px 48px rgba(0, 0, 0, 0.8);
+    0 16px 48px var(--shadow-strong);
 }
 
 /* ==========================================================================
@@ -377,16 +420,16 @@ html.lenis body {
 @media screen and (max-width: 767px) {
   /* Heavily reduce backdrop-filter blur compute cost on mobile */
   .glass-panel {
-    background: rgba(17, 17, 19, 0.92) !important; /* Slightly more opaque */
+    background: var(--glass-bg-solid) !important; /* Slightly more opaque */
     backdrop-filter: blur(3px) !important; /* 3px instead of 8px */
     -webkit-backdrop-filter: blur(3px) !important;
   }
 
   .chatbot-panel {
-    background: rgba(17, 17, 19, 0.96) !important; /* Matte graphite */
+    background: var(--chat-bg-solid) !important; /* Matte graphite */
     backdrop-filter: blur(4px) !important;
     -webkit-backdrop-filter: blur(4px) !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8) !important; /* Smaller shadow bounds */
+    box-shadow: 0 8px 24px var(--shadow-strong) !important; /* Smaller shadow bounds */
   }
 
   /* Prevent CPU-heavy animated film noise loops on mobile */
@@ -406,13 +449,13 @@ html.lenis body {
 
 .glass-panel-hover:hover {
     transform: none !important;
-    border-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--border-strong) !important;
     box-shadow: none !important;
   }
 
   .gradient-border-box::before,
   .gradient-border-box:hover::before {
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: var(--border) !important;
   }
 
   /* Dim down glowing text shadows to save mobile canvas repaints */
@@ -433,4 +476,11 @@ html.lenis body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Theme switch: short crossfade (View Transitions API, where supported) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
