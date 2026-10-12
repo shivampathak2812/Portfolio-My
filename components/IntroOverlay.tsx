@@ -66,28 +66,57 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
   const [progress, setProgress] = useState(0);
   const [caption, setCaption] = useState("");
 
+  // Play from the start: with sound when the browser allows it, otherwise muted
+  // with a "Tap for sound" prompt. Switches to the playing UI only once it really plays.
   const start = () => {
     const video = videoRef.current;
     if (!video) return;
     video.currentTime = 0;
     video.muted = false;
-    setIsMuted(false);
-    // Called inside the click, so browsers allow playback with sound
-    video.play().catch(() => {
-      // Sound blocked (no fresh gesture): play muted and offer sound
-      video.muted = true;
-      setIsMuted(true);
-      setNeedsTap(true);
-      video.play().catch(() => {});
-    });
-    playIntro();
+    video
+      .play()
+      .then(() => {
+        setIsMuted(false);
+        setNeedsTap(false);
+        playIntro();
+      })
+      .catch(() => {
+        // Sound needs a click first: browsers only allow muted autoplay
+        video.muted = true;
+        video
+          .play()
+          .then(() => {
+            setIsMuted(true);
+            setNeedsTap(true);
+            playIntro();
+          })
+          // Autoplay fully blocked (e.g. battery saver): stay on the welcome screen's play button
+          .catch(() => {});
+      });
   };
 
-  // Replays open straight into "playing" (hero avatar or footer link)
+  // Restart with sound after a muted autoplay
+  const enableSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = 0;
+    video.muted = false;
+    video.play().catch(() => {});
+    setIsMuted(false);
+    setNeedsTap(false);
+  };
+
+  // Autoplay as soon as the intro opens (first visit, or a replay)
   useEffect(() => {
-    if (phase !== "playing") return;
-    animate(".intro-frame", { opacity: [0, 1], scale: [0.96, 1] }, { duration: 0.6, ease: EASE });
-    if (videoRef.current?.paused) start();
+    // Returning visitors briefly mount the hidden server-rendered welcome screen: never autoplay there
+    if (getIntroPhase() === "done") return;
+    if (phase === "playing") {
+      animate(".intro-frame", { opacity: [0, 1], scale: [0.96, 1] }, { duration: 0.6, ease: EASE });
+    } else if (prefersReducedMotion()) {
+      // Reduced motion: wait for the visitor to press play
+      return;
+    }
+    start();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -209,6 +238,20 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
               </>
             ) : (
               <>
+                {/* Muted autoplay: one big tap restarts the intro with sound */}
+                {needsTap && (
+                  <button
+                    type="button"
+                    onClick={enableSound}
+                    aria-label="Restart the intro with sound"
+                    className="absolute inset-0 flex items-center justify-center cursor-pointer group focus:outline-none"
+                  >
+                    <span className="intro-play inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white transition-transform duration-300 group-hover:scale-105">
+                      <Volume2 className="w-4 h-4" />
+                      Tap for sound
+                    </span>
+                  </button>
+                )}
                 {/* Captions: readable with the sound off */}
                 {caption && (
                   <p className="absolute inset-x-4 bottom-12 text-center text-sm md:text-base font-medium text-white leading-snug [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
@@ -222,7 +265,6 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
                   className="absolute top-3 right-3 flex items-center gap-2 rounded-full bg-black/45 backdrop-blur-md border border-white/15 px-3 py-2 text-white text-xs cursor-pointer"
                 >
                   {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                  {needsTap && <span>Tap for sound</span>}
                 </button>
                 <div className="absolute inset-x-4 bottom-4 h-[3px] rounded-full bg-white/20 overflow-hidden">
                   <div className="h-full rounded-full intro-progress" style={{ width: `${progress * 100}%` }} />
