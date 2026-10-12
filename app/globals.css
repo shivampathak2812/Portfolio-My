@@ -2,51 +2,61 @@
 
 :root,
 [data-theme="dark"] {
-  /* Graphite + Electric Indigo */
-  --background: #0A0A0B;
-  --surface: #111113;
-  --surface-raised: #17171A;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.1);
-  --foreground: #EDEDEF;
+  /* Aurora Glass — dark */
+  --background: #05060A;
+  --surface: #0B0C12;
+  --surface-raised: #12141C;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --foreground: #F2F4F8;
   /* Opposite of foreground: what Tailwind's "black" resolves to */
   --inverse: #000000;
-  --muted: #8A8F98;
-  --accent: #5E6AD2;
-  /* Lighter indigo for small text/icons on dark (AA contrast) */
-  --accent-soft: #8B93E8;
-  --glass-bg: rgba(17, 17, 19, 0.6);
-  --glass-bg-hover: rgba(23, 23, 26, 0.7);
-  --glass-bg-solid: rgba(17, 17, 19, 0.92);
-  --chat-bg: rgba(17, 17, 19, 0.88);
-  --chat-bg-solid: rgba(17, 17, 19, 0.96);
+  --muted: #9097A6;
+  --accent: #8B5CF6;
+  /* Lighter violet for small text/icons on dark (AA contrast) */
+  --accent-soft: #B4A0FF;
+  --accent-2: #06B6D4;
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-bg-hover: rgba(255, 255, 255, 0.075);
+  --glass-bg-solid: rgba(14, 15, 22, 0.92);
+  --glass-highlight: rgba(255, 255, 255, 0.1);
+  --chat-bg: rgba(12, 13, 20, 0.86);
+  --chat-bg-solid: rgba(12, 13, 20, 0.96);
   --shadow-soft: rgba(0, 0, 0, 0.35);
   --shadow-strong: rgba(0, 0, 0, 0.6);
-  --scrollbar-thumb: rgba(255, 255, 255, 0.08);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.1);
+  --aurora-1: rgba(124, 58, 237, 0.55);
+  --aurora-2: rgba(8, 145, 178, 0.5);
+  --aurora-3: rgba(219, 39, 119, 0.28);
   color-scheme: dark;
 }
 
 [data-theme="light"] {
-  /* Porcelain + Indigo */
-  --background: #FBFBFC;
+  /* Aurora Glass — light */
+  --background: #F6F6FB;
   --surface: #FFFFFF;
-  --surface-raised: #F4F4F6;
-  --border: rgba(10, 10, 11, 0.08);
-  --border-strong: rgba(10, 10, 11, 0.14);
-  --foreground: #0A0A0B;
+  --surface-raised: #F0F0F7;
+  --border: rgba(20, 16, 48, 0.08);
+  --border-strong: rgba(20, 16, 48, 0.16);
+  --foreground: #0C0B16;
   --inverse: #FFFFFF;
-  --muted: #6B6F76;
-  --accent: #5E6AD2;
-  /* Deeper indigo for small text/icons on light (AA contrast) */
-  --accent-soft: #4C57C2;
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-bg-hover: rgba(255, 255, 255, 0.92);
-  --glass-bg-solid: rgba(255, 255, 255, 0.95);
-  --chat-bg: rgba(255, 255, 255, 0.9);
+  --muted: #5E6274;
+  --accent: #7C3AED;
+  /* Deeper violet for small text/icons on light (AA contrast) */
+  --accent-soft: #6D28D9;
+  --accent-2: #0891B2;
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-hover: rgba(255, 255, 255, 0.8);
+  --glass-bg-solid: rgba(255, 255, 255, 0.94);
+  --glass-highlight: rgba(255, 255, 255, 0.9);
+  --chat-bg: rgba(255, 255, 255, 0.88);
   --chat-bg-solid: rgba(255, 255, 255, 0.97);
-  --shadow-soft: rgba(17, 24, 39, 0.08);
-  --shadow-strong: rgba(17, 24, 39, 0.12);
-  --scrollbar-thumb: rgba(10, 10, 11, 0.12);
+  --shadow-soft: rgba(40, 30, 90, 0.08);
+  --shadow-strong: rgba(40, 30, 90, 0.14);
+  --scrollbar-thumb: rgba(20, 16, 48, 0.14);
+  --aurora-1: rgba(167, 139, 250, 0.45);
+  --aurora-2: rgba(103, 232, 249, 0.4);
+  --aurora-3: rgba(244, 114, 182, 0.25);
   color-scheme: light;
 }
 
@@ -59,6 +69,7 @@
   --color-muted: var(--muted);
   --color-accent-cinematic: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-2: var(--accent-2);
   /* "white" = foreground and "black" = its opposite, so existing
      text-white / bg-white/5 / bg-black/60 classes flip with the theme */
   --color-white: var(--foreground);
@@ -67,7 +78,7 @@
 
 @theme {
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-geist), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 html, body {
@@ -115,7 +126,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(94, 106, 210, 0.45);
+  background: rgba(139, 92, 246, 0.5);
 }
 
 /* Static Film Grain Overlay
@@ -140,8 +151,8 @@ html {
   pointer-events: none;
   background: radial-gradient(
     600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(94, 106, 210, 0.03),
-    rgba(94, 106, 210, 0.008) 40%,
+    rgba(139, 92, 246, 0.04),
+    rgba(6, 182, 212, 0.01) 40%,
     transparent 80%
   );
   z-index: 1;
@@ -190,9 +201,11 @@ html.lenis body {
 /* Glassmorphism Classes */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid var(--border);
+  /* Hairline highlight on the top edge — the "frosted glass" cue */
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
 }
 
 .glass-panel-hover {
@@ -219,7 +232,7 @@ html.lenis body {
   bottom: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(to right, var(--border), rgba(94, 106, 210, 0.12));
+  background: linear-gradient(to right, var(--border), rgba(139, 92, 246, 0.12));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -228,7 +241,7 @@ html.lenis body {
 }
 
 .gradient-border-box:hover::before {
-  background: linear-gradient(to right, var(--border-strong), rgba(94, 106, 210, 0.45));
+  background: linear-gradient(to right, var(--border-strong), rgba(139, 92, 246, 0.45));
 }
 
 /* ==========================================================================
@@ -247,7 +260,7 @@ html.lenis body {
   position: absolute;
   inset: 0;
   border-radius: 24px;
-  border: 1px solid rgba(94, 106, 210, 0);
+  border: 1px solid rgba(139, 92, 246, 0);
   pointer-events: none;
   opacity: 0;
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -260,7 +273,7 @@ html.lenis body {
 }
 
 .section-spotlight.highlight-active::before {
-  border-color: rgba(94, 106, 210, 0.35);
+  border-color: rgba(139, 92, 246, 0.35);
   opacity: 1;
 }
 
@@ -318,18 +331,18 @@ html.lenis body {
 }
 
 .chatbot-messages-container::-webkit-scrollbar-thumb {
-  background: rgba(94, 106, 210, 0.3); /* brand indigo */
+  background: rgba(139, 92, 246, 0.3); /* brand violet */
   border-radius: 9999px;
   transition: background 0.3s ease;
 }
 
 .chatbot-messages-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(94, 106, 210, 0.6);
+  background: rgba(139, 92, 246, 0.6);
 }
 
 .chatbot-messages-container {
   scrollbar-width: thin;
-  scrollbar-color: rgba(94, 106, 210, 0.3) transparent;
+  scrollbar-color: rgba(139, 92, 246, 0.3) transparent;
   overscroll-behavior: contain;
   min-height: 0; /* CRITICAL: ensures messages container can shrink to fit layout bounds */
   flex-grow: 1;
@@ -420,9 +433,10 @@ html.lenis body {
 @media screen and (max-width: 767px) {
   /* Heavily reduce backdrop-filter blur compute cost on mobile */
   .glass-panel {
-    background: var(--glass-bg-solid) !important; /* Slightly more opaque */
-    backdrop-filter: blur(3px) !important; /* 3px instead of 8px */
-    -webkit-backdrop-filter: blur(3px) !important;
+    /* No live blur on phones (GPU cost); the soft aurora keeps text readable */
+    background: var(--glass-bg-hover) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
   .chatbot-panel {
@@ -462,6 +476,88 @@ html.lenis body {
   .text-glow-accent, .text-glow-orange {
     text-shadow: none !important;
   }
+}
+
+/* ==========================================================================
+   Aurora Glass
+   ========================================================================== */
+
+/* Fixed aurora backdrop: soft colour fields drawn with gradients (no blur filter),
+   drifting slowly on the compositor */
+.aurora {
+  position: fixed;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(38% 42% at 12% 8%, var(--aurora-1), transparent 70%),
+    radial-gradient(34% 40% at 92% 22%, var(--aurora-2), transparent 70%),
+    radial-gradient(40% 36% at 50% 100%, var(--aurora-3), transparent 70%);
+  animation: auroraDrift 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes auroraDrift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(2%, 3%, 0) scale(1.05); }
+  100% { transform: translate3d(-2%, 1%, 0) scale(1.02); }
+}
+
+/* Gradient primary button */
+.btn-aurora {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  /* Always true white on the gradient, in both themes */
+  color: #fff;
+  box-shadow: 0 8px 24px -8px rgba(139, 92, 246, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-aurora:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px -8px rgba(139, 92, 246, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Headline gradient text */
+.text-aurora {
+  background: linear-gradient(180deg, var(--foreground) 35%, color-mix(in oklab, var(--foreground) 55%, transparent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Gradient ring used by the hero video avatar */
+.aurora-ring {
+  padding: 3px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 40px -6px rgba(139, 92, 246, 0.55);
+}
+
+/* Intro video frame: 9:16 portrait glass card sized to the viewport */
+.intro-frame {
+  height: min(62vh, 600px);
+  aspect-ratio: 9 / 16;
+  background: #0B0C12;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6), 0 0 60px -10px rgba(139, 92, 246, 0.35);
+}
+
+.intro-play {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.intro-progress {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.25s linear;
+}
+
+/* Returning visitors: the server-rendered welcome screen never paints.
+   visibility (not display) so its exit animation still runs and unmounts it. */
+html[data-intro="seen"] .intro-overlay {
+  visibility: hidden;
 }
 
 /* ==========================================================================

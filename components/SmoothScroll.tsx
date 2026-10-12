@@ -3,17 +3,12 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { MotionConfig } from "framer-motion";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefersReducedMotion, setLenis } from "./lenis";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // 1. Lenis smooth scroll — skipped entirely for reduced-motion users
     let lenis: Lenis | null = null;
-    let tick: ((time: number) => void) | null = null;
 
     if (!prefersReducedMotion()) {
       lenis = new Lenis({
@@ -23,18 +18,13 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         smoothWheel: true,
         // Keep native touch momentum on phones — it is already smooth there
         syncTouch: false,
+        // Lenis runs its own requestAnimationFrame loop
+        autoRaf: true,
       });
       setLenis(lenis);
-
-      // 2. Drive Lenis from GSAP's ticker so ScrollTrigger scrubs/pins read the
-      // exact same scroll position every frame (removes pinned-section jitter)
-      lenis.on("scroll", ScrollTrigger.update);
-      tick = (time: number) => lenis?.raf(time * 1000);
-      gsap.ticker.add(tick);
-      gsap.ticker.lagSmoothing(0);
     }
 
-    // 3. Cursor spotlight: rAF-throttled and written to the spotlight element only
+    // 2. Cursor spotlight: rAF-throttled and written to the spotlight element only
     // (custom properties on <html> force a style recalc of the whole document)
     const spotlight = document.querySelector<HTMLElement>(".spotlight-glow");
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -58,7 +48,6 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     }
 
     return () => {
-      if (tick) gsap.ticker.remove(tick);
       lenis?.destroy();
       setLenis(null);
       cancelAnimationFrame(pointerFrame);

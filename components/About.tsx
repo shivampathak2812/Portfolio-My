@@ -86,7 +86,7 @@ export default function About() {
             {/* Editorial Title */}
             <motion.h2
               variants={itemVariants}
-              className="font-display font-bold fluid-section-title leading-tight text-white mb-6 uppercase tracking-wide"
+              className="font-display font-semibold fluid-section-title leading-tight text-white mb-6 tracking-tight"
             >
               Engineering <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/60">Intelligence</span>.
             </motion.h2>

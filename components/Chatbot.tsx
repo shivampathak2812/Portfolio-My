@@ -11,6 +11,7 @@ import {
 import { queryLocalRAG, ChatAction } from "./chatbotData";
 import { openResumeViewer } from "./resume";
 import { scrollToTarget } from "./lenis";
+import { onChatbotOpen } from "./chatbot-events";
 
 // Detect mobile/touch once at module level to avoid re-evaluation
 const IS_MOBILE = typeof window !== "undefined" && (window.innerWidth < 768 || navigator.maxTouchPoints > 0);
@@ -68,6 +69,9 @@ const VOICE_BAR_HEIGHTS = [
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
+
+  // Opened from elsewhere on the page (e.g. the hero "Talk to Avix AI" button)
+  useEffect(() => onChatbotOpen(() => setIsOpen(true)), []);
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {

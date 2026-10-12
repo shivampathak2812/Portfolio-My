@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>An award-winning caliber, Apple-level polished, Vercel-style desaturated AI Engineer portfolio experience.</strong><br />
-  Built using Next.js 16, React 19, TypeScript, Tailwind CSS v4, GSAP, Framer Motion, and vanilla Three.js.
+  Built using Next.js 16, React 19, TypeScript, Tailwind CSS v4, Framer Motion, and Lenis.
 </p>
 
 <p align="center">
@@ -14,8 +14,6 @@
   <a href="https://nextjs.org"><img src="https://img.shields.io/badge/Next.js-15-black?style=flat&logo=next.js&logoColor=white&color=000000" alt="Next.js" /></a>
   <a href="https://react.dev"><img src="https://img.shields.io/badge/React-19-blue?style=flat&logo=react&logoColor=61DAFB&color=20232A" alt="React 19" /></a>
   <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind--v4-sky?style=flat&logo=tailwind-css&logoColor=38BDF8&color=0F172A" alt="Tailwind CSS v4" /></a>
-  <a href="https://threejs.org"><img src="https://img.shields.io/badge/Three.js-WebGL-black?style=flat&logo=three.js&logoColor=white&color=111111" alt="Three.js" /></a>
-  <a href="https://greensock.com/gsap/"><img src="https://img.shields.io/badge/GSAP-Scrub-green?style=flat&logo=greensock&logoColor=88CE02&color=000000" alt="GSAP Animation" /></a>
 </p>
 
 ---
@@ -31,8 +29,6 @@
     - *Instant Fetch & Stream Stop:* Pauses active network fetch retry loops (via a master `AbortController` ref) and freezes typewriter stream intervals instantly.
     - *Ask AVIX Branding:* Custom prompt and placeholder alignment (`"Ask AVIX..."`) to unify the assistant's persona.
 *   **⚡ Silky-Smooth Mobile Performance Overhaul:** Adaptive rendering logic that scales features dynamically to maximize frame rates on smaller screens:
-    - *WebGL Dynamic Scaling:* Throttles Three.js particle counts (110 → 20) and caps `devicePixelRatio` to 1 on mobile to protect touch devices from GPU overhead.
-    - *Page Visibility API:* Pauses the WebGL render loop completely when the browser tab is inactive, preserving CPU cycles and battery.
     - *Optimized Blurs & Preloads:* Capped heavy CSS backdrop blurs (8px → 3px) and deferred background video loading to prevent layout reflows on mobile.
 *   **🎓 Graduated B.Tech Credentials (2022 - 2025):** Fully synchronized the RAG corpus database, Chroma vector stores, local fallback query maps, and frontend panel grids to present up-to-date academic timelines:
     - *Status:* Bachelor of Technology (B.Tech) in Computer Science and Engineering completed in **June 2025** from **Graphic Era Hill University, Haldwani** with a **6.88 CGPA**.
@@ -40,9 +36,8 @@
     - *Spellcheck Correction:* Automatically normalizes user typos (e.g. `proejct` -> `project`, `skillz` -> `skill`, `educaton` -> `education`).
     - *Singular/Plural Stemming:* Maps singular and plural nouns to single common roots so both `"projects"` and `"project"` match flawlessly.
     - *Token boundary matching:* Analyzes phrases on word boundaries, preventing false-positive greeting matches.
-*   **🎬 Cinematic Entry Splash (`LET'S GO →`):** Clean entrance splash screen featuring a tagline, a sleek rectangular entrance CTA, and desaturated, elegant layouts.
-*   **✨ Yellow Tagline Refinements:** Colored the main tagline label `"AI ENGINEER"` in a rich, highly professional yellow (`text-yellow-500`) on both the splash screen and main Hero layouts.
-*   **✨ Three.js WebGL Bokeh Canvas:** Renders desaturated, slow-moving radial white and silver bokeh spheres, depth parallax tracking mouse inputs seamlessly at a solid 60 FPS.
+*   **🌌 Aurora Glass Design:** Slow-drifting aurora backdrop, frosted-glass panels, a floating glass navbar, Sora headings, and a light/dark theme toggle.
+*   **🎥 First-Visit Video Intro:** A 10-second personal video in a portrait glass frame — "Enter with sound", always skippable (button or Esc), shown once per visitor, and replayable from the hero avatar or footer. When it ends, the frame glides into the hero's live video avatar.
 *   **💻 7-Featured Projects Ledger:** Minimal desaturated project grid showing custom, static vector SVGs representing databases, API connectors, and logistics charts.
 *   **⚙️ Zero-Error CI/CD Pipeline Purity:** Fully cleaned all core React/Next.js/TypeScript modules to satisfy strict code rules (no-explicit-any, hoisting, state hooks in effects, unescaped HTML entities), guaranteeing **100% build-and-lint purity** on GitHub Actions workflows.
 
@@ -85,16 +80,16 @@ Shivam-Portfolio/
 ├── components/
 │   ├── Chatbot.tsx          # Sleek glassmorphic floating chat, fullscreen toggle, and stop button
 │   ├── chatbotData.ts       # Shared knowledge database & robust fuzzy local NLP RAG engine
-│   ├── Navbar.tsx           # Sticky transparent-to-blur opaque glass header
-│   ├── CinematicIntro.tsx   # Entry splash card & ScrollTrigger video transition
-│   ├── Hero.tsx             # Talking-head card and HUD media console taglines
+│   ├── Navbar.tsx           # Floating glass pill navigation + theme toggle
+│   ├── IntroOverlay.tsx     # First-visit video intro (skip, Esc, replay, hand-off)
+│   ├── intro.ts             # Intro state, video sources and caption cues
+│   ├── Hero.tsx             # Centred hero with the live video avatar
 │   ├── About.tsx            # Portrait photo depth frame & professional narrative
 │   ├── Education.tsx        # Desaturated academic milestones and credentials card
 │   ├── Skills.tsx           # Cursor-tracking radial hover lighting cards
 │   ├── Experience.tsx       # Desaturated chronology timeline and skill badges
 │   ├── Projects.tsx         # Clean 7-project grid with custom static SVGs
 │   ├── Contact.tsx          # Minimialist closing copy terminal console
-│   ├── Particles.tsx        # Vanilla Three.js WebGL canvas particle lerp provider
 │   └── SmoothScroll.tsx     # Lenis kinetic scrolling & global mouse tracker
 └── public/
     ├── resume/
@@ -103,7 +98,9 @@ Shivam-Portfolio/
     │   ├── profile.png      # Portrait photo (2.0 aspect ratio frame)
     │   └── avix-logo.png    # Custom AVIX transparent wings logo
     └── videos/
-        └── hero-video.mp4   # Foreground cinema video asset
+        ├── intro.mp4        # Intro video (H.264, portrait crop)
+        ├── intro.webm       # Intro video (VP9/Opus, smaller)
+        └── intro-poster.jpg # Still frame shown before playback
 ```
 
 ---
