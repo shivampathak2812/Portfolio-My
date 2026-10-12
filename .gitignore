@@ -42,6 +42,9 @@ next-env.d.ts
 
 # python RAG backend
 /backend/chroma_db/
+/backend/.models/
+/backend/.pytest_cache/
+/backend/tests/__pycache__/
 /backend/__pycache__/
 *.pyc
 

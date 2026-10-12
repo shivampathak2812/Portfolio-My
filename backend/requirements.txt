@@ -1,9 +1,10 @@
-fastapi>=0.115.0
-uvicorn>=0.30.0
-langchain>=0.2.0
-langchain-community>=0.2.0
-langchain-groq>=0.1.0
-chromadb>=0.5.0
-python-dotenv>=1.0.0
-sentence-transformers>=3.0.0
-pydantic>=2.9.0
+# Runtime dependencies for the AVIX backend (pinned so Render builds are fast and reproducible).
+# DEMO_MODE=true only imports fastapi/uvicorn/pydantic/python-dotenv at runtime.
+# RAG mode (DEMO_MODE=false) adds chromadb, which embeds with its bundled ONNX
+# all-MiniLM-L6-v2 via onnxruntime, so PyTorch / sentence-transformers are not needed.
+fastapi==0.143.0
+uvicorn==0.54.0
+pydantic==2.14.1
+python-dotenv==1.2.4
+langchain-groq==1.1.3
+chromadb==1.5.9

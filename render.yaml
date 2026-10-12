@@ -1,0 +1,22 @@
+# Render Blueprint for the AVIX chatbot backend (FastAPI), sized for the free 512 MB instance.
+# Dashboard equivalent: Root Directory `backend`, the build/start commands below,
+# Health Check Path `/health`, and the env vars listed here.
+services:
+  - type: web
+    name: avix-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    # The vector index is built at build time (never at startup) and only when RAG mode is on.
+    buildCommand: pip install -r requirements.txt && if [ "$DEMO_MODE" != "true" ]; then python ingest.py; fi
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      # true = predefined portfolio answers only (~50 MB RAM, no Groq key needed).
+      # false = Groq + RAG (~310 MB RAM, needs GROQ_API_KEY; falls back to predefined answers on any failure).
+      - key: DEMO_MODE
+        value: "true"
+      - key: GROQ_API_KEY
+        sync: false

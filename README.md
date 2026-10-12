@@ -72,11 +72,14 @@ Shivam-Portfolio/
 │   ├── globals.css          # Cinematic film grain, atmosphere blobs, core colors
 │   ├── layout.tsx           # Outfit/Inter Fonts integration and metadata SEO setup
 │   └── page.tsx             # Application anchor coordinating Navbar & sections
-├── backend/                 # Python RAG Pipeline (FastAPI, ChromaDB, HuggingFace, LLaMA-3)
-│   ├── main.py              # FastAPI service exposing /chat CORS endpoints
-│   ├── ingest.py            # Local document ingestion, vectorization, and indexing
+├── backend/                 # Python RAG Pipeline (FastAPI, ChromaDB + ONNX MiniLM, Groq LLaMA-3)
+│   ├── main.py              # FastAPI service: /health, /chat, DEMO_MODE and lazy RAG loading
+│   ├── local_replies.py     # Predefined portfolio answers (demo mode and fallback)
+│   ├── knowledge_base.py    # Portfolio documents indexed for RAG
+│   ├── ingest.py            # Builds the ChromaDB index (build time only)
 │   ├── rag_engine.py        # Vector search retriever and LLaMA-3 context pipeline
-│   └── requirements.txt     # Python dependency list
+│   ├── tests/               # pytest suite (demo mode, RAG fallbacks, API contract)
+│   └── requirements.txt     # Pinned Python dependencies
 ├── components/
 │   ├── Chatbot.tsx          # Sleek glassmorphic floating chat, fullscreen toggle, and stop button
 │   ├── chatbotData.ts       # Shared knowledge database & robust fuzzy local NLP RAG engine
@@ -126,7 +129,14 @@ To replicate Shivam's cinematic portfolio and AI assistant experience:
 
 ### 2. Run the Python RAG Backend (Optional)
 
-The chatbot automatically links to this vector retrieval retrieval engine when active. If offline, the frontend falls back silently to the browser-based fuzzy NLP matching engine.
+The chatbot automatically links to this backend when `NEXT_PUBLIC_BACKEND_URL` points at it. If it is offline, the frontend falls back silently to the browser-based fuzzy NLP matching engine.
+
+The backend has two modes, chosen with the `DEMO_MODE` environment variable:
+
+| Mode | What answers `/chat` | Needs | Memory (measured) |
+| --- | --- | --- | --- |
+| `DEMO_MODE=true` | Predefined portfolio answers (`local_replies.py`) | nothing | ~50 MB |
+| `DEMO_MODE=false` (default) | Groq LLaMA-3 + ChromaDB retrieval, falling back to the predefined answers on any error | `GROQ_API_KEY`, `python ingest.py` | ~310 MB |
 
 1.  **Navigate to Backend & Setup Environment:**
     ```bash
@@ -139,20 +149,26 @@ The chatbot automatically links to this vector retrieval retrieval engine when a
     ```
 2.  **Install Python Packages:**
     ```bash
-    pip install -r requirements.txt
+    pip install -r requirements.txt        # add -dev to also install pytest
     ```
-3.  **Ingest Vector Documents:** Vectorize resume facts and portfolio details into local ChromaDB:
+3.  **Configure Environment Variables:** create `backend/.env` with
+    *   `DEMO_MODE=true` for predefined answers only, or
+    *   `DEMO_MODE=false` and `GROQ_API_KEY=gsk_...` for Groq + RAG.
+4.  **Build the Vector Index (RAG mode only):** embeds the portfolio documents into `chroma_db/` with ChromaDB's ONNX all-MiniLM-L6-v2 (no PyTorch). Re-run when `knowledge_base.py` changes:
     ```bash
     python ingest.py
     ```
-4.  **Configure Environment Variables:**
-    *   Create a `.env` file from the template: `cp .env.example .env`
-    *   Add your Groq API Key: `GROQ_API_KEY=gsk_...`
 5.  **Boot FastAPI Server:**
     ```bash
-    python main.py
+    uvicorn main:app --port 8000
     ```
-    *(The uvicorn server will boot on [http://localhost:8000](http://localhost:8000))*
+    *(Check [http://localhost:8000/health](http://localhost:8000/health); run the tests with `pip install -r requirements-dev.txt && python -m pytest tests`)*
+
+#### Deploying on Render (free 512 MB instance)
+
+`render.yaml` describes the service: root directory `backend`, build `pip install -r requirements.txt && if [ "$DEMO_MODE" != "true" ]; then python ingest.py; fi`, start `uvicorn main:app --host 0.0.0.0 --port $PORT`, health check `/health`. Then set `NEXT_PUBLIC_BACKEND_URL=https://<your-service>.onrender.com` in Vercel and redeploy the frontend.
+
+Optional backend variables: `ALLOWED_ORIGINS` (extra comma-separated CORS origins), `GROQ_MODEL`, `GROQ_TIMEOUT_SECONDS` (20), `RAG_RETRY_COOLDOWN_SECONDS` (300), `RAG_PRELOAD` (load RAG at startup instead of on the first chat), `LOG_LEVEL`.
 
 ### 3. Compiling a Production Bundle
 Test type checking and build optimizations:
