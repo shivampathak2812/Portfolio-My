@@ -123,7 +123,7 @@ export default function Experience() {
             >
               {/* Timeline Connector Node */}
               <div
-                className="absolute -left-[30px] md:-left-[54px] top-2.5 w-3 h-3 rounded-full border border-white/20 bg-[#030712] transition-all duration-300 z-10 group-hover:bg-white group-hover:border-white"
+                className="absolute -left-[30px] md:-left-[54px] top-2.5 w-3 h-3 rounded-full border border-white/20 bg-background-cinematic transition-all duration-300 z-10 group-hover:bg-white group-hover:border-white"
               />
 
               {/* Hover Tilt Glass Timeline Node Card */}

@@ -61,7 +61,7 @@ export default function Hero() {
         {/* Tagline */}
         <div
           ref={taglineRef}
-          className="text-[10px] md:text-xs tracking-[0.25em] font-semibold text-yellow-500 mb-4 uppercase inline-flex items-center space-x-2"
+          className="text-[10px] md:text-xs tracking-[0.25em] font-semibold text-accent-soft mb-4 uppercase inline-flex items-center space-x-2"
         >
           <span>DATA &amp; AI ENGINEER</span>
         </div>
@@ -104,7 +104,7 @@ export default function Hero() {
             }}
             whileHover={{ scale: 1.015 }}
             whileTap={{ scale: 0.98 }}
-            className="px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-[#030712] bg-white border border-white text-center shadow-md hover:bg-white/90 transition-all duration-300 relative overflow-hidden"
+            className="px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-background-cinematic bg-white border border-white text-center shadow-md hover:bg-white/90 transition-all duration-300 relative overflow-hidden"
           >
             <span className="relative z-10">VIEW PROJECTS</span>
           </motion.a>

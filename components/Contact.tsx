@@ -64,7 +64,7 @@ export default function Contact() {
     >
       {/* Dynamic Background Light Rings */}
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-radial from-accent-cinematic/[0.005] to-transparent to-70% pointer-events-none" />
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-radial from-accent-orange/[0.001] to-transparent to-70% pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-radial from-accent-soft/[0.001] to-transparent to-70% pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto">
         <motion.div
@@ -103,7 +103,7 @@ export default function Contact() {
             variants={itemVariants}
             className="relative w-full max-w-md p-2.5 rounded-3xl glass-panel border border-white/5 mb-16 shadow-xl shadow-black/40"
           >
-            <div className="relative w-full h-full rounded-2xl bg-[#030712] p-4 flex items-center justify-between border border-white/5">
+            <div className="relative w-full h-full rounded-2xl bg-background-cinematic p-4 flex items-center justify-between border border-white/5">
               <div className="flex items-center space-x-3 text-left">
                 <div className="w-8 h-8 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-white/70">
                   <Send className="w-3.5 h-3.5" />
@@ -121,8 +121,8 @@ export default function Contact() {
               >
                 {copied ? (
                   <>
-                    <Check className="w-3 h-3 text-accent-orange" />
-                    <span className="text-accent-orange">COPIED</span>
+                    <Check className="w-3 h-3 text-accent-soft" />
+                    <span className="text-accent-soft">COPIED</span>
                   </>
                 ) : (
                   <>

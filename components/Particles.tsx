@@ -49,8 +49,8 @@ export default function Particles() {
       // Draw radial white & warm orange glow
       const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
       gradient.addColorStop(0, "rgba(255, 255, 255, 0.8)");          // Soft white core
-      gradient.addColorStop(0.3, "rgba(240, 244, 255, 0.5)");       // Silver ring
-      gradient.addColorStop(0.7, "rgba(217, 119, 6, 0.06)");        // Quiet gold halo
+      gradient.addColorStop(0.3, "rgba(237, 237, 239, 0.5)");       // Silver ring
+      gradient.addColorStop(0.7, "rgba(139, 147, 232, 0.06)");        // Faint indigo halo
       gradient.addColorStop(1, "rgba(0, 0, 0, 0)");                 // Fade-out
 
       ctx.fillStyle = gradient;

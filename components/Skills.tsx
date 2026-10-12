@@ -15,7 +15,7 @@ interface SkillCategory {
   title: string;
   icon: React.ReactNode;
   skills: SkillItem[];
-  accentColor: string; // Tailored glow color class e.g., 'accent-cinematic' or 'accent-orange'
+  accentColor: string; // Tailored glow color class e.g., 'accent-cinematic' or 'accent-soft'
 }
 
 // 1. Unified Skill Card Component with Localized Cursor Spotlight Glow
@@ -61,8 +61,8 @@ function SkillCard({ category }: { category: SkillCategory; idx: number }) {
         style={{
           background: `radial-gradient(
             220px circle at var(--card-mouse-x, 0px) var(--card-mouse-y, 0px),
-            ${category.accentColor === "orange" ? "rgba(217, 119, 6, 0.04)" : "rgba(109, 40, 217, 0.04)"},
-            rgba(59, 130, 246, 0.01) 50%,
+            ${category.accentColor === "orange" ? "rgba(139, 147, 232, 0.04)" : "rgba(94, 106, 210, 0.04)"},
+            rgba(94, 106, 210, 0.01) 50%,
             transparent 100%
           )`,
         }}
@@ -71,7 +71,7 @@ function SkillCard({ category }: { category: SkillCategory; idx: number }) {
       {/* Decorative Corner Glow */}
       <div
         className={`absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-10 blur-2xl group-hover:scale-125 transition-transform duration-500 pointer-events-none ${
-          category.accentColor === "orange" ? "bg-accent-orange" : "bg-accent-cinematic"
+          category.accentColor === "orange" ? "bg-accent-soft" : "bg-accent-cinematic"
         }`}
       />
 

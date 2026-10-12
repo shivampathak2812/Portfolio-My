@@ -32,7 +32,7 @@ export default function About() {
     >
       {/* Background Decorative Ambient Blobs */}
       <div className="absolute top-1/4 right-0 w-80 h-80 bg-radial from-accent-cinematic/[0.015] to-transparent to-70% pointer-events-none z-0" />
-      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-radial from-accent-orange/[0.005] to-transparent to-70% pointer-events-none z-0" />
+      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-radial from-accent-soft/[0.005] to-transparent to-70% pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div

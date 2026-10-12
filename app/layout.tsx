@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Outfit, Inter } from "next/font/google";
+import { Geist, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
-const outfit = Outfit({
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-geist",
   display: "swap",
 });
 
@@ -35,9 +35,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${inter.variable}`}
+      className={`${geist.variable} ${inter.variable}`}
     >
-      <body className="bg-background-cinematic text-white antialiased selection:bg-accent-cinematic/30 selection:text-white">
+      <body className="bg-background-cinematic text-white antialiased selection:bg-accent-cinematic/35 selection:text-white">
         {/* Static film grain overlay */}
         <div className="noise-overlay" />
         
