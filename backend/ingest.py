@@ -13,7 +13,7 @@ PORTFOLIO_DOCUMENTS = [
         He specializes in building intelligent systems, production-ready AI agents, Retrieval-Augmented Generation (RAG) pipelines, and scalable backends.
         He holds a Bachelor of Technology (B.Tech) in Computer Science and Engineering from Graphic Era Hill University, Haldwani (Graduated in June 2025) where he maintained a 6.88 CGPA.
         Shivam has certifications and accomplishments like being a TCS NQT 2025 Top 10% candidate, completing an Advanced Certification in Data Science (ML) from Seed Infotech, and representing his university in the National Basketball Championship.
-        Shivam worked as an AI Engineer Intern at Northcorp Software from January 2026 to June 2026, and since July 2026 he has been a Trainee Engineer – Data Science & AI/ML at Silicon Interfaces Pvt. Ltd., Mumbai.
+        Shivam worked as an AI Engineer Intern at Northcorp Software from January 2026 to June 2026, and since July 2026 he has been an AI/ML Engineer at Silicon Interfaces Pvt. Ltd., Mumbai.
         Shivam's email address is pathakshivam3738@gmail.com, his GitHub profile is https://github.com/shivampathak2812, and his LinkedIn profile is https://www.linkedin.com/in/shivam-pathak-9a76ba246.
         """,
         metadata={"source": "bio", "category": "general"}

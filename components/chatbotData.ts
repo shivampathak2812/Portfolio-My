@@ -18,7 +18,7 @@ export const KNOWLEDGE_BASE = {
   },
   experience: [
     {
-      role: "Trainee Engineer – Data Science & AI/ML",
+      role: "AI/ML Engineer",
       company: "Silicon Interfaces Pvt. Ltd. (Mumbai, India)",
       duration: "Jul 2026 - Present",
       details: [
