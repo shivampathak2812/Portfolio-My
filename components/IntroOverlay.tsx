@@ -7,7 +7,6 @@ import { lockScroll, prefersReducedMotion, unlockScroll } from "./lenis";
 import {
   INTRO_CAPTIONS,
   INTRO_VIDEO,
-  clearIntroPrepaintFlag,
   finishIntro,
   getIntroPhase,
   getServerIntroPhase,
@@ -36,7 +35,7 @@ export default function IntroOverlay() {
   }, [isOpen]);
 
   return (
-    <AnimatePresence onExitComplete={clearIntroPrepaintFlag}>
+    <AnimatePresence>
       {isOpen && (
         <motion.div
           key="intro"
@@ -108,8 +107,6 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
 
   // Autoplay as soon as the intro opens (first visit, or a replay)
   useEffect(() => {
-    // Returning visitors briefly mount the hidden server-rendered welcome screen: never autoplay there
-    if (getIntroPhase() === "done") return;
     if (phase === "playing") {
       animate(".intro-frame", { opacity: [0, 1], scale: [0.96, 1] }, { duration: 0.6, ease: EASE });
     } else if (prefersReducedMotion()) {

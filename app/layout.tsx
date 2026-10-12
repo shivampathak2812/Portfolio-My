@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Sora, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
-import { introInitScript } from "@/components/intro";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -38,12 +37,7 @@ export default function RootLayout({
       lang="en"
       className={`${sora.variable} ${inter.variable}`}
       data-theme="dark"
-      // The inline intro script below may add data-intro before hydration
-      suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: introInitScript }} />
-      </head>
       <body className="bg-background-cinematic text-white antialiased selection:bg-accent-cinematic/35 selection:text-white">
         {/* Aurora Glass backdrop: slow-drifting colour fields behind everything */}
         <div className="aurora" aria-hidden="true" />
