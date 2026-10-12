@@ -68,20 +68,21 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const handingOff = useRef(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [needsTap, setNeedsTap] = useState(false);
   const [progress, setProgress] = useState(0);
   const [caption, setCaption] = useState("");
   // Manual "Enter with sound" controls only appear when they are actually needed,
   // so a normal visit goes straight from the poster to the playing video (no flash)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  // Becomes true once the visitor has chosen sound; hides the welcome controls
+  const [entered, setEntered] = useState(phase === "playing");
   const reducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
     () => window.matchMedia(REDUCED_MOTION).matches,
     () => false
   );
 
-  // Play from the start: with sound when the browser allows it, otherwise muted
-  // with a "Tap for sound" prompt. Switches to the playing UI only once it really plays.
+  // Visitor asked for sound (Enter button, or a replay): play from the start with audio,
+  // falling back to muted if the browser still refuses. Switches to the playing UI only once it really plays.
   const start = () => {
     const video = videoRef.current;
     if (!video) return;
@@ -91,7 +92,7 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
       .play()
       .then(() => {
         setIsMuted(false);
-        setNeedsTap(false);
+        setEntered(true);
         playIntro();
       })
       .catch(() => {
@@ -101,7 +102,6 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
           .play()
           .then(() => {
             setIsMuted(true);
-            setNeedsTap(true);
             playIntro();
           })
           // Autoplay fully blocked (e.g. battery saver): reveal the play button
@@ -109,7 +109,24 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
       });
   };
 
-  // Restart with sound after a muted autoplay
+  // Opening the site: always start muted so every browser behaves the same and the
+  // "Enter with sound" button stays put until the visitor uses it
+  const autoStart = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = 0;
+    video.muted = true;
+    video
+      .play()
+      .then(() => {
+        setIsMuted(true);
+        playIntro();
+      })
+      // Autoplay fully blocked (e.g. battery saver): reveal the play button
+      .catch(() => setAutoplayBlocked(true));
+  };
+
+  // Restart with sound after the muted autoplay
   const enableSound = () => {
     const video = videoRef.current;
     if (!video) return;
@@ -117,18 +134,20 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
     video.muted = false;
     video.play().catch(() => {});
     setIsMuted(false);
-    setNeedsTap(false);
+    setEntered(true);
   };
 
-  // Autoplay as soon as the intro opens (first visit, or a replay)
+  // Start as soon as the intro opens
   useEffect(() => {
     if (phase === "playing") {
+      // Replay (hero avatar / footer): the visitor clicked, so play with sound
       animate(".intro-frame", { opacity: [0, 1], scale: [0.96, 1] }, { duration: 0.6, ease: EASE });
-    } else if (prefersReducedMotion()) {
-      // Reduced motion: wait for the visitor to press play
+      start();
       return;
     }
-    start();
+    // Reduced motion: wait for the visitor to press play
+    if (prefersReducedMotion()) return;
+    autoStart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -168,7 +187,6 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
     if (!video) return;
     video.muted = !video.muted;
     setIsMuted(video.muted);
-    setNeedsTap(false);
   };
 
   const onTimeUpdate = () => {
@@ -180,7 +198,11 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
   };
 
   const isPlaying = phase === "playing";
+  // In-frame play button: only when the video could not start by itself
   const showManualStart = !isPlaying && (reducedMotion || autoplayBlocked);
+  // "A 10-second hello" + "Enter with sound": shown from the first paint and kept
+  // while the video plays muted, until the visitor clicks for sound
+  const showEnter = !entered;
 
   return (
     <div ref={scope} className="relative flex flex-1 flex-col min-h-0">
@@ -205,10 +227,10 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
         {/* Kept in the layout while playing (faded) so the frame never jumps */}
         <motion.p
           initial={false}
-          animate={{ opacity: showManualStart ? 1 : 0 }}
+          animate={{ opacity: showEnter ? 1 : 0 }}
           transition={{ duration: 0.5, ease: EASE }}
           className="intro-chrome text-xs md:text-sm font-medium tracking-[0.2em] uppercase text-accent-soft"
-          aria-hidden={!showManualStart}
+          aria-hidden={!showEnter}
         >
           A 10-second hello
         </motion.p>
@@ -251,19 +273,14 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
               </>
             ) : isPlaying ? (
               <>
-                {/* Muted autoplay: one big tap restarts the intro with sound */}
-                {needsTap && (
+                {/* Muted autoplay: tapping the video itself also restarts it with sound */}
+                {isMuted && (
                   <button
                     type="button"
                     onClick={enableSound}
                     aria-label="Restart the intro with sound"
-                    className="absolute inset-0 flex items-center justify-center cursor-pointer group focus:outline-none"
-                  >
-                    <span className="intro-play inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white transition-transform duration-300 group-hover:scale-105">
-                      <Volume2 className="w-4 h-4" />
-                      Tap for sound
-                    </span>
-                  </button>
+                    className="absolute inset-0 cursor-pointer focus:outline-none"
+                  />
                 )}
                 {/* Captions: readable with the sound off */}
                 {caption && (
@@ -289,14 +306,15 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
 
         <motion.div
           initial={false}
-          animate={{ opacity: showManualStart ? 1 : 0 }}
+          animate={{ opacity: showEnter ? 1 : 0 }}
           transition={{ duration: 0.5, ease: EASE }}
-          className={`intro-chrome flex flex-col items-center gap-3 ${showManualStart ? "" : "pointer-events-none"}`}
-          aria-hidden={!showManualStart}
+          className={`intro-chrome flex flex-col items-center gap-3 ${showEnter ? "" : "pointer-events-none"}`}
+          aria-hidden={!showEnter}
         >
           <button
             type="button"
-            onClick={start}
+            // Already playing muted: restart with sound; otherwise start playback
+            onClick={isPlaying ? enableSound : start}
             className="btn-aurora inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
           >
             <Play className="w-4 h-4 fill-current" />
