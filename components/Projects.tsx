@@ -287,7 +287,7 @@ export default function Projects() {
             <FolderGit2 className="w-3.5 h-3.5" />
             <span>05 / PORTFOLIO</span>
           </div>
-          <h2 className="font-display font-bold fluid-section-title leading-tight text-white uppercase tracking-wide">
+          <h2 className="font-display font-semibold fluid-section-title leading-tight text-white tracking-tight">
             Featured <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Projects</span>.
           </h2>
         </div>

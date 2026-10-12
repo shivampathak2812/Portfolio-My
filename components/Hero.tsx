@@ -1,166 +1,149 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
-import { gsap } from "gsap";
-import dynamic from "next/dynamic";
-import { Download } from "lucide-react";
+import { Download, Play, Sparkles } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
 import { scrollToTarget } from "./lenis";
-const Particles = dynamic(() => import("./Particles"), { ssr: false });
+import { openChatbot } from "./chatbot-events";
+import {
+  INTRO_VIDEO,
+  getIntroHandoff,
+  getIntroPhase,
+  getServerIntroPhase,
+  replayIntro,
+  subscribeIntro,
+} from "./intro";
+
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const title1Ref = useRef<HTMLHeadingElement>(null);
-  const title2Ref = useRef<HTMLHeadingElement>(null);
-  const taglineRef = useRef<HTMLDivElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const phase = useSyncExternalStore(subscribeIntro, getIntroPhase, getServerIntroPhase);
+  // Hero content waits for the intro to hand off, then rises in
+  const ready = phase === "done";
 
-  // GSAP Entrance Timeline Sequence for Typographic reveals
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-
-      // Hide all typography and CTA buttons initially for smooth entry
-      gsap.set([title1Ref.current, title2Ref.current], { y: 80, opacity: 0 });
-      gsap.set(taglineRef.current, { opacity: 0, letterSpacing: "0.15em" });
-      gsap.set(subtitleRef.current, { y: 25, opacity: 0 });
-      gsap.set(buttonsRef.current, { y: 20, opacity: 0 });
-      gsap.set(scrollIndicatorRef.current, { y: 20, opacity: 0 });
-
-      // Trigger stagger entrance
-      tl.to(taglineRef.current, { opacity: 1, letterSpacing: "0.25em", duration: 1.4, delay: 0.2 })
-        .to(title1Ref.current, { y: 0, opacity: 1, duration: 1.5 }, "-=0.8")
-        .to(title2Ref.current, { y: 0, opacity: 1, duration: 1.5 }, "-=1.2")
-        .to(subtitleRef.current, { y: 0, opacity: 1, duration: 1.2 }, "-=1.0")
-        .to(buttonsRef.current, { y: 0, opacity: 1, duration: 1.0 }, "-=0.8")
-        .to(scrollIndicatorRef.current, { y: 0, opacity: 1, duration: 1.2 }, "-=0.8");
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const scrollToAbout = () => {
-    scrollToTarget("#about");
-  };
+  const reveal = (i: number) => ({
+    initial: { opacity: 0, y: 24 },
+    animate: ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 },
+    transition: { duration: 0.9, delay: 0.25 + i * 0.08, ease: EASE },
+  });
 
   return (
     <section
-      ref={containerRef}
-      className="relative w-full min-h-[100svh] min-h-[600px] py-24 md:py-32 flex items-center justify-start bg-transparent overflow-hidden px-6 md:px-12 lg:px-24"
+      id="hero-section"
+      className="relative w-full min-h-[100svh] flex flex-col items-center justify-center text-center px-6 pt-32 pb-24 md:pt-36"
     >
-      {/* LAYER 1: WebGL Floating Cinematic Particles Canvas Overlay */}
-      <div className="absolute inset-0 w-full h-full z-15 pointer-events-none">
-        <Particles />
+      {/* Video avatar: the intro video lands here when it finishes */}
+      <div id="hero-avatar-slot" className="relative w-28 h-28 md:w-32 md:h-32 mb-7">
+        {ready && <VideoAvatar handoff={getIntroHandoff()} />}
       </div>
 
-      {/* LAYER 2: Overlay Animated Portfolio Text & Brand Narrative */}
-      <div className="relative z-30 max-w-5xl w-full select-none">
-        {/* Tagline */}
-        <div
-          ref={taglineRef}
-          className="text-[10px] md:text-xs tracking-[0.25em] font-semibold text-accent-soft mb-4 uppercase inline-flex items-center space-x-2"
-        >
-          <span>DATA &amp; AI ENGINEER</span>
-        </div>
+      <motion.div {...reveal(0)} className="glass-panel inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs md:text-sm text-white/80">
+        <span className="w-1.5 h-1.5 rounded-full bg-accent-2 shadow-[0_0_10px_var(--accent-2)]" />
+        Trainee Engineer · Silicon Interfaces
+      </motion.div>
 
-        {/* Stacked Giant Easing Name */}
-        <h1 className="font-display font-black fluid-hero-title leading-[0.9] tracking-tight uppercase mb-6 flex flex-col">
-          <span className="block overflow-hidden pb-1">
-            <span ref={title1Ref} className="block text-white">
-              SHIVAM
-            </span>
-          </span>
-          <span className="block overflow-hidden py-1">
-            <span
-              ref={title2Ref}
-              className="block bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/50"
-            >
-              PATHAK
-            </span>
-          </span>
-        </h1>
-
-        {/* Subtitle */}
-        <p
-          ref={subtitleRef}
-          className="fluid-body-text text-white/70 max-w-xl mb-10 leading-relaxed font-light"
-        >
-          Building intelligent systems, modern web experiences, and scalable AI-powered products.
-        </p>
-
-        {/* CTA Glass buttons */}
-        <div
-          ref={buttonsRef}
-          className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-5"
-        >
-          <motion.a
-            href="#projects"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToTarget("#projects");
-            }}
-            whileHover={{ scale: 1.015 }}
-            whileTap={{ scale: 0.98 }}
-            className="px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-background-cinematic bg-white border border-white text-center shadow-md hover:bg-white/90 transition-all duration-300 relative overflow-hidden"
-          >
-            <span className="relative z-10">VIEW PROJECTS</span>
-          </motion.a>
-
-          <div className="flex items-stretch space-x-3">
-            <motion.a
-              href={RESUME_HASH}
-              onClick={(e) => {
-                e.preventDefault();
-                openResumeViewer();
-              }}
-              whileHover={{ scale: 1.015 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex-1 sm:flex-none px-8 py-3.5 rounded-lg text-xs font-bold tracking-[0.15em] text-white border border-white/10 bg-transparent hover:bg-white/5 hover:border-white/20 text-center transition-all duration-300"
-            >
-              <span className="relative z-10">VIEW RESUME</span>
-            </motion.a>
-
-            <motion.a
-              href={RESUME_URL}
-              download={RESUME_FILENAME}
-              aria-label="Download resume"
-              title="Download resume"
-              whileHover={{ scale: 1.015 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center justify-center px-4 rounded-lg text-white border border-white/10 bg-transparent hover:bg-white/5 hover:border-white/20 transition-all duration-300"
-            >
-              <Download className="w-4 h-4" />
-            </motion.a>
-          </div>
-        </div>
-      </div>
-
-      {/* Interactive Bottom Scroll indicator */}
-      <div
-        ref={scrollIndicatorRef}
-        onClick={scrollToAbout}
-        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 cursor-pointer flex flex-col items-center group select-none hero-scroll-indicator"
+      <motion.h1
+        {...reveal(1)}
+        className="font-display font-semibold tracking-[-0.045em] leading-[1.02] text-[clamp(2.6rem,7.4vw,6.6rem)] mt-6 mb-6 max-w-6xl"
       >
-        <span className="text-[9px] tracking-[0.25em] font-medium text-white/40 group-hover:text-white transition-colors duration-300 mb-2.5">
-          SCROLL
-        </span>
-        <div className="relative w-[1.5px] h-10 bg-white/5 rounded-full overflow-hidden">
-          <motion.div
-            animate={{
-              y: [-30, 30, -30],
-            }}
-            transition={{
-              duration: 4.0,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/30 to-white/10"
-          />
-        </div>
-      </div>
+        <span className="text-aurora block">Data &amp; AI Engineer</span>
+        <span className="text-aurora block opacity-80">building what&apos;s next.</span>
+      </motion.h1>
+
+      <motion.p
+        {...reveal(2)}
+        className="max-w-2xl text-base md:text-xl font-light leading-relaxed text-white/65"
+      >
+        ML models, LLM &amp; RAG applications, REST APIs and data pipelines — designed with care, shipped end to end.
+      </motion.p>
+
+      <motion.div {...reveal(3)} className="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="#projects"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToTarget("#projects");
+          }}
+          className="btn-aurora rounded-full px-7 py-3.5 text-sm font-semibold"
+        >
+          View projects
+        </a>
+        <a
+          href={RESUME_HASH}
+          onClick={(e) => {
+            e.preventDefault();
+            openResumeViewer();
+          }}
+          className="glass-panel rounded-full px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+        >
+          View resume
+        </a>
+        <a
+          href={RESUME_URL}
+          download={RESUME_FILENAME}
+          aria-label="Download resume"
+          title="Download resume"
+          className="glass-panel rounded-full w-[50px] h-[50px] flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+        >
+          <Download className="w-4 h-4" />
+        </a>
+        <button
+          type="button"
+          onClick={openChatbot}
+          className="glass-panel inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors cursor-pointer"
+        >
+          Talk to Avix AI
+          <Sparkles className="w-4 h-4 text-accent-soft" />
+        </button>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.button
+        type="button"
+        {...reveal(5)}
+        onClick={() => scrollToTarget("#about")}
+        className="hero-scroll-indicator absolute bottom-7 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-[10px] tracking-[0.25em] text-white/40 hover:text-white/80 transition-colors cursor-pointer"
+      >
+        SCROLL
+        <span className="block w-px h-9 bg-gradient-to-b from-white/40 to-transparent" />
+      </motion.button>
     </section>
+  );
+}
+
+function VideoAvatar({ handoff }: { handoff: boolean }) {
+  return (
+    <motion.button
+      type="button"
+      // After the intro glides into this spot the avatar appears instantly in place
+      initial={handoff ? false : { opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, ease: EASE }}
+      style={{ borderRadius: 9999 }}
+      onClick={replayIntro}
+      aria-label="Replay my video intro with sound"
+      title="Replay my intro"
+      className="aurora-ring absolute inset-0 rounded-full cursor-pointer group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-cinematic/60"
+    >
+      <span className="block w-full h-full rounded-full overflow-hidden bg-surface">
+        {/* Silent loop: a living photo. Sound only plays when the visitor asks for it. */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={INTRO_VIDEO.poster}
+          className="w-full h-full object-cover object-[50%_22%]"
+        >
+          <source src={INTRO_VIDEO.webm} type="video/webm" />
+          <source src={INTRO_VIDEO.mp4} type="video/mp4" />
+        </video>
+      </span>
+      <span className="btn-aurora absolute -bottom-0.5 -right-0.5 w-9 h-9 rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110">
+        <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+      </span>
+    </motion.button>
   );
 }

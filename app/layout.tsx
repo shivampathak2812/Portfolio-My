@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Inter } from "next/font/google";
+import { Sora, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { themeInitScript } from "@/components/theme";
+import { introInitScript } from "@/components/intro";
 
-const geist = Geist({
+const sora = Sora({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-sora",
   display: "swap",
 });
 
@@ -36,15 +37,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${inter.variable}`}
+      className={`${sora.variable} ${inter.variable}`}
       data-theme="dark"
       // The inline script below sets data-theme before hydration
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript + introInitScript }} />
       </head>
       <body className="bg-background-cinematic text-white antialiased selection:bg-accent-cinematic/35 selection:text-white">
+        {/* Aurora Glass backdrop: slow-drifting colour fields behind everything */}
+        <div className="aurora" aria-hidden="true" />
+
         {/* Static film grain overlay */}
         <div className="noise-overlay" />
         

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Github, Linkedin, FileText, Copy, Check, Terminal, Download } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
+import { replayIntro } from "./intro";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
@@ -86,7 +87,7 @@ export default function Contact() {
           {/* Outro Typography */}
           <motion.h2
             variants={itemVariants}
-            className="font-display font-bold fluid-section-title leading-tight text-white uppercase tracking-wide mb-6"
+            className="font-display font-semibold fluid-section-title leading-tight text-white tracking-tight mb-6"
           >
             Initiate <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Sequence</span>.
           </motion.h2>
@@ -191,7 +192,14 @@ export default function Contact() {
             className="pt-20 mt-12 border-t border-white/5 w-full flex flex-col sm:flex-row items-center justify-between text-white/30 text-[10px] tracking-widest font-light space-y-4 sm:space-y-0"
           >
             <span>© 2026 SHIVAM PATHAK. ALL RIGHTS RESERVED.</span>
-            <span>BUILT WITH NEXT.JS 16, THREE.JS, & GSAP</span>
+            <button
+              type="button"
+              onClick={replayIntro}
+              className="uppercase hover:text-white transition-colors cursor-pointer"
+            >
+              ▶ Replay intro
+            </button>
+            <span>BUILT WITH NEXT.JS 16, FRAMER MOTION & LENIS</span>
           </motion.div>
         </motion.div>
       </div>

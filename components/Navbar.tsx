@@ -21,11 +21,11 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { name: "ABOUT", href: "#about" },
-    { name: "EDUCATION", href: "#education" },
-    { name: "SKILLS", href: "#skills" },
-    { name: "PROJECTS", href: "#projects" },
-    { name: "CONTACT", href: "#contact" },
+    { name: "About", href: "#about" },
+    { name: "Skills", href: "#skills" },
+    { name: "Experience", href: "#experience" },
+    { name: "Projects", href: "#projects" },
+    { name: "Contact", href: "#contact" },
   ];
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -36,49 +36,45 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Floating glass pill */}
       <motion.nav
-        initial={{ y: -100, opacity: 0 }}
+        initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? "py-4 bg-background-cinematic/70 backdrop-blur-md border-b border-white/5 shadow-lg"
-            : "py-6 bg-transparent"
-        }`}
+        className="fixed top-4 md:top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-          {/* Logo / Personal Mark */}
+        <div
+          className={`pointer-events-auto glass-panel w-full md:w-auto flex items-center justify-between md:justify-start gap-1 rounded-full pl-5 pr-2 py-2 transition-shadow duration-500 ${
+            isScrolled ? "shadow-[0_10px_40px_-10px_var(--shadow-strong)]" : ""
+          }`}
+        >
           <a
             href="#"
-            className="group flex items-center space-x-3 text-white focus:outline-none"
+            className="font-display font-semibold text-sm tracking-tight text-white md:mr-4 focus:outline-none"
             onClick={(e) => {
               e.preventDefault();
+              setMobileMenuOpen(false);
               scrollToTarget(0);
             }}
           >
-            <span className="font-display font-black tracking-[0.2em] text-lg md:text-xl transition-all duration-300 group-hover:text-accent-soft">
-              SHIVAM
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-cinematic group-hover:bg-accent-soft transition-all duration-300" />
+            Shivam Pathak
           </a>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-10">
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
                 onClick={(e) => handleScrollTo(e, item.href)}
-                className="relative text-xs tracking-[0.2em] font-medium text-white/60 hover:text-white transition-colors duration-300 py-2 group"
+                className="px-3.5 py-2 rounded-full text-sm text-white/65 hover:text-white hover:bg-white/5 transition-colors duration-300"
               >
                 {item.name}
-                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-accent-cinematic transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
           </div>
 
-          {/* CTA: View Resume (viewer modal also offers download) */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="flex items-center gap-2 md:ml-3">
             <ThemeToggle />
             <a
               href={RESUME_HASH}
@@ -86,25 +82,17 @@ export default function Navbar() {
                 e.preventDefault();
                 openResumeViewer();
               }}
-              className="relative overflow-hidden group inline-flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider text-white border border-white/10 glass-panel hover:border-accent-cinematic/40 transition-all duration-300 active:scale-95"
+              className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-background-cinematic hover:opacity-90 transition-opacity"
             >
-              {/* Button background anim */}
-              <span className="absolute inset-0 w-full h-full bg-accent-cinematic/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <FileText className="w-3.5 h-3.5 text-accent-cinematic group-hover:text-white transition-colors duration-300" />
-              <span className="relative z-10">RESUME</span>
+              <FileText className="w-3.5 h-3.5" />
+              Resume
             </a>
-          </div>
-
-          {/* Mobile: theme toggle + menu icon */}
-          <div className="md:hidden flex items-center gap-3">
-            <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-white/80 hover:text-white transition-colors focus:outline-none"
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-full text-white/80 hover:text-white transition-colors focus:outline-none"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -118,7 +106,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 bg-background-cinematic/95 backdrop-blur-md md:hidden flex flex-col justify-center px-8"
+            className="fixed inset-0 z-40 bg-background-cinematic/90 backdrop-blur-xl md:hidden flex flex-col justify-center px-8"
           >
             <div className="flex flex-col space-y-8 text-center">
               {navItems.map((item, idx) => (
@@ -129,7 +117,7 @@ export default function Navbar() {
                   key={item.name}
                   href={item.href}
                   onClick={(e) => handleScrollTo(e, item.href)}
-                  className="text-xl tracking-[0.25em] font-medium text-white/70 hover:text-white transition-colors duration-300"
+                  className="font-display text-3xl tracking-tight font-semibold text-white/75 hover:text-white transition-colors duration-300"
                 >
                   {item.name}
                 </motion.a>
@@ -148,19 +136,19 @@ export default function Navbar() {
                     setMobileMenuOpen(false);
                     openResumeViewer();
                   }}
-                  className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-sm font-semibold tracking-wider text-white border border-white/10 glass-panel"
+                  className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-sm font-semibold text-white glass-panel"
                 >
-                  <FileText className="w-4 h-4 text-accent-cinematic" />
-                  <span>VIEW RESUME</span>
+                  <FileText className="w-4 h-4 text-accent-soft" />
+                  <span>View resume</span>
                 </a>
                 <a
                   href={RESUME_URL}
                   download={RESUME_FILENAME}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-sm font-semibold tracking-wider text-white border border-white/10 glass-panel"
+                  className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-sm font-semibold text-white glass-panel"
                 >
-                  <Download className="w-4 h-4 text-accent-cinematic" />
-                  <span>DOWNLOAD RESUME</span>
+                  <Download className="w-4 h-4 text-accent-soft" />
+                  <span>Download resume</span>
                 </a>
               </motion.div>
             </div>

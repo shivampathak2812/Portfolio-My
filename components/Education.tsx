@@ -79,7 +79,7 @@ export default function Education() {
             {/* Editorial Title - Sharp Silver/White */}
             <motion.h2
               variants={itemVariants}
-              className="font-display font-bold fluid-section-title leading-tight text-white uppercase tracking-wide mb-8"
+              className="font-display font-semibold fluid-section-title leading-tight text-white tracking-tight mb-8"
             >
               Education & <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/60">Credentials</span>.

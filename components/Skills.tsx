@@ -61,8 +61,8 @@ function SkillCard({ category }: { category: SkillCategory; idx: number }) {
         style={{
           background: `radial-gradient(
             220px circle at var(--card-mouse-x, 0px) var(--card-mouse-y, 0px),
-            ${category.accentColor === "orange" ? "rgba(139, 147, 232, 0.04)" : "rgba(94, 106, 210, 0.04)"},
-            rgba(94, 106, 210, 0.01) 50%,
+            ${category.accentColor === "orange" ? "rgba(6, 182, 212, 0.05)" : "rgba(139, 92, 246, 0.05)"},
+            rgba(139, 92, 246, 0.012) 50%,
             transparent 100%
           )`,
         }}
@@ -208,7 +208,7 @@ export default function Skills() {
             <Terminal className="w-3.5 h-3.5" />
             <span>02 / SKILL MATRIX</span>
           </div>
-          <h2 className="font-display font-bold fluid-section-title leading-tight text-white uppercase tracking-wide">
+          <h2 className="font-display font-semibold fluid-section-title leading-tight text-white tracking-tight">
             Expertise & <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Technologies</span>.
           </h2>
         </div>
