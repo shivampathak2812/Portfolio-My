@@ -40,7 +40,7 @@ export default function Hero() {
 
       <motion.div {...reveal(0)} className="glass-panel inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs md:text-sm text-white/80">
         <span className="w-1.5 h-1.5 rounded-full bg-accent-2 shadow-[0_0_10px_var(--accent-2)]" />
-        Trainee Engineer · Silicon Interfaces
+        AI/ML Engineer · Silicon Interfaces
       </motion.div>
 
       <motion.h1
