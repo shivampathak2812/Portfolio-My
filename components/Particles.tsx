@@ -112,7 +112,7 @@ export default function Particles() {
 
     // Disable mouse parallax entirely on touch devices to save CPU
     const handleMouseMove = (e: MouseEvent) => {
-      if (isMobileOrTouch) return;
+      if (isMobileOrTouch || !isInView) return;
       // Normalize coordinate between -1 and 1
       mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -128,14 +128,30 @@ export default function Particles() {
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
         renderer.setPixelRatio(isMobileOrTouch ? 1 : Math.min(window.devicePixelRatio, 2));
+        if (reduceMotion) renderer.render(scene, camera);
       }
     });
 
     // Only bind mousemove on non-touch devices
     if (!isMobileOrTouch) {
-      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
     }
     resizeObserver.observe(container);
+
+    // Pause the WebGL loop once the hero scrolls out of view — otherwise the GPU
+    // keeps rendering an invisible canvas while the rest of the page scrolls
+    let isInView = true;
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        const wasInView = isInView;
+        isInView = entry.isIntersecting;
+        if (isInView && !wasInView) clock.start();
+      },
+      { rootMargin: "100px" }
+    );
+    intersectionObserver.observe(container);
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // 7. Page Visibility API — pause render loop when tab is hidden (saves GPU & battery)
     let isTabVisible = true;
@@ -158,8 +174,8 @@ export default function Particles() {
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Skip rendering entirely when the tab is not visible
-      if (!isTabVisible) return;
+      // Skip rendering entirely when the tab is hidden or the hero is off-screen
+      if (!isTabVisible || !isInView) return;
 
       // Throttle rendering on mobile — skip every other frame
       frameCount++;
@@ -203,7 +219,12 @@ export default function Particles() {
       renderer.render(scene, camera);
     };
 
-    animate();
+    if (reduceMotion) {
+      // Static field of particles, no render loop
+      renderer.render(scene, camera);
+    } else {
+      animate();
+    }
 
     // 9. Proper Lifecycle Garbage Collection (WebGL cleanup)
     return () => {
@@ -213,6 +234,7 @@ export default function Particles() {
         window.removeEventListener("mousemove", handleMouseMove);
       }
       resizeObserver.disconnect();
+      intersectionObserver.disconnect();
 
       // Clean buffer objects
       geometry.dispose();

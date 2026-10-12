@@ -276,8 +276,8 @@ export default function Projects() {
       className="relative w-full fluid-py-section bg-background-cinematic border-b border-white/5 overflow-hidden"
     >
       {/* Decorative Atmosphere Glow Blobs */}
-      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-accent-cinematic/[0.012] blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-accent-orange/[0.012] blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-radial from-accent-cinematic/[0.012] to-transparent to-70% pointer-events-none" />
+      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-radial from-accent-orange/[0.012] to-transparent to-70% pointer-events-none" />
 
       <div className="max-w-7xl w-full mx-auto px-6 md:px-12 relative z-10">
         

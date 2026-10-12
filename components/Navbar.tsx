@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, Menu, X } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
+import { scrollToTarget } from "./lenis";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,7 +14,8 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -27,11 +29,8 @@ export default function Navbar() {
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-      setMobileMenuOpen(false);
-    }
+    setMobileMenuOpen(false);
+    scrollToTarget(href);
   };
 
   return (
@@ -53,7 +52,7 @@ export default function Navbar() {
             className="group flex items-center space-x-3 text-white focus:outline-none"
             onClick={(e) => {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
+              scrollToTarget(0);
             }}
           >
             <span className="font-display font-black tracking-[0.2em] text-lg md:text-xl transition-all duration-300 group-hover:text-glow-accent group-hover:text-accent-cinematic">
@@ -114,7 +113,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 bg-background-cinematic/95 backdrop-blur-2xl md:hidden flex flex-col justify-center px-8"
+            className="fixed inset-0 z-40 bg-background-cinematic/95 backdrop-blur-md md:hidden flex flex-col justify-center px-8"
           >
             <div className="flex flex-col space-y-8 text-center">
               {navItems.map((item, idx) => (

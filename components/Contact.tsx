@@ -63,8 +63,8 @@ export default function Contact() {
       className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12"
     >
       {/* Dynamic Background Light Rings */}
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent-cinematic/[0.005] blur-[150px] pointer-events-none" />
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-accent-orange/[0.001] blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-radial from-accent-cinematic/[0.005] to-transparent to-70% pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-radial from-accent-orange/[0.001] to-transparent to-70% pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto">
         <motion.div

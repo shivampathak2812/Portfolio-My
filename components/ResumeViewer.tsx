@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { Download, ExternalLink, X, ZoomIn, ZoomOut } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, onResumeViewerOpen } from "./resume";
+import { lockScroll, unlockScroll } from "./lenis";
 
 // pdf.js is heavy and browser-only — load it on first open
 const ResumePdf = dynamic(() => import("./ResumePdf"), { ssr: false });
@@ -51,8 +52,7 @@ export default function ResumeViewer() {
   // Lock page scroll, close on Escape, focus the close button while open
   useEffect(() => {
     if (!isOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockScroll();
     closeButtonRef.current?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -60,7 +60,7 @@ export default function ResumeViewer() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      unlockScroll();
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [isOpen, close]);

@@ -35,10 +35,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${inter.variable} scroll-smooth`}
+      className={`${outfit.variable} ${inter.variable}`}
     >
       <body className="bg-background-cinematic text-white antialiased selection:bg-accent-cinematic/30 selection:text-white">
-        {/* Sub-pixel GPU-accelerated film noise grain overlay */}
+        {/* Static film grain overlay */}
         <div className="noise-overlay" />
         
         {/* Dynamic interactive mouse cursor tracker spotlight */}

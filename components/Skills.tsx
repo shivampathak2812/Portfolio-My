@@ -199,7 +199,7 @@ export default function Skills() {
       className="relative w-full fluid-py-section bg-background-cinematic overflow-hidden px-6 md:px-12 border-b border-white/5"
     >
       {/* Atmospheric glow blobs */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-accent-cinematic/[0.02] blur-[150px] pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-radial from-accent-cinematic/[0.02] to-transparent to-70% pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Header */}

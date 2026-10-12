@@ -25,8 +25,24 @@ html, body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  scroll-behavior: smooth;
-  height: 100%;
+}
+
+html {
+  /* Lenis owns scroll easing; native smooth-scroll would fight it */
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Firefox scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) #030712;
 }
 
 /* Custom Cinematic Scrollbar */
@@ -50,33 +66,16 @@ html, body {
   background: rgba(124, 58, 237, 0.4);
 }
 
-/* Animated Film Grain Overlay */
+/* Static Film Grain Overlay
+   (the old 0.15s jitter animation repainted a 4x-viewport layer every frame
+   for a texture at <1% opacity — static grain looks identical and costs nothing) */
 .noise-overlay {
   position: fixed;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  width: 200%;
-  height: 200%;
+  inset: 0;
   background: transparent url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E') repeat;
   opacity: 0.008;
   pointer-events: none;
   z-index: 9999;
-  animation: noiseAnimation 0.15s infinite;
-}
-
-@keyframes noiseAnimation {
-  0% { transform: translate(0, 0); }
-  10% { transform: translate(-1%, -1%); }
-  20% { transform: translate(-2%, 1%); }
-  30% { transform: translate(1%, -2%); }
-  40% { transform: translate(-1%, 3%); }
-  50% { transform: translate(-1%, -1%); }
-  60% { transform: translate(1%, 1%); }
-  75% { transform: translate(-2%, -2%); }
-  90% { transform: translate(1%, 3%); }
-  100% { transform: translate(0, 0); }
 }
 
 /* Dynamic Radial Mouse-Spotlight CSS */
@@ -94,27 +93,34 @@ html, body {
     transparent 80%
   );
   z-index: 1;
-  transition: background 0.3s ease;
+  /* Own compositor layer so cursor moves never repaint the page behind it */
+  transform: translateZ(0);
+  contain: strict;
 }
 
-/* Lenis Smooth Scrolling Styles */
-html.lenis, html.lenis body {
+@media (hover: none), (pointer: coarse) {
+  .spotlight-glow {
+    display: none;
+  }
+}
+
+/* Lenis Smooth Scrolling Styles (mirrors lenis/dist/lenis.css for v1.3) */
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
-.lenis-smooth {
-  scroll-behavior: auto !important;
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
 }
 
-.lenis-smooth [data-lenis-prevent] {
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch] {
   overscroll-behavior: contain;
 }
 
-.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis-scrolling iframe {
+.lenis.lenis-smooth iframe {
   pointer-events: none;
 }
 
@@ -137,6 +143,13 @@ html.lenis, html.lenis body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.glass-panel-hover {
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-panel-hover:hover {
@@ -174,10 +187,8 @@ html.lenis, html.lenis body {
 
 .section-spotlight {
   position: relative;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity, filter;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Custom highlighted spotlight glow border overlay */
@@ -207,9 +218,8 @@ html.lenis, html.lenis body {
 
 /* Dimming helper when spotlight is active */
 .dimmed-background {
-  opacity: 0.6;
-  filter: blur(1.5px) grayscale(15%) brightness(85%);
-  transform: scale(0.995);
+  /* Opacity only — filtering whole sections forces full-page repaints */
+  opacity: 0.45;
 }
 
 /* Blinking typewriter caret effect */
@@ -382,7 +392,14 @@ html.lenis, html.lenis body {
   }
 
   /* Disable expensive box shadow glow hover filters on mobile */
-  .glass-panel-hover:hover {
+  .glass-panel-hover {
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
     transform: none !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
     box-shadow: none !important;
@@ -399,5 +416,16 @@ html.lenis, html.lenis body {
   }
 }
 
-
-
+/* ==========================================================================
+   Accessibility: honour the OS "reduce motion" preference
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import dynamic from "next/dynamic";
 import { Download } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
+import { scrollToTarget } from "./lenis";
 const Particles = dynamic(() => import("./Particles"), { ssr: false });
 
 export default function Hero() {
@@ -42,10 +43,7 @@ export default function Hero() {
   }, []);
 
   const scrollToAbout = () => {
-    const aboutSection = document.querySelector("#about");
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth" });
-    }
+    scrollToTarget("#about");
   };
 
   return (
@@ -102,7 +100,7 @@ export default function Hero() {
             href="#projects"
             onClick={(e) => {
               e.preventDefault();
-              document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
+              scrollToTarget("#projects");
             }}
             whileHover={{ scale: 1.015 }}
             whileTap={{ scale: 0.98 }}

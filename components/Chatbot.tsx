@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { queryLocalRAG, ChatAction } from "./chatbotData";
 import { openResumeViewer } from "./resume";
+import { scrollToTarget } from "./lenis";
 
 // Detect mobile/touch once at module level to avoid re-evaluation
 const IS_MOBILE = typeof window !== "undefined" && (window.innerWidth < 768 || navigator.maxTouchPoints > 0);
@@ -299,8 +300,8 @@ export default function Chatbot() {
     const section = document.querySelector(sectionSelector);
     if (!section) return;
 
-    // 1. Smoothly scroll viewport utilizing built-in Lenis triggers
-    section.scrollIntoView({ behavior: "smooth", block: "center" });
+    // 1. Smoothly scroll viewport through the shared Lenis instance
+    scrollToTarget(section as HTMLElement, { block: "center" });
 
     // 2. Add dynamic cinematic spotlight glow & dim other sections
     const allSections = document.querySelectorAll("section");
@@ -326,6 +327,10 @@ export default function Chatbot() {
       allSections.forEach((sec) => {
         sec.classList.remove("highlight-active", "dimmed-background");
       });
+      // Drop the transition hook once the fade-back finishes
+      setTimeout(() => {
+        allSections.forEach((sec) => sec.classList.remove("section-spotlight"));
+      }, 900);
       if (heroSection) {
         heroSection.classList.remove("dimmed-background");
       }
@@ -686,8 +691,8 @@ export default function Chatbot() {
               }`}
             >
               {/* Ambient Background Light Leaks Inside Chat */}
-              <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-white/[0.02] blur-[40px] pointer-events-none" />
-              <div className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-white/[0.01] blur-[40px] pointer-events-none" />
+              <div className="absolute -top-32 -right-32 w-64 h-64 bg-radial from-white/[0.02] to-transparent to-70% pointer-events-none" />
+              <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-radial from-white/[0.01] to-transparent to-70% pointer-events-none" />
 
 
             {/* A. Dynamic Chat Header */}
