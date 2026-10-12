@@ -17,7 +17,7 @@ interface TimelineItem {
 export default function Experience() {
   const experiences: TimelineItem[] = useMemo(() => [
     {
-      role: "AI/ML Engineer",
+      role: "Trainee Engineer – Data Science & AI/ML",
       company: "Silicon Interfaces Pvt. Ltd. (Mumbai, India)",
       duration: "Jul 2026 - PRESENT",
       icon: <Briefcase className="w-5 h-5" />,
