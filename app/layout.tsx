@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import { themeInitScript } from "@/components/theme";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -36,7 +37,13 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geist.variable} ${inter.variable}`}
+      data-theme="dark"
+      // The inline script below sets data-theme before hydration
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="bg-background-cinematic text-white antialiased selection:bg-accent-cinematic/35 selection:text-white">
         {/* Static film grain overlay */}
         <div className="noise-overlay" />

@@ -257,7 +257,8 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
 
         {/* Small floating HUD controls (bottom right) */}
         {hasEntered && (
-          <div className="absolute bottom-6 right-6 md:right-12 z-50 flex items-center space-x-4 pointer-events-auto">
+          // Sits over the (always dark) video, so it keeps the dark palette in both themes
+          <div data-theme="dark" className="absolute bottom-6 right-6 md:right-12 z-50 flex items-center space-x-4 pointer-events-auto">
             {/* Play/Pause Button */}
             <button
               onClick={togglePlay}
@@ -270,9 +271,9 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
             {/* Mute/Unmute Button */}
             <button
               onClick={toggleMute}
-              className={`w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center text-white transition-all duration-300 focus:outline-none active:scale-90 cursor-pointer ${
+              className={`w-10 h-10 rounded-full backdrop-blur-md border flex items-center justify-center transition-all duration-300 focus:outline-none active:scale-90 cursor-pointer ${
                 isMuted
-                  ? "bg-black/60 border-white/10 hover:bg-white/15"
+                  ? "bg-black/60 text-white border-white/10 hover:bg-white/15"
                   : "bg-white text-black border-white hover:bg-white/90"
               }`}
               aria-label={isMuted ? "Unmute sound" : "Mute sound"}
@@ -286,6 +287,7 @@ export default function CinematicIntro({ portfolioRef }: CinematicIntroProps) {
         {hasEntered && (
           <motion.div
             ref={scrollIndicatorRef}
+            data-theme="dark"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.8, ease: "easeOut" }}
