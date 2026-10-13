@@ -153,7 +153,7 @@ export default function Projects() {
     },
     {
       title: "Courier Partner App",
-      description: "Developed a modern courier management application with optimized delivery workflow, responsive UI, and scalable backend architecture for efficient logistics management.",
+      description: "Built a courier management app with a Python and FastAPI backend that exposes REST API endpoints and uses SQLAlchemy ORM to save dispatch logs and track delivery status for logistics managers.",
       tags: ["FastAPI", "Python", "Logistics", "REST API", "Database ORM"],
       githubUrl: "https://github.com/shivampathak2812/courier_partner",
       accentClass: "orange",

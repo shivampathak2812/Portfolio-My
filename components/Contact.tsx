@@ -90,7 +90,7 @@ export default function Contact() {
             variants={itemVariants}
             className="font-display font-semibold fluid-section-title leading-tight text-white tracking-tight mb-6"
           >
-            Initiate <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Sequence</span>.
+            Get in <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Touch</span>.
           </motion.h2>
 
           <motion.p

@@ -164,9 +164,9 @@ export default function Education() {
                   {ach.icon}
                 </div>
                 <div>
-                  <h4 className="font-display text-sm md:text-base font-semibold tracking-tight text-white mb-1 transition-all duration-300">
+                  <h3 className="font-display text-sm md:text-base font-semibold tracking-tight text-white mb-1 transition-all duration-300">
                     {ach.title}
-                  </h4>
+                  </h3>
                   <p className="text-xs text-white/40 leading-relaxed font-light">{ach.desc}</p>
                 </div>
               </motion.div>
