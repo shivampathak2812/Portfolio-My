@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Sora, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import JsonLd from "@/components/JsonLd";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/components/site";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -16,14 +18,61 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Shivam Pathak | Data & AI Engineer",
-  description: "Portfolio of Shivam Pathak, a Data & AI Engineer with hands-on experience in Python, SQL, Machine Learning, Data Science, LLMs, RAG, FastAPI, and PostgreSQL — building ML models, AI applications, REST APIs, and data pipelines.",
-  keywords: ["Data Engineer", "AI Engineer", "Data Science", "Machine Learning", "LLM", "RAG", "ETL Pipelines", "Apache Airflow", "FastAPI", "PostgreSQL", "Python", "SQL", "Shivam Pathak"],
-  authors: [{ name: "Shivam Pathak" }],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "Shivam Pathak",
+    "AI Engineer",
+    "Data Engineer",
+    "Python Developer",
+    "Generative AI",
+    "LLM",
+    "RAG",
+    "FastAPI",
+    "PostgreSQL",
+    "Machine Learning",
+    "Data Science",
+    "Data Analytics",
+    "ETL Pipelines",
+    "Apache Airflow",
+    "Mumbai",
+  ],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  // og:image / twitter:image come from app/opengraph-image.tsx and app/twitter-image.tsx
   openGraph: {
-    title: "Shivam Pathak | Data & AI Engineer",
-    description: "Data & AI Engineer building ML models, LLM/RAG applications, REST APIs, and data pipelines.",
-    type: "website",
+    type: "profile",
+    url: "/",
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    locale: "en_US",
+    firstName: "Shivam",
+    lastName: "Pathak",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
 };
 
@@ -39,6 +88,9 @@ export default function RootLayout({
       data-theme="dark"
     >
       <body className="bg-background-cinematic text-white antialiased selection:bg-accent-cinematic/35 selection:text-white">
+        {/* Schema.org Person / WebSite / ProfilePage structured data */}
+        <JsonLd />
+
         {/* Aurora Glass backdrop: slow-drifting colour fields behind everything */}
         <div className="aurora" aria-hidden="true" />
 

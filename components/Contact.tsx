@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import { Send, Github, Linkedin, FileText, Copy, Check, Terminal, Download } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
 import { replayIntro } from "./intro";
+import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "./site";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
-  const emailAddress = "pathakshivam3738@gmail.com";
+  const emailAddress = EMAIL;
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(emailAddress);
@@ -20,13 +21,13 @@ export default function Contact() {
     {
       name: "LinkedIn",
       icon: <Linkedin className="w-5 h-5 text-white/70" />,
-      url: "https://linkedin.com/in/shivam-pathak-9a76ba246",
+      url: LINKEDIN_URL,
       label: "Connect professionally",
     },
     {
       name: "GitHub",
       icon: <Github className="w-5 h-5 text-white/70" />,
-      url: "https://github.com/shivampathak2812",
+      url: GITHUB_URL,
       label: "View open-source files",
     },
     {
@@ -96,7 +97,7 @@ export default function Contact() {
             variants={itemVariants}
             className="text-xs md:text-sm text-white/50 max-w-md mb-12 leading-relaxed font-light"
           >
-            Let&apos;s collaborate to architect robust machine learning engines, modern developer portfolios, or low-latency APIs.
+            Get in touch with Shivam Pathak to collaborate on robust machine learning engines, modern developer portfolios, or low-latency APIs.
           </motion.p>
 
           {/* Core Copy-to-Clipboard Email Dashboard */}
@@ -111,7 +112,12 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-[8px] tracking-[0.2em] font-semibold text-white/40">DIRECT EMAIL</p>
-                  <p className="text-xs font-bold text-white tracking-wide">{emailAddress}</p>
+                  <a
+                    href={`mailto:${emailAddress}`}
+                    className="block text-xs font-bold text-white tracking-wide hover:text-accent-soft transition-colors"
+                  >
+                    {emailAddress}
+                  </a>
                 </div>
               </div>
 

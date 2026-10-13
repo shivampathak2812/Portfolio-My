@@ -47,6 +47,7 @@ export default function Hero() {
         {...reveal(1)}
         className="font-display font-semibold tracking-[-0.045em] leading-[1.02] text-[clamp(2.6rem,7.4vw,6.6rem)] mt-6 mb-6 max-w-6xl"
       >
+        <span className="block text-white text-[clamp(1.5rem,3.6vw,2.75rem)] tracking-[-0.03em] mb-3">Shivam Pathak</span>
         <span className="text-aurora block">Data &amp; AI Engineer</span>
         <span className="text-aurora block opacity-80">building what&apos;s next.</span>
       </motion.h1>
@@ -55,7 +56,7 @@ export default function Hero() {
         {...reveal(2)}
         className="max-w-2xl text-base md:text-xl font-light leading-relaxed text-white/65"
       >
-        ML models, LLM &amp; RAG applications, REST APIs and data pipelines — designed with care, shipped end to end.
+        I&apos;m Shivam Pathak, a Data &amp; AI Engineer in Mumbai building ML models, LLM &amp; RAG applications, REST APIs and data pipelines — designed with care, shipped end to end.
       </motion.p>
 
       <motion.div {...reveal(3)} className="mt-10 flex flex-wrap items-center justify-center gap-3">

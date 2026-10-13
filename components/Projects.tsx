@@ -21,7 +21,7 @@ export default function Projects() {
       title: "HR Leave Assistant",
       description: "Built an AI HR leave agent with LangGraph and Google Gemini that lets employees apply for leave in plain English: it looks up the employee record, checks the request against the company rule book, and approves it (updating the database) or explains why not, via a Streamlit chat UI with employee and HR logins.",
       tags: ["Python", "LangGraph", "Google Gemini", "AI Agents", "Streamlit", "HR Automation"],
-      githubUrl: "https://github.com/shivampathak2812/HRLeaveAgent.git",
+      githubUrl: "https://github.com/shivampathak2812/HRLeaveAgent",
       liveUrl: "https://hr-leave-assistant.streamlit.app/",
       accentClass: "purple",
       graphic: (
@@ -47,7 +47,7 @@ export default function Projects() {
       title: "PHP Vibe Coder",
       description: "Built an AI-assisted PHP development workspace with Streamlit and Google Gemini that turns plain-English requirements into complete PHP projects, using RAG over PHP docs (Sentence Transformers + FAISS) and auto-validating code with a self-healing debug agent.",
       tags: ["Python", "Google Gemini", "RAG", "FAISS", "Streamlit", "AI Agents"],
-      githubUrl: "https://github.com/shivampathak2812/PHP-VibeCoder.git",
+      githubUrl: "https://github.com/shivampathak2812/PHP-VibeCoder",
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
@@ -76,7 +76,7 @@ export default function Projects() {
       title: "WorkLens",
       description: "Built an end-to-end employee attrition prediction system with an XGBoost classifier achieving 91% F1-score and 83% test accuracy, served via FastAPI with a React HR analytics dashboard.",
       tags: ["Python", "XGBoost", "FastAPI", "React", "Recharts", "HR Analytics"],
-      githubUrl: "https://github.com/shivampathak2812/WorkLens.git",
+      githubUrl: "https://github.com/shivampathak2812/WorkLens",
       accentClass: "orange",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
@@ -102,7 +102,7 @@ export default function Projects() {
       title: "ATS-Pro-Analyzer",
       description: "Built an AI-powered ATS Resume Analyzer using FastAPI, NLP, Groq LLaMA-3, and JWT authentication to optimize resumes for maximum ATS compatibility.",
       tags: ["FastAPI", "Groq LLaMA-3", "NLP", "JWT Auth", "Resume ATS"],
-      githubUrl: "https://github.com/shivampathak2812/ATS-Pro-Analyzer.git",
+      githubUrl: "https://github.com/shivampathak2812/ATS-Pro-Analyzer",
       accentClass: "orange",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
@@ -127,7 +127,7 @@ export default function Projects() {
       title: "House Price Prediction",
       description: "Built a Machine Learning-based House Price Prediction system using Python, Pandas, NumPy, and Scikit-learn for predictive analytics and real-estate price estimation.",
       tags: ["Python", "Scikit-Learn", "Pandas", "NumPy", "Regression", "EDA"],
-      githubUrl: "https://github.com/shivampathak2812/Machine_learning.git",
+      githubUrl: "https://github.com/shivampathak2812/Machine_learning",
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
@@ -155,7 +155,7 @@ export default function Projects() {
       title: "Courier Partner App",
       description: "Developed a modern courier management application with optimized delivery workflow, responsive UI, and scalable backend architecture for efficient logistics management.",
       tags: ["FastAPI", "Python", "Logistics", "REST API", "Database ORM"],
-      githubUrl: "https://github.com/shivampathak2812/courier_partner.git",
+      githubUrl: "https://github.com/shivampathak2812/courier_partner",
       accentClass: "orange",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
@@ -179,7 +179,7 @@ export default function Projects() {
       title: "Matrix Calculator",
       description: "Built a responsive Matrix Calculator using HTML, CSS, and JavaScript (ES6) supporting dynamic NxN matrix operations with optimized performance and glassmorphism UI.",
       tags: ["HTML5", "CSS3", "JavaScript ES6", "Matrix Algebra", "Glassmorphism"],
-      githubUrl: "https://github.com/shivampathak2812/matrix_calculator.git",
+      githubUrl: "https://github.com/shivampathak2812/matrix_calculator",
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-accent-cinematic/[0.06] to-surface flex items-center justify-center p-6 overflow-hidden">
@@ -201,7 +201,7 @@ export default function Projects() {
       title: "Zomato Dashboard",
       description: "Built a dynamic Zomato Excel Dashboard using Pivot Tables, KPI cards, slicers, and charts to analyze 197K+ food delivery records and generate business insights.",
       tags: ["Excel Analytics", "KPI Dashboards", "Pivot Tables", "Data Visualization", "Data Analytics"],
-      githubUrl: "https://github.com/shivampathak2812/Zomato-Dashboard.git",
+      githubUrl: "https://github.com/shivampathak2812/Zomato-Dashboard",
       accentClass: "orange",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
@@ -353,6 +353,7 @@ export default function Projects() {
                     >
                       <Github className="w-3.5 h-3.5 text-accent-cinematic group-hover/link:scale-110 transition-transform duration-300" />
                       <span>SOURCE</span>
+                      <span className="sr-only"> code for {project.title} on GitHub</span>
                     </a>
                     {project.liveUrl && (
                       <a
@@ -363,6 +364,7 @@ export default function Projects() {
                       >
                         <ExternalLink className="w-3.5 h-3.5 text-accent-soft group-hover/live:scale-110 transition-transform duration-300" />
                         <span>LIVE DEMO</span>
+                        <span className="sr-only"> of {project.title}</span>
                       </a>
                     )}
                   </div>
