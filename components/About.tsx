@@ -60,7 +60,7 @@ export default function About() {
               <div className="relative w-full h-full rounded-[22px] overflow-hidden bg-background-cinematic border border-white/5">
                 <Image
                   src="/images/profile.png"
-                  alt="Shivam Pathak Profile Photo"
+                  alt="Portrait of Shivam Pathak, Data & AI Engineer"
                   fill
                   sizes="(max-width: 768px) 100vw, 360px"
                   className="object-cover brightness-[0.9] group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
@@ -97,7 +97,7 @@ export default function About() {
               className="space-y-6 text-sm md:text-base text-white/70 leading-relaxed font-light mb-8"
             >
               <p>
-                <strong className="text-white font-medium">Data & AI Engineer</strong> with hands-on experience in <strong className="text-white font-medium">Python</strong>, <strong className="text-white font-medium">SQL</strong>, <strong className="text-white font-medium">Machine Learning</strong>, <strong className="text-white font-medium">Data Science</strong>, <strong className="text-white font-medium">LLMs</strong>, <strong className="text-white font-medium">RAG</strong>, <strong className="text-white font-medium">FastAPI</strong>, and <strong className="text-white font-medium">PostgreSQL</strong>. Experienced in <strong className="text-white font-medium">data analysis</strong>, <strong className="text-white font-medium">ML model development</strong>, <strong className="text-white font-medium">AI applications</strong>, <strong className="text-white font-medium">REST APIs</strong>, and <strong className="text-white font-medium">data pipelines</strong>.
+                I&apos;m <strong className="text-white font-medium">Shivam Pathak</strong>, a <strong className="text-white font-medium">Data & AI Engineer</strong> based in Mumbai, India, with hands-on experience in <strong className="text-white font-medium">Python</strong>, <strong className="text-white font-medium">SQL</strong>, <strong className="text-white font-medium">Machine Learning</strong>, <strong className="text-white font-medium">Data Science</strong>, <strong className="text-white font-medium">LLMs</strong>, <strong className="text-white font-medium">RAG</strong>, <strong className="text-white font-medium">FastAPI</strong>, and <strong className="text-white font-medium">PostgreSQL</strong>. Experienced in <strong className="text-white font-medium">data analysis</strong>, <strong className="text-white font-medium">ML model development</strong>, <strong className="text-white font-medium">AI applications</strong>, <strong className="text-white font-medium">REST APIs</strong>, and <strong className="text-white font-medium">data pipelines</strong>.
               </p>
             </motion.div>
 

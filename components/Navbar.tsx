@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, Menu, X } from "lucide-react";
 import { RESUME_FILENAME, RESUME_HASH, RESUME_URL, openResumeViewer } from "./resume";
@@ -47,8 +48,8 @@ export default function Navbar() {
             isScrolled ? "shadow-[0_10px_40px_-10px_var(--shadow-strong)]" : ""
           }`}
         >
-          <a
-            href="#"
+          <Link
+            href="/"
             className="font-display font-semibold text-sm tracking-tight text-white md:mr-4 focus:outline-none"
             onClick={(e) => {
               e.preventDefault();
@@ -57,7 +58,7 @@ export default function Navbar() {
             }}
           >
             Shivam Pathak
-          </a>
+          </Link>
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center">
