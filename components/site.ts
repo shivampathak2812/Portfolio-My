@@ -7,7 +7,7 @@ export const SITE_URL = "https://www.shivam-pathak.com";
 
 export const SITE_NAME = "Shivam Pathak";
 
-export const SITE_TITLE = "Shivam Pathak | AI Engineer & Python Developer";
+export const SITE_TITLE = "Shivam Pathak | Data & AI Engineer";
 
 export const SITE_DESCRIPTION =
   "Shivam Pathak is a Data & AI Engineer in Mumbai building LLM, RAG and FastAPI applications, ML models and data pipelines with Python, SQL and PostgreSQL.";

@@ -228,7 +228,7 @@ export default function Projects() {
       title: "Exploratory Data Analysis",
       description: "Performed Exploratory Data Analysis (EDA) using Python, Pandas, NumPy, Matplotlib, and Seaborn to analyze data patterns, correlations, and distributions to generate business insights.",
       tags: ["Python", "Pandas & NumPy", "Matplotlib", "Seaborn", "Statistical EDA", "Business Insights"],
-      githubUrl: "https://github.com/shivampathak2812",
+      githubUrl: "https://github.com/shivampathak2812/Exploratory-Data-Analysis",
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">

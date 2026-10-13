@@ -86,7 +86,7 @@ export const KNOWLEDGE_BASE = {
       title: "Exploratory Data Analysis",
       description: "A statistical data analysis project mapping core distributions and variables to extract patterns and correlations.",
       techStack: "Python, Pandas, NumPy, Matplotlib, Seaborn, Statistical EDA",
-      github: "https://github.com/shivampathak2812",
+      github: "https://github.com/shivampathak2812/Exploratory-Data-Analysis",
       highlights: "Creates heatmap matrices, scatter patterns, and statistical summaries to translate datasets into strategic insights."
     },
     {
