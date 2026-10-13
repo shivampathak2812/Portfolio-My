@@ -17,6 +17,15 @@ import {
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+
+// Fallbacks so the portfolio never waits on the video: enter automatically if it has
+// not started playing by then (blocked autoplay, slow network, reduced motion)...
+const START_TIMEOUT_MS = 8000;
+// ...or if playback stops making progress mid-way
+const STALL_TIMEOUT_MS = 5000;
+
+// play() rejects with NotSupportedError when no source can be loaded or decoded
+const isUnplayable = (err: unknown) => err instanceof DOMException && err.name === "NotSupportedError";
 const subscribeReducedMotion = (callback: () => void) => {
   const media = window.matchMedia(REDUCED_MOTION);
   media.addEventListener("change", callback);
@@ -67,6 +76,8 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const videoRef = useRef<HTMLVideoElement>(null);
   const handingOff = useRef(false);
+  // Last time playback advanced (stall watchdog)
+  const lastProgressAt = useRef(0);
   const [isMuted, setIsMuted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [caption, setCaption] = useState("");
@@ -95,7 +106,9 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
         setEntered(true);
         playIntro();
       })
-      .catch(() => {
+      .catch((err) => {
+        // The video itself can't be played: go straight to the portfolio
+        if (isUnplayable(err)) return finishIntro();
         // Sound needs a click first: browsers only allow muted autoplay
         video.muted = true;
         video
@@ -105,7 +118,7 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
             playIntro();
           })
           // Autoplay fully blocked (e.g. battery saver): reveal the play button
-          .catch(() => setAutoplayBlocked(true));
+          .catch((e) => (isUnplayable(e) ? finishIntro() : setAutoplayBlocked(true)));
       });
   };
 
@@ -122,8 +135,9 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
         setIsMuted(true);
         playIntro();
       })
-      // Autoplay fully blocked (e.g. battery saver): reveal the play button
-      .catch(() => setAutoplayBlocked(true));
+      // Unplayable video: enter the portfolio. Autoplay fully blocked (e.g. battery
+      // saver): reveal the play button (the start timeout still lets visitors in)
+      .catch((err) => (isUnplayable(err) ? finishIntro() : setAutoplayBlocked(true)));
   };
 
   // Restart with sound after the muted autoplay
@@ -192,12 +206,32 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
   const onTimeUpdate = () => {
     const video = videoRef.current;
     if (!video || !video.duration) return;
+    lastProgressAt.current = Date.now();
     setProgress(video.currentTime / video.duration);
     const cue = INTRO_CAPTIONS.find((c) => video.currentTime >= c.start && video.currentTime < c.end);
     setCaption(cue?.text ?? "");
   };
 
   const isPlaying = phase === "playing";
+
+  // Never keep the portfolio behind a video that hasn't started
+  useEffect(() => {
+    if (phase !== "welcome") return;
+    const timer = window.setTimeout(() => finishIntro(), START_TIMEOUT_MS);
+    return () => window.clearTimeout(timer);
+  }, [phase]);
+
+  // Playback stalled (network dropped mid-video): enter the portfolio
+  useEffect(() => {
+    if (!isPlaying) return;
+    lastProgressAt.current = Date.now();
+    const timer = window.setInterval(() => {
+      const video = videoRef.current;
+      if (!video || video.ended || handingOff.current) return;
+      if (Date.now() - lastProgressAt.current > STALL_TIMEOUT_MS) finishIntro();
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [isPlaying]);
   // In-frame play button: only when the video could not start by itself
   const showManualStart = !isPlaying && (reducedMotion || autoplayBlocked);
   // "A 10-second hello" + "Enter with sound": shown from the first paint and kept
@@ -247,7 +281,8 @@ function IntroStage({ phase }: { phase: "welcome" | "playing" }) {
             className="absolute inset-0 w-full h-full object-cover object-[50%_22%]"
           >
             <source src={INTRO_VIDEO.webm} type="video/webm" />
-            <source src={INTRO_VIDEO.mp4} type="video/mp4" />
+            {/* The last source erroring means no source could load */}
+            <source src={INTRO_VIDEO.mp4} type="video/mp4" onError={() => finishIntro()} />
           </video>
 
           <div className="intro-controls absolute inset-0">

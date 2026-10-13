@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 // Single source of truth for site identity: used by metadata, robots, sitemap,
 // JSON-LD and the contact section, so URLs and profile links never drift apart.
 
@@ -19,3 +21,14 @@ export const LINKEDIN_URL = "https://www.linkedin.com/in/shivam-pathak-9a76ba246
 export const GITHUB_URL = "https://github.com/shivampathak2812";
 
 export const PROFILE_IMAGE = "/images/profile.png";
+
+// Shared Open Graph fields (the homepage adds its own og:url on top)
+export const OPEN_GRAPH = {
+  type: "profile",
+  siteName: SITE_NAME,
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  locale: "en_US",
+  firstName: "Shivam",
+  lastName: "Pathak",
+} satisfies NonNullable<Metadata["openGraph"]>;

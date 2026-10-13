@@ -3,7 +3,7 @@ import { Sora, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import JsonLd from "@/components/JsonLd";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/components/site";
+import { OPEN_GRAPH, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/components/site";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -44,31 +44,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: SITE_NAME, url: SITE_URL }],
   creator: SITE_NAME,
-  alternates: {
-    canonical: "/",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
+  // Canonical URL, robots directives and og:url are set on the homepage only
+  // (app/page.tsx), so 404 pages keep Next.js' own noindex without contradictions.
   // og:image / twitter:image come from app/opengraph-image.tsx and app/twitter-image.tsx
-  openGraph: {
-    type: "profile",
-    url: "/",
-    siteName: SITE_NAME,
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
-    locale: "en_US",
-    firstName: "Shivam",
-    lastName: "Pathak",
-  },
+  openGraph: OPEN_GRAPH,
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
@@ -90,6 +69,12 @@ export default function RootLayout({
       <body className="bg-background-cinematic text-white antialiased selection:bg-accent-cinematic/35 selection:text-white">
         {/* Schema.org Person / WebSite / ProfilePage structured data */}
         <JsonLd />
+
+        {/* Without JavaScript the intro can't play or be skipped and scroll reveals never
+            run: hide the overlay and show every section in its final state */}
+        <noscript>
+          <style>{`.intro-overlay{display:none!important}[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
 
         {/* Aurora Glass backdrop: slow-drifting colour fields behind everything */}
         <div className="aurora" aria-hidden="true" />

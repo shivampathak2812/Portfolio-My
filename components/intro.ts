@@ -44,6 +44,8 @@ export function playIntro() {
 }
 
 export function finishIntro(glidedIntoAvatar = false) {
+  // Fallback timers may fire after the intro already ended
+  if (phase === "done") return;
   handoff = glidedIntoAvatar;
   phase = "done";
   emit();

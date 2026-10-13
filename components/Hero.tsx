@@ -17,15 +17,23 @@ import {
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
+const subscribeNothing = () => () => {};
+
 export default function Hero() {
   const phase = useSyncExternalStore(subscribeIntro, getIntroPhase, getServerIntroPhase);
   // Hero content waits for the intro to hand off, then rises in
   const ready = phase === "done";
+  // False in the server HTML and during hydration, true afterwards
+  const hydrated = useSyncExternalStore(subscribeNothing, () => true, () => false);
+  // The server HTML keeps the hero (and its H1) visible so it never depends on the
+  // intro finishing; once hydrated it is hidden behind the opaque intro overlay
+  // until the hand-off, which keeps the rise-in animation exactly as before
+  const hidden = hydrated && !ready;
 
   const reveal = (i: number) => ({
-    initial: { opacity: 0, y: 24 },
-    animate: ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 },
-    transition: { duration: 0.9, delay: 0.25 + i * 0.08, ease: EASE },
+    initial: false as const,
+    animate: hidden ? { opacity: 0, y: 24 } : { opacity: 1, y: 0 },
+    transition: hidden ? { duration: 0 } : { duration: 0.9, delay: 0.25 + i * 0.08, ease: EASE },
   });
 
   return (

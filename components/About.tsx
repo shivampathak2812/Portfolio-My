@@ -88,7 +88,7 @@ export default function About() {
               variants={itemVariants}
               className="font-display font-semibold fluid-section-title leading-tight text-white mb-6 tracking-tight"
             >
-              Engineering <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/60">Intelligence</span>.
+              AI &amp; Data <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/60">Engineering</span>.
             </motion.h2>
 
             {/* Core Narrative Paragraphs */}
@@ -114,7 +114,7 @@ export default function About() {
                 <div>
                   <h3 className="font-display text-sm md:text-base font-semibold tracking-tight text-white mb-1">Machine Learning</h3>
                   <p className="text-[11px] text-white/50 leading-relaxed font-light">
-                    Fine-tuning large language models, setting up semantic searches, and engineering agentic prompts.
+                    Building LLM features with the Gemini API, RAG pipelines and semantic search, plus agentic workflows with LangGraph.
                   </p>
                 </div>
               </div>
@@ -125,9 +125,9 @@ export default function About() {
                   <Cpu className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display text-sm md:text-base font-semibold tracking-tight text-white mb-1">Full-Stack Architect</h3>
+                  <h3 className="font-display text-sm md:text-base font-semibold tracking-tight text-white mb-1">Full-Stack Engineering</h3>
                   <p className="text-[11px] text-white/50 leading-relaxed font-light">
-                    Dockerized backend pipelines, highly interactive frontends, and low-latency API engines.
+                    FastAPI and PostgreSQL backends, Dockerized services, and interactive React and Streamlit frontends.
                   </p>
                 </div>
               </div>
