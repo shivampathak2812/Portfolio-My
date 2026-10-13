@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { User, Cpu, BrainCircuit } from "lucide-react";
+import { GITHUB_URL, LINKEDIN_URL } from "./site";
 
 export default function About() {
   const containerVariants = {
@@ -131,6 +132,42 @@ export default function About() {
                   </p>
                 </div>
               </div>
+            </motion.div>
+
+            {/* At a glance: a plain-text, crawlable summary of who Shivam Pathak is.
+                Every fact here already appears elsewhere on the site and on the resume. */}
+            <motion.div
+              variants={itemVariants}
+              className="mt-8 rounded-2xl glass-panel border border-white/5 p-6"
+            >
+              <h3 className="font-display text-sm md:text-base font-semibold tracking-tight text-white mb-4">
+                Shivam Pathak at a glance
+              </h3>
+              <dl className="grid grid-cols-1 sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-3 text-sm text-white/70 font-light leading-relaxed">
+                <dt className="text-[11px] tracking-[0.2em] uppercase text-white/40 sm:pt-1">Role</dt>
+                <dd>Trainee Engineer, Data Science &amp; AI/ML at Silicon Interfaces Pvt. Ltd., Mumbai (since July 2026).</dd>
+
+                <dt className="text-[11px] tracking-[0.2em] uppercase text-white/40 sm:pt-1">Previously</dt>
+                <dd>AI Engineer Intern at Northcorp Software (January – June 2026): FastAPI and PostgreSQL REST APIs and Gemini-powered RAG features for a talent assessment platform.</dd>
+
+                <dt className="text-[11px] tracking-[0.2em] uppercase text-white/40 sm:pt-1">Education</dt>
+                <dd>B.Tech in Computer Science and Engineering, Graphic Era Hill University (2022 – 2025).</dd>
+
+                <dt className="text-[11px] tracking-[0.2em] uppercase text-white/40 sm:pt-1">Works with</dt>
+                <dd>Python, SQL, Pandas, NumPy, Scikit-learn, XGBoost, FastAPI, PostgreSQL, Docker and the Google Gemini API.</dd>
+
+                <dt className="text-[11px] tracking-[0.2em] uppercase text-white/40 sm:pt-1">Selected work</dt>
+                <dd>
+                  WorkLens, an XGBoost employee-attrition model (91% F1-score) with a FastAPI backend and React dashboard; HR Leave Assistant, a LangGraph and Gemini agent that handles leave requests; and PHP Vibe Coder, a RAG-based PHP project generator.
+                </dd>
+
+                <dt className="text-[11px] tracking-[0.2em] uppercase text-white/40 sm:pt-1">Profiles</dt>
+                <dd>
+                  <a href={LINKEDIN_URL} target="_blank" rel="me noopener noreferrer" className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors">LinkedIn</a>
+                  {" · "}
+                  <a href={GITHUB_URL} target="_blank" rel="me noopener noreferrer" className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors">GitHub</a>
+                </dd>
+              </dl>
             </motion.div>
           </div>
         </motion.div>

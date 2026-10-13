@@ -159,7 +159,7 @@ export default function Contact() {
                       : undefined
                   }
                   target={link.opensResumeViewer ? undefined : "_blank"}
-                  rel={link.opensResumeViewer ? undefined : "noopener noreferrer"}
+                  rel={link.opensResumeViewer ? undefined : "me noopener noreferrer"}
                   whileHover={{ y: -2 }}
                   className="relative h-full rounded-2xl glass-panel border border-white/5 p-6 flex flex-col items-center justify-center hover:border-white/15 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-500 group select-none cursor-pointer"
                 >
