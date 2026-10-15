@@ -10,6 +10,7 @@ Render's 512 MB free instance.
 """
 
 import re
+from datetime import date
 
 from knowledge_base import PORTFOLIO_DOCUMENTS
 
@@ -138,6 +139,16 @@ def score_intent(q: str) -> str:
             "boost": ["overview", "resume"],
             "exclude": [],
             "weight": 3
+        },
+        # "How many years of experience?" / "experience in numbers" -> computed durations
+        {
+            "intent": "experience_duration",
+            "keywords": ["how many years", "how many months", "how much experience", "how long", "years of experience",
+                         "months of experience", "total experience", "in number", "in numbers",
+                         "duration", "how many year", "experience count", "numeric"],
+            "boost": ["years", "months", "total"],
+            "exclude": [],
+            "weight": 5
         },
         {
             "intent": "experience",
@@ -314,6 +325,47 @@ def search_documents(query: str, limit: int = 2) -> list:
     return [text for score, text in scored[:limit] if score == best or score >= 2]
 
 
+# Roles with (start year, start month, end year, end month); end None = current role
+EXPERIENCE_TIMELINE = [
+    ("Trainee Engineer – Data Science & AI/ML", "Silicon Interfaces Pvt. Ltd., Mumbai", (2026, 7), None),
+    ("AI Engineer Intern", "Northcorp Software", (2026, 1), (2026, 6)),
+]
+
+
+def _months_between(start: tuple, end: tuple) -> int:
+    """Inclusive month count, e.g. Jan–Jun = 6."""
+    return (end[0] - start[0]) * 12 + (end[1] - start[1]) + 1
+
+
+def _format_months(months: int) -> str:
+    years, rem = divmod(months, 12)
+    parts = []
+    if years:
+        parts.append(f"{years} year{'s' if years != 1 else ''}")
+    if rem or not years:
+        parts.append(f"{rem} month{'s' if rem != 1 else ''}")
+    return " ".join(parts)
+
+
+def experience_duration_reply(today: date = None) -> dict:
+    today = today or date.today()
+    now = (today.year, today.month)
+    lines = []
+    total = 0
+    for role, company, start, end in EXPERIENCE_TIMELINE:
+        months = _months_between(start, end or now)
+        total += months
+        period = f"{date(*start, 1):%b %Y} – {'Present' if end is None else f'{date(*end, 1):%b %Y}'}"
+        lines.append(f"*   **{role}**, {company}: **{months} months** ({period})")
+    return {
+        "answer": f"**Total experience: {total} months (~{total / 12:.1f} years)**\n\n"
+        + "\n".join(lines)
+        + f"\n\n*   **Roles:** {len(EXPERIENCE_TIMELINE)}\n*   **REST API endpoints built at Northcorp:** 10+\n"
+        "*   **Alembic migrations managed:** 5+",
+        "actions": [{"label": "Go to Experience Timeline 💼", "type": "scroll", "target": "#experience"}],
+    }
+
+
 def get_local_reply(query: str, history: list) -> dict:
     """Scored intent-based local fallback for accurate responses."""
     q = query.lower().strip()
@@ -454,6 +506,9 @@ def get_local_reply(query: str, history: list) -> dict:
                 {"label": "View Skills ⚡", "type": "scroll", "target": "#skills"}
             ]
         }
+
+    if intent == "experience_duration":
+        return experience_duration_reply()
 
     if intent == "experience":
         return {

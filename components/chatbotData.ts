@@ -306,6 +306,14 @@ function scoreIntent(queryText: string): IntentMatch {
       weight: 3
     },
     // Work experience / internship
+    // "How many years of experience?" / "experience in numbers" -> computed durations
+    {
+      intent: "experience_duration",
+      keywords: [["how", "many", "year"], ["how", "many", "month"], ["how", "much", "experience"], ["how", "long"], ["year", "of", "experience"], ["month", "of", "experience"], ["total", "experience"], ["in", "number"], ["duration"], ["numeric"]],
+      boost: [["year"], ["month"], ["total"]],
+      exclude: [],
+      weight: 5
+    },
     {
       intent: "experience",
       keywords: [["experience"], ["internship"], ["northcorp"], ["work"], ["job"], ["role"], ["where", "does", "he", "work"]],
@@ -517,6 +525,33 @@ function searchKnowledgeBase(query: string, limit = 2): string[] {
   return scored.slice(0, limit).filter((d) => d.score === best || d.score >= 2).map((d) => d.text);
 }
 
+// Roles with start/end as [year, month]; end null = current role
+const EXPERIENCE_TIMELINE: { role: string; company: string; start: [number, number]; end: [number, number] | null }[] = [
+  { role: "Trainee Engineer – Data Science & AI/ML", company: "Silicon Interfaces Pvt. Ltd., Mumbai", start: [2026, 7], end: null },
+  { role: "AI Engineer Intern", company: "Northcorp Software", start: [2026, 1], end: [2026, 6] }
+];
+
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// Inclusive month count, e.g. Jan–Jun = 6
+const monthsBetween = (start: [number, number], end: [number, number]) =>
+  (end[0] - start[0]) * 12 + (end[1] - start[1]) + 1;
+
+function experienceDurationReply(today = new Date()): RAGResponse {
+  const now: [number, number] = [today.getFullYear(), today.getMonth() + 1];
+  let total = 0;
+  const lines = EXPERIENCE_TIMELINE.map(({ role, company, start, end }) => {
+    const months = monthsBetween(start, end ?? now);
+    total += months;
+    const period = `${MONTH_NAMES[start[1] - 1]} ${start[0]} – ${end ? `${MONTH_NAMES[end[1] - 1]} ${end[0]}` : "Present"}`;
+    return `*   **${role}**, ${company}: **${months} months** (${period})`;
+  });
+  return {
+    answer: `**Total experience: ${total} months (~${(total / 12).toFixed(1)} years)**\n\n${lines.join("\n")}\n\n*   **Roles:** ${EXPERIENCE_TIMELINE.length}\n*   **REST API endpoints built at Northcorp:** 10+\n*   **Alembic migrations managed:** 5+`,
+    actions: [{ label: "Go to Experience Timeline 💼", type: "scroll", target: "#experience" }]
+  };
+}
+
 // High-fidelity local NLP fallback engine for zero-dependency execution
 export function queryLocalRAG(query: string, history: { role: string; content: string }[]): RAGResponse {
   const q = query.toLowerCase().trim();
@@ -661,6 +696,9 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
           { label: "View Skills ⚡", type: "scroll", target: "#skills" }
         ]
       };
+
+    case "experience_duration":
+      return experienceDurationReply();
 
     case "experience": {
       const expList = KNOWLEDGE_BASE.experience.map(e => 

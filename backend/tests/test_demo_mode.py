@@ -95,3 +95,23 @@ def test_demo_mode_never_imports_rag_chromadb_or_embeddings():
     loaded = set(out.strip().split(","))
     leaked = [m for m in HEAVY_MODULES if m in loaded]
     assert not leaked, f"demo mode imported heavy modules: {leaked}"
+
+
+@pytest.mark.parametrize(
+    "question",
+    ["give me shivam experience in number not text", "How many years of experience does he have?", "Total experience?"],
+)
+def test_demo_mode_gives_experience_as_numbers(client, question):
+    data = ask(client, question)
+    assert "Total experience:" in data["answer"]
+    assert "6 months" in data["answer"]  # Northcorp, Jan–Jun 2026
+
+
+def test_experience_duration_counts_months():
+    from datetime import date
+
+    from local_replies import experience_duration_reply
+
+    answer = experience_duration_reply(date(2026, 10, 15))["answer"]
+    assert "Total experience: 10 months" in answer
+    assert "**4 months** (Jul 2026 – Present)" in answer
