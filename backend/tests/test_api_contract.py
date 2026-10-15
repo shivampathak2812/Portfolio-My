@@ -49,8 +49,12 @@ def test_invalid_payload_is_a_client_error(client):
     assert client.post("/chat", json={"history": []}).status_code == 422
 
 
-def test_health_is_ok_and_cors_allows_the_site(client):
-    response = client.get("/health", headers={"Origin": "https://portfolio-my-ivory.vercel.app"})
+@pytest.mark.parametrize(
+    "origin",
+    ["https://portfolio-my-ivory.vercel.app", "https://www.shivam-pathak.com", "https://shivam-pathak.com"],
+)
+def test_health_is_ok_and_cors_allows_the_site(client, origin):
+    response = client.get("/health", headers={"Origin": origin})
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
-    assert response.headers["access-control-allow-origin"] == "https://portfolio-my-ivory.vercel.app"
+    assert response.headers["access-control-allow-origin"] == origin

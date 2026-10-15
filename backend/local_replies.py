@@ -9,9 +9,27 @@ Groq or the vector index is unavailable. Imports nothing heavy, so it is safe on
 Render's 512 MB free instance.
 """
 
+import re
+
+from knowledge_base import PORTFOLIO_DOCUMENTS
+
 # ─────────────────────────────────────────────────────────────────
 # Scored intent matching for accurate backend fallback responses
 # ─────────────────────────────────────────────────────────────────
+
+def _has_phrase(q: str, phrase: str) -> bool:
+    """Whole-word match (optional plural "s"), so "hi" does not fire inside "his" or "which"."""
+    plural = "s?" if len(phrase) >= 4 else ""
+    return re.search(r"(?<![a-z0-9])" + re.escape(phrase) + plural + r"(?![a-z0-9])", q) is not None
+
+
+QUESTION_WORDS = ("is", "are", "does", "do", "did", "can", "could", "has", "have", "what", "which", "who",
+                  "how", "where", "when", "why", "tell")
+
+
+def _is_question(q: str) -> bool:
+    return "?" in q or q.split(" ", 1)[0] in QUESTION_WORDS
+
 
 def score_intent(q: str) -> str:
     """Scores all intents and returns the best matching intent name."""
@@ -229,20 +247,71 @@ def score_intent(q: str) -> str:
     for entry in intents:
         score = 0
         for kw in entry["keywords"]:
-            if kw in q:
+            if _has_phrase(q, kw):
                 score += entry["weight"]
         for bkw in entry["boost"]:
-            if bkw in q:
+            if _has_phrase(q, bkw):
                 score += 1
         # Exclusion penalty — heavily penalize if exclude words are present
         for exkw in entry["exclude"]:
-            if exkw in q:
+            if _has_phrase(q, exkw):
                 score -= 10
+        # "Is he good at X?" is a question, not a compliment
+        if entry["intent"] == "chitchat_compliment" and _is_question(q):
+            score = 0
         if score > best_score:
             best_score = score
             best_intent = entry["intent"]
 
     return best_intent
+
+
+# ─────────────────────────────────────────────────────────────────
+# Keyword search over the portfolio facts, used when no intent matches
+# ─────────────────────────────────────────────────────────────────
+
+STOPWORDS = {
+    "a", "an", "the", "is", "are", "was", "were", "be", "been", "do", "does", "did", "has", "have", "had",
+    "he", "his", "him", "she", "her", "they", "them", "their", "you", "your", "i", "me", "my", "we", "our",
+    "what", "which", "who", "whom", "whose", "when", "where", "why", "how", "can", "could", "would", "should",
+    "will", "shall", "may", "might", "of", "in", "on", "at", "to", "for", "with", "about", "from", "by", "as",
+    "and", "or", "but", "if", "so", "than", "that", "this", "these", "those", "it", "its", "any", "some",
+    "tell", "know", "show", "give", "explain", "describe", "please", "shivam", "pathak", "much", "many",
+    "there", "here", "all", "also", "just", "more", "most", "very", "use", "used", "using", "done",
+}
+
+
+def _tokens(text: str) -> set:
+    words = re.findall(r"[a-z0-9+#.]+", text.lower())
+    return {w.strip(".") for w in words if len(w.strip(".")) > 1 and w.strip(".") not in STOPWORDS}
+
+
+def _matches(token: str, doc_tokens: set) -> bool:
+    if token in doc_tokens:
+        return True
+    # Prefix match for longer words so "predict" finds "prediction" and "models" finds "model"
+    if len(token) >= 4:
+        stem = token[:-1] if token.endswith("s") else token
+        return any(d.startswith(stem) or (len(d) >= 4 and token.startswith(d)) for d in doc_tokens)
+    return False
+
+
+def search_documents(query: str, limit: int = 2) -> list:
+    """Return the text of the portfolio documents that best match the query's keywords."""
+    query_tokens = _tokens(query)
+    if not query_tokens:
+        return []
+    scored = []
+    for doc in PORTFOLIO_DOCUMENTS:
+        doc_tokens = _tokens(doc["text"])
+        score = sum(1 for t in query_tokens if _matches(t, doc_tokens))
+        if score:
+            scored.append((score, doc["text"].strip()))
+    if not scored:
+        return []
+    scored.sort(key=lambda item: item[0], reverse=True)
+    best = scored[0][0]
+    return [text for score, text in scored[:limit] if score == best or score >= 2]
 
 
 def get_local_reply(query: str, history: list) -> dict:
@@ -500,6 +569,20 @@ def get_local_reply(query: str, history: list) -> dict:
             "answer": "Shivam has designed **9 distinct software projects** matching his resume competencies:\n\n1.  **PHP Vibe Coder:** Gemini + RAG agent that generates, validates & refactors PHP projects.\n2.  **ATS-Pro-Analyzer:** NLP-based resume optimization portal.\n3.  **House Price Prediction:** Machine learning regression pricing model.\n4.  **Courier Partner App:** Python & FastAPI logistics coordinator.\n5.  **Matrix Calculator:** Responsive Javascript NxN algebra portal.\n6.  **Zomato Dashboard:** Excel analytic KPIs for 197K+ food delivery records.\n7.  **Exploratory Data Analysis:** Python, Pandas, and Seaborn statistical engine.\n8.  **WorkLens:** XGBoost employee attrition predictor (91% F1) with FastAPI & React dashboard.\n9.  **HR Leave Assistant:** LangGraph + Gemini agent that approves leave requests against an HR rule book (live on Streamlit).\n\nI have auto-scrolled your viewport to his project card deck. Feel free to explore details, click cards, or browse code repositories!",
             "actions": [
                 {"label": "Go to Projects Showcase 🧭", "type": "scroll", "target": "#projects"}
+            ]
+        }
+
+    # ── KNOWLEDGE BASE SEARCH ──
+    # No intent matched: look the question up in the portfolio facts instead of
+    # answering every unrecognised question with the same canned menu.
+    hits = search_documents(query)
+    if hits:
+        return {
+            "answer": "Here's what I know about that:\n\n" + "\n\n".join(hits)
+            + "\n\nWant more detail? Ask me about a specific project, skill or role.",
+            "actions": [
+                {"label": "Show AI Projects 🧭", "type": "scroll", "target": "#projects"},
+                {"label": "View Skills ⚡", "type": "scroll", "target": "#skills"}
             ]
         }
 

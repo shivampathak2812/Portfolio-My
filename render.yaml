@@ -16,7 +16,8 @@ services:
         value: 3.11.11
       # true = predefined portfolio answers only (~50 MB RAM, no Groq key needed).
       # false = Groq + RAG (~310 MB RAM, needs GROQ_API_KEY; falls back to predefined answers on any failure).
+      # RAG mode answers any question with the LLM; demo mode only knows a fixed set of keyword answers.
       - key: DEMO_MODE
-        value: "true"
+        value: "false"
       - key: GROQ_API_KEY
         sync: false
