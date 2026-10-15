@@ -58,6 +58,8 @@ DEFAULT_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:3001",
     "https://portfolio-my-ivory.vercel.app",
+    "https://www.shivam-pathak.com",
+    "https://shivam-pathak.com",
 ]
 EXTRA_ORIGINS = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", "").split(",") if o.strip()]
 

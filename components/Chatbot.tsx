@@ -464,7 +464,8 @@ export default function Chatbot() {
       try {
         let response: Response | null = null;
         let lastError: Error | null = null;
-        const maxRetries = 3;
+        // Backend already known to be down: try once, then answer locally instead of waiting through every retry
+        const maxRetries = backendStatus === "offline" ? 1 : 3;
         const initialDelay = 1000;
 
         for (let attempt = 0; attempt < maxRetries; attempt++) {

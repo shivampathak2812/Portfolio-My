@@ -38,6 +38,22 @@ def test_demo_mode_answers_common_questions(client, question, expected):
     assert data["actions"], "common questions should come with quick-action buttons"
 
 
+@pytest.mark.parametrize(
+    "question, expected",
+    [
+        ("What was his basketball achievement?", "National Basketball Championship"),
+        ("Which model gives 91% F1?", "WorkLens"),
+        ("Did he use FAISS anywhere?", "PHP Vibe Coder"),
+    ],
+)
+def test_demo_mode_searches_facts_for_unmatched_questions(client, question, expected):
+    # "his"/"which" must not trigger the greeting, and unmatched questions get real facts, not the canned menu
+    data = ask(client, question)
+    assert expected in data["answer"]
+    assert "Try asking me" not in data["answer"]
+    assert not data["answer"].startswith("Hi!")
+
+
 def test_demo_mode_has_a_fallback_for_unknown_questions(client):
     data = ask(client, "What is the capital of Mongolia?")
     assert "Try asking me" in data["answer"]

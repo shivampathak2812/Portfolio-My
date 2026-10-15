@@ -13,7 +13,7 @@ export interface RAGResponse {
 
 export const KNOWLEDGE_BASE = {
   bio: {
-    summary30s: "Shivam Pathak is an AI Engineer Intern at Northcorp Software with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He also holds a B.Tech in CSE from Graphic Era Hill University, Haldwani (Graduated in June 2025) with a 6.88 CGPA.",
+    summary30s: "Shivam Pathak is a Trainee Engineer – Data Science & AI/ML at Silicon Interfaces (Mumbai), previously an AI Engineer Intern at Northcorp Software, with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He also holds a B.Tech in CSE from Graphic Era Hill University, Haldwani (Graduated in June 2025) with a 6.88 CGPA.",
     professional: "Shivam specializes in bridging AI/ML models with clean, high-performance backends. His focus lies in GenAI engineering, semantic document parsing (RAG pipelines), and asynchronous database management (SQLAlchemy ORM). He is fully equipped to hit the ground running in fast-paced software teams building next-generation intelligent applications.",
   },
   experience: [
@@ -187,7 +187,8 @@ function scoreIntent(queryText: string): IntentMatch {
     if (w.endsWith("es") && !w.endsWith("ces") && !w.endsWith("ses") && !w.endsWith("x")) {
       return w.slice(0, -2);
     }
-    if (w.endsWith("s") && !w.endsWith("ss") && !w.endsWith("is") && !w.endsWith("us") && w.length > 2) {
+    // Length > 3 keeps short words intact ("ats" must not become "at")
+    if (w.endsWith("s") && !w.endsWith("ss") && !w.endsWith("is") && !w.endsWith("us") && w.length > 3) {
       return w.slice(0, -1);
     }
     return w;
@@ -213,9 +214,9 @@ function scoreIntent(queryText: string): IntentMatch {
     },
     {
       intent: "chitchat_compliment",
-      keywords: [["nice"], ["awesome"], ["great"], ["cool"], ["wow"], ["good"], ["excellent"], ["superb"], ["amazing"]],
+      keywords: [["nice"], ["awesome"], ["great"], ["cool"], ["wow"], ["good"], ["excellent"], ["superb"], ["amazing"], ["great", "work"], ["good", "work"], ["nice", "work"]],
       boost: [],
-      exclude: ["experience", "project", "skill", "resume"],
+      exclude: ["experience", "project", "skill", "resume", "morning", "evening", "afternoon"],
       weight: 2
     },
     {
@@ -410,6 +411,8 @@ function scoreIntent(queryText: string): IntentMatch {
     }
   ];
 
+  const isQuestion = queryText.includes("?") || QUESTION_WORDS.includes(correctedWords[0]);
+
   let bestIntent = "fallback";
   let bestScore = 0;
 
@@ -446,6 +449,11 @@ function scoreIntent(queryText: string): IntentMatch {
       }
     }
 
+    // "Is he good at X?" is a question, not a compliment
+    if (entry.intent === "chitchat_compliment" && isQuestion) {
+      score = 0;
+    }
+
     if (score > bestScore) {
       bestScore = score;
       bestIntent = entry.intent;
@@ -453,6 +461,60 @@ function scoreIntent(queryText: string): IntentMatch {
   }
 
   return { intent: bestIntent, score: bestScore };
+}
+
+const QUESTION_WORDS = ["is", "are", "does", "do", "did", "can", "could", "has", "have", "what", "which", "who", "how", "where", "when", "why", "tell"];
+
+const STOPWORDS = new Set([
+  "a", "an", "the", "is", "are", "was", "were", "be", "been", "do", "does", "did", "has", "have", "had",
+  "he", "his", "him", "she", "her", "they", "them", "their", "you", "your", "i", "me", "my", "we", "our",
+  "what", "which", "who", "whom", "whose", "when", "where", "why", "how", "can", "could", "would", "should",
+  "will", "shall", "may", "might", "of", "in", "on", "at", "to", "for", "with", "about", "from", "by", "as",
+  "and", "or", "but", "if", "so", "than", "that", "this", "these", "those", "it", "its", "any", "some",
+  "tell", "know", "show", "give", "explain", "describe", "please", "shivam", "pathak", "much", "many",
+  "there", "here", "all", "also", "just", "more", "most", "very", "use", "used", "using", "done"
+]);
+
+const tokenize = (text: string): string[] =>
+  (text.toLowerCase().match(/[a-z0-9+#.]+/g) || [])
+    .map((w) => w.replace(/^\.+|\.+$/g, ""))
+    .filter((w) => w.length > 1 && !STOPWORDS.has(w));
+
+// Prefix match for longer words so "predict" finds "prediction" and "models" finds "model"
+const tokenMatches = (token: string, docTokens: Set<string>): boolean => {
+  if (docTokens.has(token)) return true;
+  if (token.length < 4) return false;
+  const stem = token.endsWith("s") ? token.slice(0, -1) : token;
+  for (const d of docTokens) {
+    if (d.startsWith(stem) || (d.length >= 4 && token.startsWith(d))) return true;
+  }
+  return false;
+};
+
+// Searchable portfolio facts, built once from the knowledge base
+const SEARCH_DOCS: { text: string; tokens: Set<string> }[] = [
+  `**About Shivam:** ${KNOWLEDGE_BASE.bio.summary30s} ${KNOWLEDGE_BASE.bio.professional}`,
+  ...KNOWLEDGE_BASE.experience.map((e) =>
+    `**${e.role}** at **${e.company}** (${e.duration})\n${e.details.map((d) => `* ${d}`).join("\n")}\n*Tech Stack:* ${e.skills.join(", ")}`
+  ),
+  ...KNOWLEDGE_BASE.projects.map((p) =>
+    `**${p.title}:** ${p.description}\n* ${p.highlights}\n*Tech Stack:* ${p.techStack}\n*Code:* [GitHub](${p.github})`
+  ),
+  `**Technical Skills:**\n* **AI/ML:** ${KNOWLEDGE_BASE.skills.aiml.join(", ")}\n* **Backend:** ${KNOWLEDGE_BASE.skills.backend.join(", ")}\n* **Data Engineering:** ${KNOWLEDGE_BASE.skills.dataEngineering.join(", ")}\n* **Tools:** ${KNOWLEDGE_BASE.skills.tools.join(", ")}`,
+  `**Education:** ${KNOWLEDGE_BASE.education.degree}, ${KNOWLEDGE_BASE.education.institution} (${KNOWLEDGE_BASE.education.duration}), CGPA ${KNOWLEDGE_BASE.education.cgpa}\n${KNOWLEDGE_BASE.education.achievements.map((a) => `* ${a}`).join("\n")}`
+].map((text) => ({ text, tokens: new Set(tokenize(text)) }));
+
+// Keyword search over the portfolio facts, used when no intent matches
+function searchKnowledgeBase(query: string, limit = 2): string[] {
+  const queryTokens = Array.from(new Set(tokenize(query)));
+  if (queryTokens.length === 0) return [];
+  const scored = SEARCH_DOCS
+    .map((doc) => ({ text: doc.text, score: queryTokens.filter((t) => tokenMatches(t, doc.tokens)).length }))
+    .filter((d) => d.score > 0)
+    .sort((a, b) => b.score - a.score);
+  if (scored.length === 0) return [];
+  const best = scored[0].score;
+  return scored.slice(0, limit).filter((d) => d.score === best || d.score >= 2).map((d) => d.text);
 }
 
 // High-fidelity local NLP fallback engine for zero-dependency execution
@@ -593,7 +655,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "summary":
       return {
-        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Internship Experience:** He is currently an **AI Engineer Intern** at **Northcorp Software**, where he builds async REST endpoints in **FastAPI** and designs **RAG pipelines** using the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
+        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Experience:** He is currently a **Trainee Engineer – Data Science & AI/ML** at **Silicon Interfaces** (Mumbai), after an **AI Engineer Internship** at **Northcorp Software** where he built async REST endpoints in **FastAPI** and **RAG pipelines** with the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
         actions: [
           { label: "View Experience 💼", type: "scroll", target: "#experience" },
           { label: "View Skills ⚡", type: "scroll", target: "#skills" }
@@ -770,6 +832,18 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
             actions: [{ label: "View ATS-Pro GitHub 🐙", type: "link", target: proj.github }]
           };
         }
+      }
+
+      // No intent matched: answer from the portfolio facts instead of the same canned menu
+      const hits = searchKnowledgeBase(query);
+      if (hits.length > 0) {
+        return {
+          answer: `Here's what I know about that:\n\n${hits.join("\n\n")}\n\nWant more detail? Ask me about a specific project, skill or role.`,
+          actions: [
+            { label: "Show AI Projects 🧭", type: "scroll", target: "#projects" },
+            { label: "View Skills ⚡", type: "scroll", target: "#skills" }
+          ]
+        };
       }
 
       // Professional default fallback
