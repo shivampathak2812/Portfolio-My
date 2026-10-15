@@ -115,3 +115,10 @@ def test_experience_duration_counts_months():
     answer = experience_duration_reply(date(2026, 10, 15))["answer"]
     assert "Total experience: 10 months" in answer
     assert "**4 months** (Jul 2026 – Present)" in answer
+
+
+def test_demo_mode_work_experience_includes_numbers(client):
+    data = ask(client, "What is his work experience?")
+    assert "Total experience:" in data["answer"]
+    assert "6 months" in data["answer"]
+    assert "Silicon Interfaces" in data["answer"]

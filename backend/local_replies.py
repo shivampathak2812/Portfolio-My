@@ -347,6 +347,22 @@ def _format_months(months: int) -> str:
     return " ".join(parts)
 
 
+def experience_months(today: date = None) -> list:
+    """Months per role, in EXPERIENCE_TIMELINE order (current role counted up to this month)."""
+    today = today or date.today()
+    now = (today.year, today.month)
+    return [_months_between(start, end or now) for _, _, start, end in EXPERIENCE_TIMELINE]
+
+
+def experience_summary(today: date = None) -> str:
+    """One-line computed durations, given to the LLM so it can quote exact numbers."""
+    months = experience_months(today)
+    total = sum(months)
+    roles = "; ".join(f"{role} at {company}: {m} months" for (role, company, _, _), m in zip(EXPERIENCE_TIMELINE, months))
+    return (f"Shivam's total professional experience is {total} months (about {total / 12:.1f} years) across "
+            f"{len(months)} roles ({roles}). When asked about his experience, state these numbers.")
+
+
 def experience_duration_reply(today: date = None) -> dict:
     today = today or date.today()
     now = (today.year, today.month)
@@ -511,8 +527,19 @@ def get_local_reply(query: str, history: list) -> dict:
         return experience_duration_reply()
 
     if intent == "experience":
+        months = experience_months()
+        total = sum(months)
         return {
-            "answer": "Shivam is currently a **Trainee Engineer – Data Science & AI/ML** at **Silicon Interfaces Pvt. Ltd., Mumbai** (Jul 2026 - Present), working on Data Science and Machine Learning solutions with Python, SQL, Pandas, NumPy and Scikit-learn: data cleaning, EDA, feature engineering, model development and evaluation.\n\nBefore that, he worked as an **AI Engineer Intern** at **Northcorp Software** (Jan 2026 - Jun 2026).\n\n**Key Achievements at Northcorp:**\n*   Built 10+ REST API endpoints for the Talent Assessment Platform (TAP) using FastAPI and PostgreSQL.\n*   Developed LLM features using the Google Gemini API and structured RAG pipelines.\n*   Managed PostgreSQL schema with SQLAlchemy async ORM, Alembic migrations, MinIO storage, and secure JWT auth.\n*   Successfully deployed services via Docker Compose.\n\nI have automatically scrolled your window to his timeline below to see it in style!",
+            "answer": f"**Total experience: {total} months (~{total / 12:.1f} years)** across {len(months)} roles.\n\n"
+            f"Shivam is currently a **Trainee Engineer – Data Science & AI/ML** at **Silicon Interfaces Pvt. Ltd., Mumbai** "
+            f"(Jul 2026 - Present, **{months[0]} months**), working on Data Science and Machine Learning solutions with Python, SQL, "
+            "Pandas, NumPy and Scikit-learn: data cleaning, EDA, feature engineering, model development and evaluation.\n\n"
+            f"Before that, he worked as an **AI Engineer Intern** at **Northcorp Software** (Jan 2026 - Jun 2026, **{months[1]} months**).\n\n"
+            "**Key Achievements at Northcorp:**\n*   Built 10+ REST API endpoints for the Talent Assessment Platform (TAP) using FastAPI and PostgreSQL.\n"
+            "*   Developed LLM features using the Google Gemini API and structured RAG pipelines.\n"
+            "*   Managed PostgreSQL schema with SQLAlchemy async ORM, 5+ Alembic migrations, MinIO storage, and secure JWT auth.\n"
+            "*   Successfully deployed services via Docker Compose.\n\n"
+            "I have automatically scrolled your window to his timeline below to see it in style!",
             "actions": [{"label": "Go to Experience Timeline 💼", "type": "scroll", "target": "#experience"}]
         }
 

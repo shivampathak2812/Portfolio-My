@@ -537,6 +537,12 @@ const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Se
 const monthsBetween = (start: [number, number], end: [number, number]) =>
   (end[0] - start[0]) * 12 + (end[1] - start[1]) + 1;
 
+// Months per role, in EXPERIENCE_TIMELINE order (same order as KNOWLEDGE_BASE.experience)
+function experienceMonths(today = new Date()): number[] {
+  const now: [number, number] = [today.getFullYear(), today.getMonth() + 1];
+  return EXPERIENCE_TIMELINE.map(({ start, end }) => monthsBetween(start, end ?? now));
+}
+
 function experienceDurationReply(today = new Date()): RAGResponse {
   const now: [number, number] = [today.getFullYear(), today.getMonth() + 1];
   let total = 0;
@@ -701,13 +707,15 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
       return experienceDurationReply();
 
     case "experience": {
-      const expList = KNOWLEDGE_BASE.experience.map(e => 
-        `**${e.role}** at **${e.company}** (${e.duration})\n` +
+      const months = experienceMonths();
+      const totalMonths = months.reduce((a, b) => a + b, 0);
+      const expList = KNOWLEDGE_BASE.experience.map((e, i) =>
+        `**${e.role}** at **${e.company}** (${e.duration}, **${months[i]} months**)\n` +
         e.details.map(d => `* ${d}`).join("\n") +
         `\n*Tech Stack:* \`${e.skills.join(", ")}\``
       ).join("\n\n");
       return {
-        answer: `Here is a summary of Shivam's professional experience:\n\n${expList}\n\nI have automatically scrolled your window to his timeline below to see it in style!`,
+        answer: `**Total experience: ${totalMonths} months (~${(totalMonths / 12).toFixed(1)} years)** across ${KNOWLEDGE_BASE.experience.length} roles.\n\n${expList}\n\nI have automatically scrolled your window to his timeline below to see it in style!`,
         actions: [
           { label: "Go to Experience Timeline 💼", type: "scroll", target: "#experience" }
         ]

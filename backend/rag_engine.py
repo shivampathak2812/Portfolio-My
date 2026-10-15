@@ -13,7 +13,7 @@ import logging
 import os
 from pathlib import Path
 
-from local_replies import get_local_reply, score_intent
+from local_replies import experience_summary, get_local_reply, score_intent
 from prompts import SYSTEM_PROMPT
 
 logger = logging.getLogger("avix.rag")
@@ -132,7 +132,7 @@ class PortfolioAssistant:
             return get_local_reply(user_message, history)
 
         try:
-            context = "\n---\n".join(self.retrieve(user_message))
+            context = "\n---\n".join(self.retrieve(user_message) + [experience_summary()])
             memory_str = "\n".join(
                 f"{msg['role'].capitalize()}: {msg['content']}" for msg in (history or [])[-4:]
             )
