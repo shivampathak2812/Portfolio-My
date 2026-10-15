@@ -127,8 +127,8 @@ class PortfolioAssistant:
         """Answer with Groq using retrieved portfolio context. Returns {"answer", "actions"}."""
         q = user_message.lower()
 
-        # Small talk is answered instantly from the local replies
-        if score_intent(q) in CHITCHAT_INTENTS:
+        # Small talk and computed experience durations ("experience in numbers") are answered locally
+        if score_intent(q) in CHITCHAT_INTENTS | {"experience_duration"}:
             return get_local_reply(user_message, history)
 
         try:
