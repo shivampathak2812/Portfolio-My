@@ -45,7 +45,7 @@ export default function Experience() {
       icon: <Briefcase className="w-5 h-5" />,
       accentColor: "purple",
       description: [
-        "Built 10+ REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and PostgreSQL — skill gap analysis, resume generation, and cover letter automation.",
+        "Built REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and PostgreSQL — skill gap analysis, resume generation, and cover letter automation.",
         "Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schema with SQLAlchemy async ORM, 5+ Alembic migrations, MinIO storage, and JWT + bcrypt auth.",
         "Deployed services via Docker Compose; contributed across design, development, and testing using GitLab workflow.",
       ],
