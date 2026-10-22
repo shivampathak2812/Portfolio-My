@@ -46,7 +46,7 @@ export default function Experience() {
       accentColor: "purple",
       description: [
         "Built REST API endpoints for AI-powered Talent Assessment Platform (TAP) using FastAPI and PostgreSQL — skill gap analysis, resume generation, and cover letter automation.",
-        "Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schema with SQLAlchemy async ORM, 5+ Alembic migrations, MinIO storage, and JWT + bcrypt auth.",
+        "Developed LLM features using Google Gemini API and RAG pipelines; managed PostgreSQL schema with SQLAlchemy async ORM, Alembic migrations, MinIO storage, and JWT + bcrypt auth.",
         "Deployed services via Docker Compose; contributed across design, development, and testing using GitLab workflow.",
       ],
       skills: [
