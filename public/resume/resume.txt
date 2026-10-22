@@ -1,0 +1,48 @@
+Shivam Pathak
+Mumbai, Maharashtra, India
++91-8755105612 | pathakshivam3738@gmail.com
+linkedin.com/in/shivam-pathak-9a76ba246 | github.com/shivampathak2812 | Portfolio
+Professional Summary
+Entry-level Data Scientist and Data & AI Engineer with 1+ year of hands-on experience in Python, SQL, Machine
+Learning, Generative AI, LLMs, RAG, FastAPI, and PostgreSQL. Experienced in data analysis, EDA, AI
+applications, REST APIs, and data pipelines. Collaborative team player and strong problem-solver.
+Education
+Graphic Era Hill University Haldwani, Uttarakhand
+Bachelor of Technology (B.Tech) in Computer Science and Engineering – CGPA: 6.88/10 July 2022 – June 2025
+Skills
+Programming & Analytics: Python, SQL, Pandas, NumPy, EDA, Statistics, Power BI, Data Cleaning, Data
+Visualization
+Machine Learning & AI: Machine Learning, Scikit-learn, XGBoost, PyTorch, Deep Learning, Neural Networks,
+Regression, Classification, Clustering, Feature Engineering, Model Evaluation, NLP, Generative AI, LLMs, RAG,
+LangGraph, Gemini API, FAISS, Vector Databases, Prompt Engineering, Agentic AI, MLOps
+Data Pipelines: ETL Pipelines, Apache Airflow, Apache Spark (PySpark), Data Processing, Data Validation
+Backend & Databases: FastAPI, REST APIs, PostgreSQL, MySQL, SQLAlchemy, Streamlit
+Tools: Git, GitLab, Docker, Jupyter Notebook, VS Code, Google Colab
+Soft Skills: Problem-Solving, Communication, Collaboration, Teamwork, Leadership, Adaptability
+Professional Experience
+Silicon Interfaces Pvt. Ltd. Mumbai, India
+Trainee Engineer - Data Science & AI/ML Jul 2026 – Present
+• Develop Data Science and Machine Learning solutions using Python, Pandas, NumPy, and Scikit-learn
+for data preprocessing, EDA, and predictive modeling.
+• Perform data cleaning, SQL analysis, and evaluation of ML workflows on real-world datasets; collaborate with
+cross-functional teams on AI/ML projects.
+Northcorp Software
+AI Engineer Intern Jan 2026 – June 2026
+• Developed AI-powered REST APIs using FastAPI, PostgreSQL, and SQLAlchemy for resume generation,
+skill gap analysis, and cover letter automation.
+• Built LLM-based features using Google Gemini API and RAG pipelines; contributed to Docker deployment
+and GitLab workflows in a team.
+Projects
+HR Leave Agent | Python, LangGraph, Gemini, Streamlit GitHub | Live
+• Built an AI agent for HR leave approvals using LangGraph and Gemini tool-calling that checks a PDF rule
+book and employee records to auto-approve leave, deployed on Streamlit.
+PHP Vibe Coder | Python, RAG, Gemini API, FAISS, Streamlit GitHub | Live
+• Developed a GenAI-powered PHP Vibe Coding platform using RAG, FAISS, and Gemini API for
+context-aware PHP project generation, testing, debugging, and refactoring.
+Achievements & Certifications
+• Cleared TCS National Qualifier Test (NQT) 2025 – shortlisted for Ninja role interview among top 10%
+candidates nationwide
+• Completed Advanced Certification in Data Science (ML) – Seed Infotech (2026)
+• Python Development Internship Certificate – Cognifyz Technologies (2024)
+• Represented state at National Basketball Championship, demonstrating teamwork, leadership, and performance
+under pressure
