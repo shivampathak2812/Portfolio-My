@@ -10,7 +10,6 @@ import {
   Terminal,
   Workflow,
   Code2,
-  BarChart3,
   Sparkles,
   Users,
 } from "lucide-react";
