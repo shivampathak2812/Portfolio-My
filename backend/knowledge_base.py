@@ -35,11 +35,14 @@ Skills used: Python, SQL, Pandas, NumPy, Scikit-learn, EDA, Feature Engineering,
     },
     {
         "id": "skills",
-        "text": """Shivam Pathak's technical skills matrix is classified into four categories:
-1. AI/ML & Generative AI: Google Gemini API, LLaMA 3/3.3 models, Retrieval-Augmented Generation (RAG) pipelines, Natural Language Processing (NLP), Scikit-Learn, XGBoost, Pandas, NumPy, Matplotlib, Seaborn.
-2. Backend & Databases: FastAPI, Python, PostgreSQL, SQLAlchemy Async ORM, Alembic migrations, Redis caching, MinIO object storage, JWT + bcrypt authentication, REST API development.
-3. Data Engineering: ETL pipelines, Apache Airflow, data processing, data validation.
-4. Tools & DevOps: Docker Compose, Git, GitLab Workflow, Git/GitHub, Linux Bash, Excel analytical modeling (Pivot tables, slicers, KPI dashboards).""",
+        "text": """Shivam Pathak's technical skills matrix, aligned with his current portfolio Skills section and resume:
+1. Programming & Analytics: Python, SQL, Pandas, NumPy, Exploratory Data Analysis (EDA), Statistics, Power BI, Data Cleaning, Data Visualization.
+2. Machine Learning & AI: Machine Learning, Scikit-learn, XGBoost, PyTorch, Deep Learning, Neural Networks, Regression, Classification, Clustering, Feature Engineering, Model Evaluation.
+3. Generative AI & LLMs: Natural Language Processing (NLP), Generative AI, Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), LangGraph, Gemini API, FAISS, Vector Databases, Prompt Engineering, Agentic AI, MLOps.
+4. Data Pipelines: ETL Pipelines, Apache Airflow, Apache Spark (PySpark), Data Processing, Data Validation.
+5. Backend & Databases: FastAPI, REST APIs, PostgreSQL, MySQL, SQLAlchemy, Streamlit.
+6. Tools & DevOps: Git, GitLab, Docker, Jupyter Notebook, VS Code, Google Colab.
+7. Soft Skills: Problem-Solving, Communication, Collaboration, Teamwork, Leadership, Adaptability.""",
         "metadata": {"source": "skills", "category": "technical"},
     },
     {
