@@ -48,6 +48,7 @@ export default function Projects() {
       description: "Built an AI-assisted PHP development workspace with Streamlit and Google Gemini that turns plain-English requirements into complete PHP projects, using RAG over PHP docs (Sentence Transformers + FAISS) and auto-validating code with a self-healing debug agent.",
       tags: ["Python", "Google Gemini", "RAG", "FAISS", "Streamlit", "AI Agents"],
       githubUrl: "https://github.com/shivampathak2812/PHP-VibeCoder",
+        liveUrl: "https://phpvibecoder.streamlit.app/",
       accentClass: "purple",
       graphic: (
         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-background-cinematic flex items-center justify-center p-6 overflow-hidden">
