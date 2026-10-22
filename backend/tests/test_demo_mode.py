@@ -21,7 +21,7 @@ def ask(client, message, history=None):
 @pytest.mark.parametrize(
     "question, expected",
     [
-        ("What are his technical skills?", ["FastAPI", "PostgreSQL"]),
+        ("What are his technical skills?", ["FastAPI", "PostgreSQL", "PyTorch", "LangGraph", "Apache Airflow", "Power BI", "MySQL", "Google Colab"]),
         ("Tell me about his projects", ["PHP Vibe Coder", "WorkLens", "HR Leave Assistant"]),
         ("What is his work experience?", ["Silicon Interfaces", "Northcorp Software"]),
         ("Where did he study? What is his education?", ["Graphic Era Hill University", "6.88"]),
