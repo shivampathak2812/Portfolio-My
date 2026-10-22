@@ -2,7 +2,18 @@
 
 import React, { useRef, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Brain, Database, Server, Settings, Terminal, Workflow } from "lucide-react";
+import {
+  Brain,
+  Database,
+  Server,
+  Settings,
+  Terminal,
+  Workflow,
+  Code2,
+  BarChart3,
+  Sparkles,
+  Users,
+} from "lucide-react";
 
 // Detect touch device once at module level
 const IS_TOUCH = typeof navigator !== "undefined" && navigator.maxTouchPoints > 0;
@@ -15,31 +26,26 @@ interface SkillCategory {
   title: string;
   icon: React.ReactNode;
   skills: SkillItem[];
-  accentColor: string; // Tailored glow color class e.g., 'accent-cinematic' or 'accent-soft'
+  accentColor: string;
 }
 
-// 1. Unified Skill Card Component with Localized Cursor Spotlight Glow
+// One consistent skill-card treatment, with a subtle cursor spotlight on desktop.
 function SkillCard({ category }: { category: SkillCategory; idx: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Skip expensive coordinate math on touch screens — no visible spotlight anyway
     if (IS_TOUCH || !cardRef.current) return;
-    const card = cardRef.current;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    card.style.setProperty("--card-mouse-x", `${x}px`);
-    card.style.setProperty("--card-mouse-y", `${y}px`);
+    const rect = cardRef.current.getBoundingClientRect();
+    cardRef.current.style.setProperty("--card-mouse-x", `${e.clientX - rect.left}px`);
+    cardRef.current.style.setProperty("--card-mouse-y", `${e.clientY - rect.top}px`);
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 24, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
     },
   };
 
@@ -48,59 +54,36 @@ function SkillCard({ category }: { category: SkillCategory; idx: number }) {
       ref={cardRef}
       variants={itemVariants}
       onMouseMove={handleMouseMove}
-      whileHover={{ y: -2, scale: 1.002 }}
-      transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="relative rounded-2xl glass-panel border border-white/5 p-6 md:p-8 cursor-pointer select-none overflow-hidden group"
-      style={{
-        perspective: "1000px",
-      }}
+      whileHover={{ y: -3 }}
+      transition={{ type: "spring", stiffness: 200, damping: 22 }}
+      className="relative rounded-2xl glass-panel border border-white/5 p-6 md:p-7 select-none overflow-hidden group"
+      style={{ perspective: "1000px" }}
     >
-      {/* Dynamic Cursor Spotlight Overlay */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300 z-0"
         style={{
-          background: `radial-gradient(
-            220px circle at var(--card-mouse-x, 0px) var(--card-mouse-y, 0px),
-            ${category.accentColor === "orange" ? "rgba(6, 182, 212, 0.05)" : "rgba(139, 92, 246, 0.05)"},
-            rgba(139, 92, 246, 0.012) 50%,
-            transparent 100%
-          )`,
+          background: `radial-gradient(220px circle at var(--card-mouse-x, 0px) var(--card-mouse-y, 0px), ${category.accentColor === "cyan" ? "rgba(6, 182, 212, 0.07)" : "rgba(139, 92, 246, 0.07)"}, transparent 75%)`,
         }}
       />
-
-      {/* Decorative Corner Glow */}
-      <div
-        className={`absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-10 blur-2xl group-hover:scale-125 transition-transform duration-500 pointer-events-none ${
-          category.accentColor === "orange" ? "bg-accent-soft" : "bg-accent-cinematic"
-        }`}
-      />
-
-      {/* Card Contents */}
+      <div className={`absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-10 blur-2xl group-hover:scale-125 transition-transform duration-500 pointer-events-none ${category.accentColor === "cyan" ? "bg-accent-soft" : "bg-accent-cinematic"}`} />
       <div className="relative z-10">
-        {/* Header Icon + Name */}
-        <div className="flex items-center space-x-4 mb-6">
-          <div
-            className="aurora-icon p-3 rounded-xl transition-all duration-300"
-          >
+        <div className="flex items-center space-x-4 mb-5">
+          <div className="aurora-icon p-3 rounded-xl transition-all duration-300">
             {category.icon}
           </div>
           <h3 className="font-display font-semibold text-base md:text-lg tracking-tight text-white">
             {category.title}
           </h3>
         </div>
-
-        {/* Bullet Skills Badges Grid */}
-        <div className="flex flex-wrap gap-2.5">
+        <div className="flex flex-wrap gap-2">
           {category.skills.map((skill) => (
-            <div
+            <span
               key={skill.name}
-              className="px-3.5 py-2 rounded-lg text-xs font-light text-white/70 bg-white/[0.02] border border-white/[0.04] group-hover:bg-white/[0.04] group-hover:border-white/[0.08] group-hover:text-white transition-all duration-300 flex items-center space-x-1.5"
+              className="px-3 py-2 rounded-lg text-xs font-light text-white/75 bg-white/[0.025] border border-white/[0.06] group-hover:bg-white/[0.045] group-hover:border-white/[0.1] group-hover:text-white transition-all duration-300 inline-flex items-center gap-2"
             >
-              <span
-                className="w-1 h-1 rounded-full bg-white/30 group-hover:bg-white/60"
-              />
-              <span>{skill.name}</span>
-            </div>
+              <span className="w-1 h-1 rounded-full bg-white/35 group-hover:bg-white/70" />
+              {skill.name}
+            </span>
           ))}
         </div>
       </div>
@@ -108,76 +91,110 @@ function SkillCard({ category }: { category: SkillCategory; idx: number }) {
   );
 }
 
-// Memoize SkillCard to prevent unnecessary re-renders
 const MemoizedSkillCard = React.memo(SkillCard);
 
 export default function Skills() {
-  // Memoize static categories data to prevent re-creation on each render
+  // Categories mirror the resume so visitors see the same, scannable skill taxonomy.
   const categories: SkillCategory[] = useMemo(() => [
     {
-      title: "AI, ML & GenAI",
+      title: "Programming & Analytics",
+      icon: <Code2 className="w-5 h-5" />,
+      accentColor: "cyan",
+      skills: [
+        { name: "Python" },
+        { name: "SQL" },
+        { name: "Pandas" },
+        { name: "NumPy" },
+        { name: "Exploratory Data Analysis" },
+        { name: "Statistics" },
+        { name: "Power BI" },
+        { name: "Data Cleaning" },
+        { name: "Data Visualization" },
+      ],
+    },
+    {
+      title: "Machine Learning & AI",
       icon: <Brain className="w-5 h-5" />,
       accentColor: "purple",
       skills: [
-        { name: "LLM Integration" },
-        { name: "Generative AI" },
-        { name: "Google Gemini API" },
-        { name: "RAG Pipelines" },
-        { name: "NLP & TF-IDF" },
-        { name: "Supervised Learning" },
+        { name: "Machine Learning" },
+        { name: "Scikit-learn" },
         { name: "XGBoost" },
+        { name: "PyTorch" },
+        { name: "Deep Learning" },
+        { name: "Neural Networks" },
+        { name: "Regression & Classification" },
+        { name: "Clustering" },
+        { name: "Feature Engineering" },
         { name: "Model Evaluation" },
       ],
     },
     {
-      title: "Data Science & Analysis",
-      icon: <Database className="w-5 h-5" />,
-      accentColor: "orange",
+      title: "Generative AI & LLMs",
+      icon: <Sparkles className="w-5 h-5" />,
+      accentColor: "purple",
       skills: [
-        { name: "Python & C++" },
-        { name: "Pandas & NumPy" },
-        { name: "Scikit-Learn" },
-        { name: "Feature Engineering" },
-        { name: "Exploratory Data Analysis" },
-        { name: "Data Preprocessing" },
-        { name: "Matplotlib & Seaborn" },
+        { name: "NLP" },
+        { name: "Generative AI" },
+        { name: "LLMs" },
+        { name: "RAG" },
+        { name: "LangGraph" },
+        { name: "Gemini API" },
+        { name: "FAISS" },
+        { name: "Vector Databases" },
+        { name: "Prompt Engineering" },
+        { name: "Agentic AI" },
+        { name: "MLOps" },
       ],
     },
     {
-      title: "Data Engineering",
+      title: "Data Pipelines",
       icon: <Workflow className="w-5 h-5" />,
-      accentColor: "purple",
+      accentColor: "cyan",
       skills: [
         { name: "ETL Pipelines" },
         { name: "Apache Airflow" },
+        { name: "Apache Spark (PySpark)" },
         { name: "Data Processing" },
         { name: "Data Validation" },
       ],
     },
     {
-      title: "Databases & Backend",
+      title: "Backend & Databases",
       icon: <Server className="w-5 h-5" />,
-      accentColor: "orange",
+      accentColor: "purple",
       skills: [
-        { name: "FastAPI & REST APIs" },
-        { name: "PostgreSQL & MySQL" },
-        { name: "SQLAlchemy (Async ORM)" },
-        { name: "Alembic Migrations" },
-        { name: "MinIO Storage" },
-        { name: "Pydantic Validation" },
+        { name: "FastAPI" },
+        { name: "REST APIs" },
+        { name: "PostgreSQL" },
+        { name: "MySQL" },
+        { name: "SQLAlchemy" },
+        { name: "Streamlit" },
       ],
     },
     {
       title: "Tools & DevOps",
       icon: <Settings className="w-5 h-5" />,
+      accentColor: "cyan",
+      skills: [
+        { name: "Git & GitLab" },
+        { name: "Docker" },
+        { name: "Jupyter Notebook" },
+        { name: "VS Code" },
+        { name: "Google Colab" },
+      ],
+    },
+    {
+      title: "Soft Skills",
+      icon: <Users className="w-5 h-5" />,
       accentColor: "purple",
       skills: [
-        { name: "Docker & Docker Compose" },
-        { name: "Git, GitHub & GitLab" },
-        { name: "JWT & bcrypt" },
-        { name: "Swagger API Docs" },
-        { name: "VS Code, Jupyter & Colab" },
-        { name: "Power BI & Excel" },
+        { name: "Problem-Solving" },
+        { name: "Communication" },
+        { name: "Collaboration" },
+        { name: "Teamwork" },
+        { name: "Leadership" },
+        { name: "Adaptability" },
       ],
     },
   ], []);
@@ -186,10 +203,7 @@ export default function Skills() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.15,
-      },
+      transition: { staggerChildren: 0.08, delayChildren: 0.1 },
     },
   };
 
@@ -198,28 +212,30 @@ export default function Skills() {
       id="skills"
       className="relative w-full fluid-py-section overflow-hidden px-6 md:px-12"
     >
-      {/* Atmospheric glow blobs */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-radial from-accent-cinematic/[0.02] to-transparent to-70% pointer-events-none z-0" />
-
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-radial from-accent-cinematic/[0.02] to-transparent to-70% pointer-events-none z-0" />
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-left mb-16 md:mb-20 max-w-2xl">
-          <div className="text-[10px] tracking-[0.3em] font-semibold text-white/40 mb-3 flex items-center space-x-2">
+        <div className="text-left mb-12 md:mb-16 max-w-2xl">
+          <div className="text-[10px] tracking-[0.3em] font-semibold text-white/40 mb-3 flex items-center gap-2">
             <Terminal className="w-3.5 h-3.5" />
             <span>03 / SKILL MATRIX</span>
           </div>
           <h2 className="font-display font-semibold fluid-section-title leading-tight text-white tracking-tight">
-            Expertise & <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">Technologies</span>.
+            Expertise &{" "}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">
+              Technologies
+            </span>
+            .
           </h2>
+          <p className="mt-4 text-sm md:text-base text-white/55 leading-relaxed max-w-xl">
+            A structured overview of the programming, analytics, AI, data engineering, backend, and collaboration skills listed on my resume.
+          </p>
         </div>
-
-        {/* Skill Matrix Staggered Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
         >
           {categories.map((category, idx) => (
             <MemoizedSkillCard key={category.title} category={category} idx={idx} />
