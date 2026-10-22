@@ -44,13 +44,13 @@ export default function Navbar() {
         className="fixed top-4 md:top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none"
       >
         <div
-          className={`pointer-events-auto glass-panel w-full md:w-auto flex items-center justify-between md:justify-start gap-1 rounded-full pl-5 pr-2 py-2 transition-shadow duration-500 ${
+          className={`pointer-events-auto glass-panel w-full xl:w-auto flex items-center justify-between xl:justify-start gap-2 rounded-full pl-5 pr-2 py-2 transition-shadow duration-500 ${
             isScrolled ? "shadow-[0_10px_40px_-10px_var(--shadow-strong)]" : ""
           }`}
         >
           <Link
             href="/"
-            className="font-display font-semibold text-sm tracking-tight text-white md:mr-4 focus:outline-none"
+            className="font-display font-semibold text-sm tracking-tight text-white xl:mr-3 focus:outline-none"
             onClick={(e) => {
               e.preventDefault();
               setMobileMenuOpen(false);
@@ -61,34 +61,34 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden xl:flex items-center gap-0.5">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
                 onClick={(e) => handleScrollTo(e, item.href)}
-                className="px-3.5 py-2 rounded-full text-sm text-white/65 hover:text-white hover:bg-white/5 transition-colors duration-300"
+                className="whitespace-nowrap px-2.5 py-2 rounded-full text-sm text-white/70 hover:text-white hover:bg-white/5 transition-colors duration-300"
               >
                 {item.name}
               </a>
             ))}
           </div>
 
-          <div className="flex items-center gap-2 md:ml-3">
+          <div className="flex items-center gap-2 xl:ml-2">
             <a
               href={RESUME_HASH}
               onClick={(e) => {
                 e.preventDefault();
                 openResumeViewer();
               }}
-              className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-background-cinematic hover:opacity-90 transition-opacity"
+              className="hidden xl:inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-background-cinematic hover:opacity-90 transition-opacity whitespace-nowrap"
             >
               <FileText className="w-3.5 h-3.5" />
               Resume
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden w-9 h-9 flex items-center justify-center rounded-full text-white/80 hover:text-white transition-colors focus:outline-none"
+              className="xl:hidden w-9 h-9 shrink-0 flex items-center justify-center rounded-full text-white/80 hover:text-white transition-colors focus:outline-none"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -105,7 +105,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 bg-background-cinematic/90 backdrop-blur-xl md:hidden flex flex-col justify-center px-8"
+            className="fixed inset-0 z-40 bg-background-cinematic/90 backdrop-blur-xl xl:hidden flex flex-col justify-center px-8"
           >
             <div className="flex flex-col space-y-8 text-center">
               {navItems.map((item, idx) => (
