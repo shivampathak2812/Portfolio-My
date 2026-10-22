@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, Menu, X } from "lucide-react";
@@ -9,16 +9,33 @@ import { scrollToTarget } from "./lenis";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY.current;
+
+      setIsScrolled(currentScrollY > 50);
+
+      // Keep the navbar visible near the top; hide on deliberate downward scroll
+      // and reveal on upward scroll. The delta threshold prevents flicker.
+      if (currentScrollY < 80 || scrollDelta < -6 || mobileMenuOpen) {
+        setIsNavVisible(true);
+      } else if (scrollDelta > 6 && currentScrollY > 100) {
+        setIsNavVisible(false);
+      }
+
+      lastScrollY.current = currentScrollY;
     };
-    handleScroll();
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [mobileMenuOpen]);
 
   const navItems = [
     { name: "About", href: "#about" },
@@ -39,8 +56,8 @@ export default function Navbar() {
       {/* Floating glass pill */}
       <motion.nav
         initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+        animate={{ y: isNavVisible || mobileMenuOpen ? 0 : -120, opacity: isNavVisible || mobileMenuOpen ? 1 : 0, pointerEvents: isNavVisible || mobileMenuOpen ? "auto" : "none" }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
         className="fixed top-4 md:top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none"
       >
         <div
