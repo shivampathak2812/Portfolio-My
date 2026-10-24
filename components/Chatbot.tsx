@@ -262,35 +262,36 @@ export default function Chatbot() {
   }, []);
 
   // Text-To-Speech audio synthesizer
-  const speakVoiceSpeech = (text: string) => {
-    if (isMuted || !synthRef.current) return;
-    stopVoiceSpeech();
+  // Queue short speech chunks as the answer text streams in, instead of narrating the
+  // entire answer only after typing finishes. SpeechSynthesis queues chunks in order.
+  const speakVoiceChunk = (text: string) => {
+    if (isMuted || !synthRef.current || !text.trim()) return;
 
-    // Remove markdown symbols for clean text-to-speech reading
     const cleanText = text
       .replace(/[*#`_]/g, "")
       .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-      .replace(/⏱️|🧭|⚡|📄|💼|🎓|🐙|✉️/g, "");
+      .replace(/https?:\/\/\S+/g, "link")
+      .replace(/⏱️|🧭|⚡|📄|💼|🎓|🐙|✉️/g, "")
+      .trim();
+    if (!cleanText) return;
 
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utteranceRef.current = utterance;
-
-    // Load available voices and prefer standard premium English voices
     const voices = synthRef.current.getVoices();
-    const premiumVoice = voices.find(
-      (v) => 
-        (v.name.includes("Google") && v.lang.startsWith("en")) || 
+    const preferredVoice = voices.find(
+      (v) =>
+        (v.name.includes("Google") && v.lang.startsWith("en")) ||
         (v.name.includes("Apple") && v.lang.startsWith("en")) ||
         (v.name.includes("Natural") && v.lang.startsWith("en")) ||
-        v.lang.startsWith("en-GB") || 
+        v.lang.startsWith("en-GB") ||
         v.lang.startsWith("en-US")
     );
-    if (premiumVoice) utterance.voice = premiumVoice;
-
+    if (preferredVoice) utterance.voice = preferredVoice;
     utterance.onstart = () => setSpeechActive(true);
-    utterance.onend = () => setSpeechActive(false);
+    utterance.onend = () => {
+      if (!synthRef.current?.speaking && !synthRef.current?.pending) setSpeechActive(false);
+    };
     utterance.onerror = () => setSpeechActive(false);
-
     synthRef.current.speak(utterance);
   };
 
@@ -422,6 +423,8 @@ export default function Chatbot() {
   // Character Typewriter Stream Simulator
   const streamResponse = (messageId: string, fullAnswer: string, actions?: ChatAction[], shouldSpeak = false) => {
     let index = 0;
+    let spokenThrough = 0;
+    let speechBuffer = "";
     const interval = 12; // Speed in ms per character
 
     setMessages((prev) =>
@@ -439,14 +442,30 @@ export default function Chatbot() {
             const nextContent = fullAnswer.slice(0, index + 1);
             const isDone = index >= fullAnswer.length - 1;
             
+            if (shouldSpeak && !isMuted) {
+              const newlyRevealed = fullAnswer.slice(spokenThrough, index + 1);
+              spokenThrough = index + 1;
+              speechBuffer += newlyRevealed;
+
+              // Speak at sentence boundaries so audio starts before the full answer is shown.
+              const sentenceBoundary = /[.!?;:]\s/.exec(speechBuffer);
+              if (sentenceBoundary && sentenceBoundary.index >= 0) {
+                const chunkEnd = sentenceBoundary.index + 1;
+                const chunk = speechBuffer.slice(0, chunkEnd).trim();
+                speechBuffer = speechBuffer.slice(chunkEnd).trimStart();
+                if (chunk) speakVoiceChunk(chunk);
+              }
+            }
+
             if (isDone) {
               clearInterval(timer);
               if (typewriterTimerRef.current === timer) {
                 typewriterTimerRef.current = null;
               }
-              // Speak only answers to microphone-originated questions; typed chats stay silent.
-              if (shouldSpeak && !isMuted) {
-                speakVoiceSpeech(fullAnswer);
+              // Flush the final phrase; there is no separate post-generation narration.
+              if (shouldSpeak && !isMuted && speechBuffer.trim()) {
+                speakVoiceChunk(speechBuffer);
+                speechBuffer = "";
               }
             }
 
