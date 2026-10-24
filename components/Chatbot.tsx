@@ -32,12 +32,15 @@ interface SpeechRecognitionResult {
 }
 
 interface SpeechRecognitionResultList {
+  length: number;
   [index: number]: {
     [index: number]: SpeechRecognitionResult;
+    length: number;
   };
 }
 
 interface SpeechRecognitionEvent {
+  resultIndex: number;
   results: SpeechRecognitionResultList;
 }
 
@@ -100,6 +103,8 @@ export default function Chatbot() {
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const handleSendMessageRef = useRef<(textToSend?: string, fromVoice?: boolean) => Promise<void>>(async () => {});
+  const voiceSilenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const voiceTranscriptRef = useRef("");
 
   // Abort controller and typewriter references for stopping generation
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -192,7 +197,8 @@ export default function Chatbot() {
         (window as unknown as { webkitSpeechRecognition?: new () => SpeechRecognitionInstance }).webkitSpeechRecognition;
       if (SpeechRecognition) {
         const recog = new SpeechRecognition();
-        recog.continuous = false;
+        // Keep recognition alive across short pauses; submit after a longer silence.
+        recog.continuous = true;
         // Show partial speech transcripts live while the user is still speaking.
         recog.interimResults = true;
         recog.lang = "en-US";
@@ -203,18 +209,33 @@ export default function Chatbot() {
         };
 
         recog.onresult = (e) => {
-          const result = e.results[0][0];
-          const transcript = result.transcript.trim();
+          // Rebuild the current utterance from finalized segments plus the latest interim segment.
+          let transcript = "";
+          for (let i = 0; i < e.results.length; i++) {
+            transcript += `${e.results[i][0].transcript} `;
+          }
+          transcript = transcript.trim();
           if (!transcript) return;
 
-          // Reflect interim words in the input immediately as the user speaks.
+          voiceTranscriptRef.current = transcript;
+          // Update the input live while speech recognition is still hearing the user.
           setInputMessage(transcript);
 
-          // Submit only the final transcript to avoid sending partial answers multiple times.
-          if (result.isFinal) {
+          // A brief pause is normal while speaking. Send only after 1.8 seconds of silence,
+          // so "hello" alone gets submitted but a continuing sentence can keep being captured.
+          if (voiceSilenceTimerRef.current) clearTimeout(voiceSilenceTimerRef.current);
+          voiceSilenceTimerRef.current = setTimeout(() => {
+            const finalTranscript = voiceTranscriptRef.current.trim();
+            voiceSilenceTimerRef.current = null;
+            if (!finalTranscript) return;
+
+            voiceTranscriptRef.current = "";
+            if (speechRecognitionRef.current) {
+              try { speechRecognitionRef.current.stop(); } catch { /* recognition may already have stopped */ }
+            }
             // Mark this request as voice-originated so only its answer is spoken.
-            void handleSendMessageRef.current(transcript, true);
-          }
+            void handleSendMessageRef.current(finalTranscript, true);
+          }, 1800);
         };
 
         recog.onerror = () => {
@@ -223,6 +244,16 @@ export default function Chatbot() {
 
         recog.onend = () => {
           setIsListening(false);
+          // Some browsers end recognition automatically after silence; flush any pending speech.
+          if (voiceSilenceTimerRef.current) {
+            clearTimeout(voiceSilenceTimerRef.current);
+            voiceSilenceTimerRef.current = null;
+          }
+          const finalTranscript = voiceTranscriptRef.current.trim();
+          if (finalTranscript) {
+            voiceTranscriptRef.current = "";
+            void handleSendMessageRef.current(finalTranscript, true);
+          }
         };
 
         speechRecognitionRef.current = recog;
@@ -624,6 +655,11 @@ export default function Chatbot() {
 
   const startVoiceAssistantMode = () => {
     setIsVoiceMode(true);
+    voiceTranscriptRef.current = "";
+    if (voiceSilenceTimerRef.current) {
+      clearTimeout(voiceSilenceTimerRef.current);
+      voiceSilenceTimerRef.current = null;
+    }
     stopVoiceSpeech();
     // Prompt instant listening
     setTimeout(() => {
@@ -636,6 +672,11 @@ export default function Chatbot() {
   const stopVoiceAssistantMode = () => {
     setIsVoiceMode(false);
     setIsListening(false);
+    voiceTranscriptRef.current = "";
+    if (voiceSilenceTimerRef.current) {
+      clearTimeout(voiceSilenceTimerRef.current);
+      voiceSilenceTimerRef.current = null;
+    }
     if (speechRecognitionRef.current) {
       speechRecognitionRef.current.stop();
     }
