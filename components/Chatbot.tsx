@@ -28,6 +28,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://your-backend
 
 interface SpeechRecognitionResult {
   transcript: string;
+  isFinal: boolean;
 }
 
 interface SpeechRecognitionResultList {
@@ -192,7 +193,8 @@ export default function Chatbot() {
       if (SpeechRecognition) {
         const recog = new SpeechRecognition();
         recog.continuous = false;
-        recog.interimResults = false;
+        // Show partial speech transcripts live while the user is still speaking.
+        recog.interimResults = true;
         recog.lang = "en-US";
 
         recog.onstart = () => {
@@ -201,8 +203,15 @@ export default function Chatbot() {
         };
 
         recog.onresult = (e) => {
-          const transcript = e.results[0][0].transcript;
-          if (transcript.trim()) {
+          const result = e.results[0][0];
+          const transcript = result.transcript.trim();
+          if (!transcript) return;
+
+          // Reflect interim words in the input immediately as the user speaks.
+          setInputMessage(transcript);
+
+          // Submit only the final transcript to avoid sending partial answers multiple times.
+          if (result.isFinal) {
             // Mark this request as voice-originated so only its answer is spoken.
             void handleSendMessageRef.current(transcript, true);
           }
