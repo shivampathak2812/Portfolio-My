@@ -98,6 +98,7 @@ export default function Chatbot() {
   const speechRecognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const handleSendMessageRef = useRef<(textToSend?: string, fromVoice?: boolean) => Promise<void>>(async () => {});
 
   // Abort controller and typewriter references for stopping generation
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -202,7 +203,8 @@ export default function Chatbot() {
         recog.onresult = (e) => {
           const transcript = e.results[0][0].transcript;
           if (transcript.trim()) {
-            handleSendMessage(transcript);
+            // Mark this request as voice-originated so only its answer is spoken.
+            void handleSendMessageRef.current(transcript, true);
           }
         };
 
@@ -378,7 +380,7 @@ export default function Chatbot() {
   };
 
   // Character Typewriter Stream Simulator
-  const streamResponse = (messageId: string, fullAnswer: string, actions?: ChatAction[]) => {
+  const streamResponse = (messageId: string, fullAnswer: string, actions?: ChatAction[], shouldSpeak = false) => {
     let index = 0;
     const interval = 12; // Speed in ms per character
 
@@ -402,8 +404,8 @@ export default function Chatbot() {
               if (typewriterTimerRef.current === timer) {
                 typewriterTimerRef.current = null;
               }
-              // Activate TTS voice narration on streaming completion
-              if (isVoiceMode && !isMuted) {
+              // Speak only answers to microphone-originated questions; typed chats stay silent.
+              if (shouldSpeak && !isMuted) {
                 speakVoiceSpeech(fullAnswer);
               }
             }
@@ -425,7 +427,7 @@ export default function Chatbot() {
   };
 
   // Main Messaging Core Trigger
-  async function handleSendMessage(textToSend?: string) {
+  async function handleSendMessage(textToSend?: string, fromVoice = false) {
     const queryText = textToSend || inputMessage;
     if (!queryText.trim()) return;
 
@@ -568,7 +570,7 @@ export default function Chatbot() {
       setIsAiTyping(false);
 
       // Trigger typewriter streaming
-      streamResponse(assistantMsgId, finalResponse.answer, finalResponse.actions);
+      streamResponse(assistantMsgId, finalResponse.answer, finalResponse.actions, fromVoice);
 
       // Auto-trigger scrolls if response has specific scroll actions
       if (finalResponse.actions && finalResponse.actions.length > 0) {
@@ -601,6 +603,9 @@ export default function Chatbot() {
       abortControllerRef.current = null;
     }
   }
+
+  // Keep speech-recognition callbacks connected to the latest state and message handler.
+  handleSendMessageRef.current = handleSendMessage;
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !isGenerating) {
