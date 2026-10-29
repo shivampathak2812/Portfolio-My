@@ -13,12 +13,12 @@ export interface RAGResponse {
 
 export const KNOWLEDGE_BASE = {
   bio: {
-    summary30s: "Shivam Pathak is a Data Science and AI/ML Engineer at Silicon Interfaces (Mumbai), previously an AI Engineer Intern at Northcorp Software, with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He also holds a B.Tech in CSE from Graphic Era Hill University, Haldwani (Graduated in June 2025) with a 6.88 CGPA.",
+    summary30s: "Shivam Pathak is a Data Science - AI/ML Engineer at Silicon Interfaces (Mumbai), previously an AI Engineer Intern at Northcorp Software, with a strong foundation in building production-ready AI agents, LLM pipelines (RAG), and scalable backends. He leverages technologies like FastAPI, PostgreSQL, Google Gemini API, LangChain, and Docker to construct highly responsive enterprise portals. He also holds a B.Tech in CSE from Graphic Era Hill University, Haldwani (Graduated in June 2025) with a 6.88 CGPA.",
     professional: "Shivam specializes in bridging AI/ML models with clean, high-performance backends. His focus lies in GenAI engineering, semantic document parsing (RAG pipelines), and asynchronous database management (SQLAlchemy ORM). He is fully equipped to hit the ground running in fast-paced software teams building next-generation intelligent applications.",
   },
   experience: [
     {
-      role: "Data Science and AI/ML Engineer",
+      role: "Data Science - AI/ML Engineer",
       company: "Silicon Interfaces Pvt. Ltd. (Mumbai, India)",
       duration: "Jul 2026 - Present",
       details: [
@@ -527,7 +527,7 @@ function searchKnowledgeBase(query: string, limit = 2): string[] {
 
 // Roles with start/end as [year, month]; end null = current role
 const EXPERIENCE_TIMELINE: { role: string; company: string; start: [number, number]; end: [number, number] | null }[] = [
-  { role: "Data Science and AI/ML Engineer", company: "Silicon Interfaces Pvt. Ltd., Mumbai", start: [2026, 7], end: null },
+  { role: "Data Science - AI/ML Engineer", company: "Silicon Interfaces Pvt. Ltd., Mumbai", start: [2026, 7], end: null },
   { role: "AI Engineer Intern", company: "Northcorp Software", start: [2026, 1], end: [2026, 6] }
 ];
 
@@ -696,7 +696,7 @@ export function queryLocalRAG(query: string, history: { role: string; content: s
 
     case "summary":
       return {
-        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Experience:** He is currently a **Data Science and AI/ML Engineer** at **Silicon Interfaces** (Mumbai), after an **AI Engineer Internship** at **Northcorp Software** where he built async REST endpoints in **FastAPI** and **RAG pipelines** with the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
+        answer: `Here is a high-level **30-second executive summary** of Shivam:\n\n*   **Experience:** He is currently a **Data Science - AI/ML Engineer** at **Silicon Interfaces** (Mumbai), after an **AI Engineer Internship** at **Northcorp Software** where he built async REST endpoints in **FastAPI** and **RAG pipelines** with the **Google Gemini API**.\n*   **Core Skillsets:** High-performance Backend development (PostgreSQL, SQLAlchemy, Alembic, Docker) and artificial intelligence agents.\n*   **Academics:** Graduated with a B.Tech in CSE from **Graphic Era Hill University, Haldwani** (July 2022 - June 2025) with a **6.88 CGPA** and key accomplishments like a **TCS NQT Top 10%** selection.\n\nWould you like me to scroll down and show you his detailed skills or experience?`,
         actions: [
           { label: "View Experience 💼", type: "scroll", target: "#experience" },
           { label: "View Skills ⚡", type: "scroll", target: "#skills" }
