@@ -145,7 +145,7 @@ export default function About() {
               </h3>
               <dl className="grid grid-cols-1 sm:grid-cols-[8rem_1fr] gap-x-6 gap-y-3 text-sm text-white/70 font-light leading-relaxed">
                 <dt className="text-[11px] tracking-[0.2em] uppercase text-white/40 sm:pt-1">Role</dt>
-                <dd>Trainee Engineer, Data Science &amp; AI/ML at Silicon Interfaces Pvt. Ltd., Mumbai (since July 2026).</dd>
+                <dd>Data Science and AI/ML Engineer at Silicon Interfaces Pvt. Ltd., Mumbai (since July 2026).</dd>
 
                 <dt className="text-[11px] tracking-[0.2em] uppercase text-white/40 sm:pt-1">Previously</dt>
                 <dd>AI Engineer Intern at Northcorp Software (January – June 2026): FastAPI and PostgreSQL REST APIs and Gemini-powered RAG features for a talent assessment platform.</dd>
