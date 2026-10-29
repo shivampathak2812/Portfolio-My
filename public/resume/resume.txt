@@ -21,7 +21,7 @@ Tools: Git, GitLab, Docker, Jupyter Notebook, VS Code, Google Colab
 Soft Skills: Problem-Solving, Communication, Collaboration, Teamwork, Leadership, Adaptability
 Professional Experience
 Silicon Interfaces Pvt. Ltd. Mumbai, India
-Data Science and AI/ML Engineer Jul 2026 – Present
+Data Science - AI/ML Engineer Jul 2026 – Present
 • Develop Data Science and Machine Learning solutions using Python, Pandas, NumPy, and Scikit-learn
 for data preprocessing, EDA, and predictive modeling.
 • Perform data cleaning, SQL analysis, and evaluation of ML workflows on real-world datasets; collaborate with
